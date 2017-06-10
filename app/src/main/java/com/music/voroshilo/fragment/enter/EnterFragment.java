@@ -1,9 +1,11 @@
 package com.music.voroshilo.fragment.enter;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,13 +44,13 @@ public class EnterFragment extends BaseFragment {
 
         switch (position) {
             case 0:
-                setUpFragment(getString(R.string.enter_text_first), null);
+                setUpFragment(getString(R.string.enter_text_first), Color.WHITE);
                 break;
             case 1:
-                setUpFragment(getString(R.string.enter_text_second), null);
+                setUpFragment(getString(R.string.enter_text_second), Color.BLUE);
                 break;
             case 2:
-                setUpFragment(getString(R.string.enter_text_third), null);
+                setUpFragment(getString(R.string.enter_text_third), Color.GRAY);
                 break;
             default:
                 break;
@@ -62,13 +64,8 @@ public class EnterFragment extends BaseFragment {
         return R.layout.fragment_enter;
     }
 
-    @SuppressWarnings("deprecation")
-    public void setUpFragment(String text, Drawable drawable) {
+    public void setUpFragment(String text, int color) {
         enterTextView.setText(text);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            containerLayout.setBackground(drawable);
-        } else {
-            containerLayout.setBackgroundDrawable(drawable);
-        }
+        containerLayout.setBackgroundColor(color);
     }
 }
