@@ -1,7 +1,6 @@
 package com.music.voroshilo.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,17 +15,13 @@ import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.inerface.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
-import com.music.voroshilo.model.networking.SongsResponseBody;
-import com.music.voroshilo.networking.ApiBuilder;
+import com.music.voroshilo.networking.request.SongRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
@@ -65,25 +60,17 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     private void requestSongs(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        ApiBuilder.getMusicService().getSongsList(query).enqueue(new Callback<SongsResponseBody>() {
+        new SongRequest().requestSongs(query, new SongRequest.SongCallback() {
             @Override
-            public void onResponse(@NonNull Call<SongsResponseBody> call, @NonNull Response<SongsResponseBody> response) {
-                if (response.isSuccessful()) {
-                    SongsResponseBody body = response.body();
-                    if (body != null) {
-                        List<Song> list = body.getSongsList();
-                        if (list != null) {
-                            songAdapter.updateSongList(list);
-                        }
-                    }
-                }
+            public void onSuccess(List<Song> list) {
                 progressBar.setVisibility(View.GONE);
+                songAdapter.updateSongList(list);
             }
 
             @Override
-            public void onFailure(@NonNull Call<SongsResponseBody> call, @NonNull Throwable t) {
+            public void onError(Throwable throwable) {
                 progressBar.setVisibility(View.GONE);
-                Log.e("onResponse: ", Log.getStackTraceString(t));
+                Log.e("onResponse: ", Log.getStackTraceString(throwable));
             }
         });
     }
