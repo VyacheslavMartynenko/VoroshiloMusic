@@ -38,8 +38,7 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.search_button)
     public void searchSongs() {
-        String searchText = searchEditText.getText().toString();
-        requestSongs(searchText);
+        requestSongs(searchEditText.getText().toString());
     }
 
     @Override
@@ -48,6 +47,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         recyclerView.setAdapter(songAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        searchSongs();
     }
 
     private void requestSongs(String query) {

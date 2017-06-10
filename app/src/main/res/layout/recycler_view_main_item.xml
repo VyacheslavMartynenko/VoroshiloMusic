@@ -8,26 +8,29 @@
         android:id="@+id/cover_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/song_cover" />
+        android:contentDescription="@string/song_cover"
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:id="@+id/song_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:maxLines="2" />
+        android:layout_weight="1"
+        android:gravity="center"
+        android:maxLines="3" />
 
     <ImageView
         android:id="@+id/download_button"
-        android:src="@android:drawable/arrow_down_float"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/download" />
+        android:contentDescription="@string/download"
+        android:src="@mipmap/ic_launcher" />
 
     <ImageView
         android:id="@+id/play_button"
-        android:src="@android:drawable/ic_media_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/play" />
+        android:contentDescription="@string/play"
+        android:src="@mipmap/ic_launcher" />
 
 </LinearLayout>
