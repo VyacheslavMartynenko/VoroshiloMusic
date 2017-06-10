@@ -42,9 +42,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @BindView(R.id.current_song_container)
     LinearLayout currentSongContainer;
 
-    @BindView(R.id.song_title)
-    TextView songTitle;
-
     @BindView(R.id.cover_image)
     ImageView coverImage;
 
