@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">VoroshiloMusic</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- EnterActivity -->
+    <string name="next">Next</string>
+    <string name="open_application">Open Application</string>
+    <string name="enter_text_first">Explore Music</string>
+    <string name="enter_text_second">Listen Greatest Songs</string>
+    <string name="enter_text_third">Music In Your Pocket</string>
+
+    <!-- MainActivity -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
