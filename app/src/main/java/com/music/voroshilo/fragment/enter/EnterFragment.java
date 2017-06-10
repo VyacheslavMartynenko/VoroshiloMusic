@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.music.voroshilo.R;
+import com.music.voroshilo.fragment.BaseFragment;
 
 import butterknife.BindView;
 
-public class EnterFragment extends Fragment {
+public class EnterFragment extends BaseFragment {
     public static final String POSITION = "position";
 
     @BindView(R.id.enter_text)
@@ -37,6 +37,7 @@ public class EnterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
         int position = getArguments().getInt(POSITION);
 
         switch (position) {
@@ -53,7 +54,12 @@ public class EnterFragment extends Fragment {
                 break;
         }
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_enter;
     }
 
     @SuppressWarnings("deprecation")
