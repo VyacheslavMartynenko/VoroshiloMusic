@@ -1,5 +1,6 @@
 package com.music.voroshilo.activity;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,9 @@ import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.inerface.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
+import com.music.voroshilo.util.SongPlayer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
+    private SongPlayer player = new SongPlayer(new MediaPlayer());
 
     @BindView(R.id.main_recycler_view)
     RecyclerView recyclerView;
@@ -55,7 +59,14 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         setContentView(R.layout.activity_main);
         recyclerView.setAdapter(songAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         searchSongs();
+    }
+
+    @Override
+    protected void onDestroy() {
+        player.release();
+        super.onDestroy();
     }
 
     private void requestSongs(String query) {
@@ -75,12 +86,11 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         });
     }
 
-
     @Override
-    public void updateCurrentSongInfo(String text) {
+    public void updateCurrentSongInfo(String url) {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
         }
-        songTitle.setText(text);
+        player.playSong(url);
     }
 }
