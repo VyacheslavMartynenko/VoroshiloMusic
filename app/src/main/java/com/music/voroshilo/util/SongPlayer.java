@@ -24,6 +24,7 @@ public class SongPlayer {
 
     public void playSong(String url) {
         try {
+            player.reset();
             player.setDataSource(url);
             player.prepareAsync();
         } catch (IOException e) {

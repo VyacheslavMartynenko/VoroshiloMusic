@@ -37,7 +37,8 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         private View.OnClickListener playClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.updateCurrentSongInfo(songTitleTextView.getText().toString());
+                Song song = songList.get(getAdapterPosition());
+                listener.updateCurrentSongInfo(song.getMp3Url());
             }
         };
 
