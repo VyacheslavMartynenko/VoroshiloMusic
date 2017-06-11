@@ -2,6 +2,7 @@ package com.music.voroshilo.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -46,6 +47,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @BindView(R.id.cover_image)
     ImageView coverImage;
+
+    @BindView(R.id.play_button)
+    ImageView playButton;
 
     @OnClick(R.id.search_button)
     public void searchSongs() {
@@ -103,6 +107,10 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
         }
-        player.playOrPauseSong(url);
+        if (player.playOrPauseSong(url)) {
+            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_pause_black_24dp));
+        } else {
+            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_black_24dp));
+        }
     }
 }
