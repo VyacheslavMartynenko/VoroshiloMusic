@@ -1,5 +1,6 @@
 package com.music.voroshilo.util;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
@@ -24,6 +25,7 @@ public class SongPlayer {
     }
 
     private void preparePlayer() {
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(final MediaPlayer mediaPlayer) {
