@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.music.voroshilo.R;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -95,6 +96,9 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                     .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));
         }
         holder.songTitleTextView.setText(song.getTitle());
+        Picasso.with(context).load(song.getImageUrl())
+                .placeholder(R.drawable.ic_music_note_black_24dp)
+                .into(holder.coverImageView);
     }
 
     @Override
