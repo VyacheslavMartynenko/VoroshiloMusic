@@ -44,11 +44,13 @@ public class SongPlayer {
         handler.removeCallbacks(runnable);
     }
 
-    public void playOrPauseSong(String url) {
+    public boolean playOrPauseSong(String url) {
         if (!currentUrl.equals(url)) {
             startPlayer(url);
+            return true;
         } else {
             pausePlayer();
+            return false;
         }
     }
 
