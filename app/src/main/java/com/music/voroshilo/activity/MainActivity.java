@@ -51,6 +51,11 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @BindView(R.id.play_button)
     ImageView playButton;
 
+    @OnClick(R.id.play_button)
+    public void playOrPause() {
+        songAdapter.playOrPauseSong(songAdapter.getCurrentPlayingSongPosition());
+    }
+
     @OnClick(R.id.search_button)
     public void searchSongs() {
         requestSongs(searchEditText.getText().toString());

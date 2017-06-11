@@ -20,11 +20,26 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private CurrentSongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
+    public int getCurrentPlayingSongPosition() {
+        return currentPlayingSongPosition;
+    }
+
     public void updateSongList(List<Song> newSongList) {
         songList.clear();
         songList.addAll(newSongList);
         currentPlayingSongPosition = RecyclerView.NO_POSITION;
         notifyDataSetChanged();
+    }
+
+    public void playOrPauseSong(int adapterPosition) {
+        Song song = songList.get(adapterPosition);
+        listener.updateCurrentSongInfo(song.getMp3Url());
+
+        notifyItemChanged(currentPlayingSongPosition);
+        if (currentPlayingSongPosition != adapterPosition) {
+            currentPlayingSongPosition = adapterPosition;
+            notifyItemChanged(currentPlayingSongPosition);
+        }
     }
 
     public SongsRecycleViewAdapter(CurrentSongListener listener, List<Song> songList) {
@@ -41,15 +56,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         private View.OnClickListener playClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Song song = songList.get(getAdapterPosition());
-                listener.updateCurrentSongInfo(song.getMp3Url());
-
-                notifyItemChanged(currentPlayingSongPosition);
-                int position = getAdapterPosition();
-                if (currentPlayingSongPosition != position) {
-                    currentPlayingSongPosition = position;
-                    notifyItemChanged(currentPlayingSongPosition);
-                }
+                playOrPauseSong(getAdapterPosition());
             }
         };
 
