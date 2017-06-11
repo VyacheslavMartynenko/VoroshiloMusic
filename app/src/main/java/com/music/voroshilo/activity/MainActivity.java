@@ -117,4 +117,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         }
         return isPlaying;
     }
+
+    @Override
+    public boolean isPlaying() {
+        return player.isPlaying();
+    }
 }

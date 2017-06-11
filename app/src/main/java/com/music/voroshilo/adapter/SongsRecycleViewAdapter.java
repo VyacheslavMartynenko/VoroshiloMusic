@@ -3,6 +3,7 @@ package com.music.voroshilo.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,9 +76,13 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         Context context = holder.itemView.getContext();
         Song song = songList.get(position);
         if (position == currentPlayingSongPosition) {
-            holder.playButton.setImageDrawable(ContextCompat
-                    .getDrawable(context, R.drawable.ic_pause_black_24dp));
-
+            if (listener.isPlaying()) {
+                holder.playButton.setImageDrawable(ContextCompat
+                        .getDrawable(context, R.drawable.ic_pause_black_24dp));
+            } else {
+                holder.playButton.setImageDrawable(ContextCompat
+                        .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));
+            }
         } else {
             holder.playButton.setImageDrawable(ContextCompat
                     .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));

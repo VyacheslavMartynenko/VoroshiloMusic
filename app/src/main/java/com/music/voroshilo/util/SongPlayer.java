@@ -11,6 +11,7 @@ public class SongPlayer {
     private static final int SEEK_BAR_START_PROGRESS = 0;
     private static final int SEEK_BAR_TIME_UPDATE = 1000;
     private String currentUrl = "";
+    private boolean isPlaying;
 
     private Handler handler = new Handler();
     private MediaPlayer player;
@@ -47,11 +48,12 @@ public class SongPlayer {
     public boolean playOrPauseSong(String url) {
         if (!currentUrl.equals(url)) {
             startPlayer(url);
-            return true;
+            isPlaying = true;
         } else {
             pausePlayer();
-            return false;
+            isPlaying = false;
         }
+        return isPlaying;
     }
 
     private void startPlayer(String url) {
@@ -71,6 +73,10 @@ public class SongPlayer {
         player.reset();
         stopUpdatingSeekBar();
         seekBar.setProgress(SEEK_BAR_START_PROGRESS);
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
     }
 
     public void release() {
