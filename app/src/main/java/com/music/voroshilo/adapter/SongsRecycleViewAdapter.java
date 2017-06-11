@@ -35,7 +35,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     public void playOrPauseSong(int adapterPosition) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Song song = songList.get(adapterPosition);
-            listener.updateCurrentSongInfo(song.getMp3Url());
+            listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl());
             notifyItemChanged(currentPlayingSongPosition);
             if (currentPlayingSongPosition != adapterPosition) {
                 currentPlayingSongPosition = adapterPosition;

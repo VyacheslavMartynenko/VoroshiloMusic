@@ -19,6 +19,7 @@ import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.util.SongPlayer;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     @Override
-    public boolean updateCurrentSongInfo(String url) {
+    public boolean updateCurrentSongInfo(String url, String imageUrl) {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
         }
@@ -120,6 +121,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
             playButton.setImageDrawable(ContextCompat
                     .getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_black_24dp));
         }
+        Picasso.with(getApplicationContext()).load(imageUrl)
+                .placeholder(R.drawable.ic_music_note_black_24dp)
+                .into(coverImage);
         return isPlaying;
     }
 
