@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 import java.io.IOException;
 
 public class SongPlayer {
+    public static final int SEEK_BAR_TIME_UPDATE = 100;
     private Handler handler = new Handler();
     private MediaPlayer player;
     private SeekBar seekBar;
@@ -32,7 +33,7 @@ public class SongPlayer {
 
     public void startUpdatingSeekBar() {
         if (player.isPlaying()) {
-            handler.postDelayed(runnable, 1000);
+            handler.postDelayed(runnable, SEEK_BAR_TIME_UPDATE);
         }
     }
 
@@ -68,7 +69,7 @@ public class SongPlayer {
         public void run() {
             int progress = player.getCurrentPosition();
             seekBar.setProgress(progress);
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, SEEK_BAR_TIME_UPDATE);
         }
     };
 
