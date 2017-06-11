@@ -103,14 +103,16 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     @Override
-    public void updateCurrentSongInfo(String url) {
+    public boolean updateCurrentSongInfo(String url) {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
         }
-        if (player.playOrPauseSong(url)) {
+        boolean isPlaying = player.playOrPauseSong(url);
+        if (isPlaying) {
             playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_pause_black_24dp));
         } else {
             playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_black_24dp));
         }
+        return isPlaying;
     }
 }
