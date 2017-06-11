@@ -1,25 +1,43 @@
 package com.music.voroshilo.util;
 
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.util.Log;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
 public class SongPlayer {
+    private Handler handler = new Handler();
     private MediaPlayer player;
+    private SeekBar seekBar;
 
-    public SongPlayer(MediaPlayer player) {
+    public SongPlayer(MediaPlayer player, SeekBar seekBar) {
         this.player = player;
+        this.seekBar = seekBar;
         preparePlayer();
     }
 
     private void preparePlayer() {
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
+            public void onPrepared(final MediaPlayer mediaPlayer) {
                 mediaPlayer.start();
+                seekBar.setMax(mediaPlayer.getDuration());
+                startUpdatingSeekBar();
             }
         });
+        seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
+    }
+
+    public void startUpdatingSeekBar() {
+        if (player.isPlaying()) {
+            handler.postDelayed(runnable, 1000);
+        }
+    }
+
+    public void stopUpdatingSeekBar() {
+        handler.removeCallbacks(runnable);
     }
 
     public void playSong(String url) {
@@ -42,5 +60,33 @@ public class SongPlayer {
 
     public void release() {
         player.release();
+        player = null;
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            int progress = player.getCurrentPosition();
+            seekBar.setProgress(progress);
+            handler.postDelayed(this, 1000);
+        }
+    };
+
+    private SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            stopUpdatingSeekBar();
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            player.seekTo(seekBar.getProgress());
+            startUpdatingSeekBar();
+        }
+    };
 }

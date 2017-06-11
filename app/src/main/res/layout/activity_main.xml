@@ -43,8 +43,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
         android:visibility="gone">
 
-        <include layout="@layout/recycler_view_main_item" />
+        <ImageView
+            android:id="@+id/cover_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/song_cover"
+            android:src="@mipmap/ic_launcher" />
+
+        <SeekBar
+            android:id="@+id/song_seek_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/play_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/play"
+            android:src="@mipmap/ic_launcher" />
     </LinearLayout>
 </RelativeLayout>

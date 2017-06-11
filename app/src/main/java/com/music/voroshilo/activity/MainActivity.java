@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
@@ -26,7 +27,10 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
-    private SongPlayer player = new SongPlayer(new MediaPlayer());
+    private SongPlayer player;
+
+    @BindView(R.id.song_seek_bar)
+    SeekBar songSeekBar;
 
     @BindView(R.id.main_recycler_view)
     RecyclerView recyclerView;
@@ -55,7 +59,20 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         recyclerView.setAdapter(songAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        player = new SongPlayer(new MediaPlayer(), songSeekBar);
         searchSongs();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        player.startUpdatingSeekBar();
+    }
+
+    @Override
+    protected void onPause() {
+        player.stopUpdatingSeekBar();
+        super.onPause();
     }
 
     @Override
