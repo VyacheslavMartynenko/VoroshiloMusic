@@ -8,7 +8,10 @@ import android.widget.SeekBar;
 import java.io.IOException;
 
 public class SongPlayer {
+    private static final int SEEK_BAR_START_PROGRESS = 0;
     private static final int SEEK_BAR_TIME_UPDATE = 100;
+    private String currentUrl = "";
+
     private Handler handler = new Handler();
     private MediaPlayer player;
     private SeekBar seekBar;
@@ -41,8 +44,18 @@ public class SongPlayer {
         handler.removeCallbacks(runnable);
     }
 
-    public void playSong(String url) {
+    public void playOrPauseSong(String url) {
+        if (!currentUrl.equals(url)) {
+            startPlayer(url);
+        } else {
+            pausePlayer();
+        }
+    }
+
+    private void startPlayer(String url) {
         try {
+            currentUrl = url;
+
             player.reset();
             player.setDataSource(url);
             player.prepareAsync();
@@ -51,9 +64,11 @@ public class SongPlayer {
         }
     }
 
-    public void pausePlayer() {
+    private void pausePlayer() {
+        currentUrl = "";
         player.reset();
         stopUpdatingSeekBar();
+        seekBar.setProgress(SEEK_BAR_START_PROGRESS);
     }
 
     public void release() {

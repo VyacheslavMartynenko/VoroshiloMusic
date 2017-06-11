@@ -103,6 +103,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
         }
-        player.playSong(url);
+        player.playOrPauseSong(url);
     }
 }
