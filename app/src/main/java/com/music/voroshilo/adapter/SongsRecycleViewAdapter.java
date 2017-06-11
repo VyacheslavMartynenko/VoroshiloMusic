@@ -1,5 +1,7 @@
 package com.music.voroshilo.adapter;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +18,12 @@ import java.util.List;
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
     private List<Song> songList;
     private CurrentSongListener listener;
+    private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
     public void updateSongList(List<Song> newSongList) {
         songList.clear();
         songList.addAll(newSongList);
+        currentPlayingSongPosition = RecyclerView.NO_POSITION;
         notifyDataSetChanged();
     }
 
@@ -39,6 +43,13 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             public void onClick(View view) {
                 Song song = songList.get(getAdapterPosition());
                 listener.updateCurrentSongInfo(song.getMp3Url());
+
+                notifyItemChanged(currentPlayingSongPosition);
+                int position = getAdapterPosition();
+                if (currentPlayingSongPosition != position) {
+                    currentPlayingSongPosition = position;
+                    notifyItemChanged(currentPlayingSongPosition);
+                }
             }
         };
 
@@ -61,7 +72,16 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
 
     @Override
     public void onBindViewHolder(SongsRecycleViewAdapter.SongViewHolder holder, int position) {
+        Context context = holder.itemView.getContext();
         Song song = songList.get(position);
+        if (position == currentPlayingSongPosition) {
+            holder.playButton.setImageDrawable(ContextCompat
+                    .getDrawable(context, R.drawable.ic_pause_black_24dp));
+
+        } else {
+            holder.playButton.setImageDrawable(ContextCompat
+                    .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));
+        }
         holder.songTitleTextView.setText(song.getTitle());
     }
 

@@ -109,9 +109,11 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         }
         boolean isPlaying = player.playOrPauseSong(url);
         if (isPlaying) {
-            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_pause_black_24dp));
+            playButton.setImageDrawable(ContextCompat
+                    .getDrawable(getApplicationContext(), R.drawable.ic_pause_black_24dp));
         } else {
-            playButton.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_black_24dp));
+            playButton.setImageDrawable(ContextCompat
+                    .getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_black_24dp));
         }
         return isPlaying;
     }
