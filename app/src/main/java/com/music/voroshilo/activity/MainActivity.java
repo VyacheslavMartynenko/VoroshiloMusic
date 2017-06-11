@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         setContentView(R.layout.activity_main);
         recyclerView.setAdapter(songAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         player = new SongPlayer(new MediaPlayer(), songSeekBar);
         searchSongs();
