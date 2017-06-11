@@ -53,6 +53,7 @@ public class SongPlayer {
 
     public void pausePlayer() {
         player.reset();
+        stopUpdatingSeekBar();
     }
 
     public void release() {
