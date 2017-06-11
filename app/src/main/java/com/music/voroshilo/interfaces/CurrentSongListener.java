@@ -1,4 +1,4 @@
-package com.music.voroshilo.inerface;
+package com.music.voroshilo.interfaces;
 
 public interface CurrentSongListener {
     public boolean updateCurrentSongInfo(String text);

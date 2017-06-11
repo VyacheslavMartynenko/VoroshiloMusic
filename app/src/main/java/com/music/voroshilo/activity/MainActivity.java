@@ -15,7 +15,7 @@ import android.widget.SeekBar;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
-import com.music.voroshilo.inerface.CurrentSongListener;
+import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.util.SongPlayer;
