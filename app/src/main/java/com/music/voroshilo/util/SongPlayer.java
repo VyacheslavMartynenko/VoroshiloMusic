@@ -83,10 +83,6 @@ public class SongPlayer {
         player.reset();
     }
 
-    public boolean isPlaying() {
-        return player.isPlaying();
-    }
-
     public void release() {
         player.release();
         player = null;
