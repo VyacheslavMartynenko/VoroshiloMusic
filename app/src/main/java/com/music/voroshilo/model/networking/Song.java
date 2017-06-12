@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Song {
     @SerializedName("title")
-    String title;
+    private String title;
 
     @SerializedName("img_small")
-    String imageUrl;
+    private String imageUrl;
 
     @SerializedName("mp3Url")
-    String mp3Url;
+    private String mp3Url;
 
-    boolean isSelected;
+    private boolean isSelected;
 
     public Song(String title, String imageUrl, String mp3Url) {
         this.title = title;
