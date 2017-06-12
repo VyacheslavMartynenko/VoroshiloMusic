@@ -43,6 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/song_container_height"
         android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="gone">
