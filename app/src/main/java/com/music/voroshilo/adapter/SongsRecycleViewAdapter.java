@@ -28,7 +28,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         notifyDataSetChanged();
     }
 
-    public void playOrPauseSong(int adapterPosition) {
+    private void playOrPauseSong(int adapterPosition) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Song song = songList.get(adapterPosition);
             boolean isSelected = listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl());
