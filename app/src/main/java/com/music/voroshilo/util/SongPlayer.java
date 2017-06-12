@@ -3,6 +3,7 @@ package com.music.voroshilo.util;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.SeekBar;
 
@@ -12,7 +13,6 @@ public class SongPlayer {
     private static final int SEEK_BAR_START_PROGRESS = 0;
     private static final int SEEK_BAR_TIME_UPDATE = 1000;
     private String currentUrl = "";
-    private boolean isPlaying;
 
     private Handler handler = new Handler();
     private MediaPlayer player;
@@ -29,9 +29,9 @@ public class SongPlayer {
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(final MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-                seekBar.setMax(mediaPlayer.getDuration());
-                startUpdatingSeekBar();
+                        player.start();
+                        seekBar.setMax(player.getDuration());
+                        startUpdatingSeekBar();
             }
         });
         seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -44,18 +44,19 @@ public class SongPlayer {
     }
 
     public void stopUpdatingSeekBar() {
-        handler.removeCallbacks(runnable);
+        if (player.isPlaying()) {
+            handler.removeCallbacks(runnable);
+        }
     }
 
     public boolean playOrPauseSong(String url) {
         if (!currentUrl.equals(url)) {
             startPlayer(url);
-            isPlaying = true;
+            return true;
         } else {
             pausePlayer();
-            isPlaying = false;
+            return false;
         }
-        return isPlaying;
     }
 
     private void startPlayer(String url) {
@@ -78,7 +79,7 @@ public class SongPlayer {
     }
 
     public boolean isPlaying() {
-        return isPlaying;
+        return player.isPlaying();
     }
 
     public void release() {
