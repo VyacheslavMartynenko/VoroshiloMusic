@@ -105,7 +105,10 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         }
         boolean isPlaying = player.playOrPauseSong(url);
         SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
-        Picasso.with(getApplicationContext()).load(imageUrl)
+        Picasso.with(getApplicationContext())
+                .load(imageUrl)
+                .fit()
+                .centerCrop()
                 .placeholder(R.drawable.ic_music_note_black_24dp)
                 .into(coverImage);
         return isPlaying;
