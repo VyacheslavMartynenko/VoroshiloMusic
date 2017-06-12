@@ -35,7 +35,8 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     public void playOrPauseSong(int adapterPosition) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Song song = songList.get(adapterPosition);
-            listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl());
+            boolean isSelected = listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl());
+            song.setSelected(isSelected);
             notifyItemChanged(currentPlayingSongPosition);
             if (currentPlayingSongPosition != adapterPosition) {
                 currentPlayingSongPosition = adapterPosition;
@@ -84,7 +85,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         Context context = holder.itemView.getContext();
         Song song = songList.get(position);
         if (position == currentPlayingSongPosition) {
-            if (listener.isPlaying()) {
+            if (song.isSelected()) {
                 holder.playButton.setImageDrawable(ContextCompat
                         .getDrawable(context, R.drawable.ic_pause_black_24dp));
             } else {

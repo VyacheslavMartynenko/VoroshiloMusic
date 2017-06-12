@@ -12,6 +12,8 @@ public class Song {
     @SerializedName("mp3Url")
     String mp3Url;
 
+    boolean isSelected;
+
     public Song(String title, String imageUrl, String mp3Url) {
         this.title = title;
         this.imageUrl = imageUrl;
@@ -40,5 +42,13 @@ public class Song {
 
     public void setMp3Url(String mp3Url) {
         this.mp3Url = mp3Url;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }
