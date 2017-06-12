@@ -2,7 +2,6 @@ package com.music.voroshilo.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -19,6 +18,7 @@ import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
+import com.music.voroshilo.util.SongIconChanger;
 import com.music.voroshilo.util.SongPlayer;
 import com.squareup.picasso.Picasso;
 
@@ -104,13 +104,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
             currentSongContainer.setVisibility(View.VISIBLE);
         }
         boolean isPlaying = player.playOrPauseSong(url);
-        if (isPlaying) {
-            playButton.setImageDrawable(ContextCompat
-                    .getDrawable(getApplicationContext(), R.drawable.ic_pause_black_24dp));
-        } else {
-            playButton.setImageDrawable(ContextCompat
-                    .getDrawable(getApplicationContext(), R.drawable.ic_play_arrow_black_24dp));
-        }
+        SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
         Picasso.with(getApplicationContext()).load(imageUrl)
                 .placeholder(R.drawable.ic_music_note_black_24dp)
                 .into(coverImage);

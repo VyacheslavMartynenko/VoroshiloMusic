@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.music.voroshilo.R;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
+import com.music.voroshilo.util.SongIconChanger;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -85,16 +86,9 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         Context context = holder.itemView.getContext();
         Song song = songList.get(position);
         if (position == currentPlayingSongPosition) {
-            if (song.isSelected()) {
-                holder.playButton.setImageDrawable(ContextCompat
-                        .getDrawable(context, R.drawable.ic_pause_black_24dp));
-            } else {
-                holder.playButton.setImageDrawable(ContextCompat
-                        .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));
-            }
+            SongIconChanger.switchDrawable(context, holder.playButton, song.isSelected());
         } else {
-            holder.playButton.setImageDrawable(ContextCompat
-                    .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));
+            SongIconChanger.switchDrawable(context, holder.playButton, false);
         }
         holder.songTitleTextView.setText(song.getTitle());
         Picasso.with(context).load(song.getImageUrl())
