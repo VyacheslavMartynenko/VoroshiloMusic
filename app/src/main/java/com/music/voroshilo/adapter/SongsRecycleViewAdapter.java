@@ -21,10 +21,6 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private CurrentSongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
-    public int getCurrentPlayingSongPosition() {
-        return currentPlayingSongPosition;
-    }
-
     public void updateSongList(List<Song> newSongList) {
         songList.clear();
         songList.addAll(newSongList);
@@ -43,6 +39,10 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                 notifyItemChanged(currentPlayingSongPosition);
             }
         }
+    }
+
+    public void playOrPauseSong() {
+        playOrPauseSong(currentPlayingSongPosition);
     }
 
     public SongsRecycleViewAdapter(CurrentSongListener listener, List<Song> songList) {

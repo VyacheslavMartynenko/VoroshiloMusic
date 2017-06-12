@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @OnClick(R.id.play_button)
     public void playOrPause() {
-        songAdapter.playOrPauseSong(songAdapter.getCurrentPlayingSongPosition());
+        songAdapter.playOrPauseSong();
     }
 
     @OnClick(R.id.search_button)
