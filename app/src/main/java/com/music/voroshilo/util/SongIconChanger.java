@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.widget.ImageView;
 
 import com.music.voroshilo.R;
+import com.squareup.picasso.Picasso;
 
 public class SongIconChanger {
     public static void switchDrawable(Context context, ImageView imageView, boolean isPlaying) {
@@ -15,5 +16,14 @@ public class SongIconChanger {
             imageView.setImageDrawable(ContextCompat
                     .getDrawable(context, R.drawable.ic_play_arrow_black_24dp));
         }
+    }
+
+    public static void loadDrawableWithPicasso(Context context, ImageView imageView, String url) {
+        Picasso.with(context)
+                .load(url)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.ic_music_note_black_24dp)
+                .into(imageView);
     }
 }

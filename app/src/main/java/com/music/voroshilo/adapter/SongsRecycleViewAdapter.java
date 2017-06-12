@@ -90,12 +90,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             SongIconChanger.switchDrawable(context, holder.playButton, false);
         }
         holder.songTitleTextView.setText(song.getTitle());
-        Picasso.with(context)
-                .load(song.getImageUrl())
-                .fit()
-                .centerCrop()
-                .placeholder(R.drawable.ic_music_note_black_24dp)
-                .into(holder.coverImageView);
+        SongIconChanger.loadDrawableWithPicasso(context, holder.coverImageView, song.getImageUrl());
     }
 
     @Override
