@@ -2,6 +2,7 @@ package com.music.voroshilo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.interfaces.CurrentSongListener;
+import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.model.networking.Song;
+import com.music.voroshilo.networking.ApiBuilder;
+import com.music.voroshilo.networking.DownloadService;
 import com.music.voroshilo.util.SongIconChanger;
 
 import java.util.List;
@@ -62,6 +66,22 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             }
         };
 
+        private View.OnClickListener getDownloadClickListener(final String url) {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ApiBuilder.getDownloadService(new ProgressListener() {
+                        @Override
+                        public void update(long bytesRead, long contentLength, boolean done) {
+                            Log.e("Update ", String.valueOf(bytesRead) +
+                                    " " + String.valueOf(contentLength) +
+                                    " " + String.valueOf(done));
+                        }
+                    }).getFile(url);
+                }
+            };
+        }
+
         SongViewHolder(View itemView) {
             super(itemView);
             coverImageView = (ImageView) itemView.findViewById(R.id.cover_image);
@@ -89,6 +109,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             SongIconChanger.switchDrawable(context, holder.playButton, false);
         }
         holder.songTitleTextView.setText(song.getTitle());
+        holder.downloadButton.setOnClickListener(holder.getDownloadClickListener(song.getImageUrl()));
         SongIconChanger.loadDrawableWithPicasso(context, holder.coverImageView, song.getImageUrl());
     }
 
