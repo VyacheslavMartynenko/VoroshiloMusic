@@ -80,7 +80,7 @@ public class SongPlayer {
         currentUrl = "";
         stopUpdatingSeekBar();
         seekBar.setProgress(SEEK_BAR_START_PROGRESS);
-        player.release();
+        player.reset();
     }
 
     public boolean isPlaying() {
