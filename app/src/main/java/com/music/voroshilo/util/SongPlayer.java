@@ -37,13 +37,13 @@ public class SongPlayer {
         seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
-    public void startUpdatingSeekBar() {
+    private void startUpdatingSeekBar() {
         if (player.isPlaying()) {
             handler.postDelayed(runnable, SEEK_BAR_TIME_UPDATE);
         }
     }
 
-    public void stopUpdatingSeekBar() {
+    private void stopUpdatingSeekBar() {
         if (player.isPlaying()) {
             handler.removeCallbacks(runnable);
         }
