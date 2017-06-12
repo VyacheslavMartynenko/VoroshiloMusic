@@ -116,9 +116,4 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 .into(coverImage);
         return isPlaying;
     }
-
-    @Override
-    public boolean isPlaying() {
-        return player.isPlaying();
-    }
 }
