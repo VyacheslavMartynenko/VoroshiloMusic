@@ -20,7 +20,6 @@ import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.util.SongIconChanger;
 import com.music.voroshilo.util.SongPlayer;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
