@@ -84,8 +84,8 @@ public class SongPlayer {
     }
 
     public void release() {
+        player.stop();
         player.release();
-        player = null;
     }
 
     private Runnable runnable = new Runnable() {
