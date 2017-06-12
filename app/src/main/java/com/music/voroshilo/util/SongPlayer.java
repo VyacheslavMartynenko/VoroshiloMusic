@@ -29,9 +29,9 @@ public class SongPlayer {
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(final MediaPlayer mediaPlayer) {
-                        player.start();
-                        seekBar.setMax(player.getDuration());
-                        startUpdatingSeekBar();
+                player.start();
+                seekBar.setMax(player.getDuration());
+                startUpdatingSeekBar();
             }
         });
         seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
