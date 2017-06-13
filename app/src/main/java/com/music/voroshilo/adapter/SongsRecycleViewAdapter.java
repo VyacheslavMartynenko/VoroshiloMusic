@@ -2,7 +2,6 @@ package com.music.voroshilo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,8 @@ import android.widget.TextView;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.interfaces.CurrentSongListener;
-import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.model.networking.Song;
-import com.music.voroshilo.networking.ApiBuilder;
-import com.music.voroshilo.networking.DownloadService;
+import com.music.voroshilo.networking.task.DownloadAsyncTask;
 import com.music.voroshilo.util.SongIconChanger;
 
 import java.util.List;
@@ -70,14 +67,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ApiBuilder.getDownloadService(new ProgressListener() {
-                        @Override
-                        public void update(long bytesRead, long contentLength, boolean done) {
-                            Log.e("Update ", String.valueOf(bytesRead) +
-                                    " " + String.valueOf(contentLength) +
-                                    " " + String.valueOf(done));
-                        }
-                    }).getFile(url);
+                    new DownloadAsyncTask().execute();
                 }
             };
         }
