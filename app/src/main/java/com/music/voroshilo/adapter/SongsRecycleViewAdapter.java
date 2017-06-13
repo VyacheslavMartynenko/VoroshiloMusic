@@ -99,7 +99,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             SongIconChanger.switchDrawable(context, holder.playButton, false);
         }
         holder.songTitleTextView.setText(song.getTitle());
-        holder.downloadButton.setOnClickListener(holder.getDownloadClickListener(song.getImageUrl()));
+        holder.downloadButton.setOnClickListener(holder.getDownloadClickListener(song.getMp3Url()));
         SongIconChanger.loadDrawableWithPicasso(context, holder.coverImageView, song.getImageUrl());
     }
 
