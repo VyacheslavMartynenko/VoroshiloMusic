@@ -24,7 +24,7 @@ public class DownloadAsyncTask extends AsyncTask<String, Void, Void> {
         };
 
         try {
-            Response<ResponseBody> response = ApiBuilder.getDownloadService(progressListener).getFile("https://publicobject.com/helloworld.txt").execute();
+            Response<ResponseBody> response = ApiBuilder.getDownloadService(progressListener).getFile(strings[0]).execute();
             Log.e("R", response.body().string());
         } catch (IOException e) {
             Log.e("R", e.toString());
