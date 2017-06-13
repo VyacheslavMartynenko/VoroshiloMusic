@@ -70,14 +70,14 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ApiBuilder.getDownloadService(new ProgressListener() {
-                        @Override
-                        public void update(long bytesRead, long contentLength, boolean done) {
-                            Log.e("Update ", String.valueOf(bytesRead) +
-                                    " " + String.valueOf(contentLength) +
-                                    " " + String.valueOf(done));
-                        }
-                    }).getFile(url);
+//                    ApiBuilder.getDownloadService(new ProgressListener() {
+//                        @Override
+//                        public void update(long bytesRead, long contentLength, boolean done) {
+//                            Log.e("Update ", String.valueOf(bytesRead) +
+//                                    " " + String.valueOf(contentLength) +
+//                                    " " + String.valueOf(done));
+//                        }
+//                    }).getFile(url);
                 }
             };
         }
