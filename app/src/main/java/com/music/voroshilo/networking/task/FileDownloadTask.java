@@ -45,7 +45,7 @@ public class FileDownloadTask {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e(getClass().getSimpleName(), Log.getStackTraceString(t));
+                Log.e(FileDownloadTask.class.getSimpleName(), Log.getStackTraceString(t));
             }
         });
     }

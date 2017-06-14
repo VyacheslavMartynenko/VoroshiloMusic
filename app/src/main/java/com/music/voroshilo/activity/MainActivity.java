@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
             @Override
             public void onDenied() {
-                Log.e(getClass().getSimpleName(), "Permission Denied");
+                Log.e(MainActivity.class.getSimpleName(), "Permission Denied");
             }
         };
 
