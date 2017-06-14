@@ -5,8 +5,6 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -25,6 +23,7 @@ import com.music.voroshilo.interfaces.RuntimePermissionListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.networking.task.FileDownloadTask;
+import com.music.voroshilo.util.PermissionUtil;
 import com.music.voroshilo.util.SongIconChanger;
 import com.music.voroshilo.util.SongPlayer;
 
@@ -130,16 +129,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 Log.e(MainActivity.class.getSimpleName(), "Permission Denied");
             }
         };
-
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-            permissionListener.onGranted();
-        } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_EXTERNAL_STORAGE_PERMISSION);
-        }
+        PermissionUtil.checkPermission(MainActivity.this, WRITE_EXTERNAL_STORAGE_PERMISSION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionListener);
     }
 
     @Override
