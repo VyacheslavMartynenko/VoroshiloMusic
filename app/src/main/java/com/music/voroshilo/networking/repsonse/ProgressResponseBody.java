@@ -1,5 +1,7 @@
 package com.music.voroshilo.networking.repsonse;
 
+import android.support.annotation.NonNull;
+
 import com.music.voroshilo.interfaces.ProgressListener;
 
 import java.io.IOException;
@@ -45,7 +47,7 @@ public class ProgressResponseBody extends ResponseBody {
             long totalBytesRead = 0L;
 
             @Override
-            public long read(Buffer sink, long byteCount) throws IOException {
+            public long read(@NonNull Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
                 progressListener.update(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
