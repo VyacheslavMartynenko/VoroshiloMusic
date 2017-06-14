@@ -1,10 +1,7 @@
 package com.music.voroshilo.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,27 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.music.voroshilo.R;
-import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.interfaces.CurrentSongListener;
-import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.model.networking.Song;
-import com.music.voroshilo.networking.ApiBuilder;
-import com.music.voroshilo.networking.task.DownloadAsyncTask;
+import com.music.voroshilo.networking.task.FileDownloadTask;
 import com.music.voroshilo.util.SongIconChanger;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
     private List<Song> songList;
@@ -85,7 +67,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    downloadFile(url, title);
+                    FileDownloadTask.downloadFile(url, title);
                 }
             };
         }
@@ -124,74 +106,5 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     @Override
     public int getItemCount() {
         return songList.size();
-    }
-
-    private void downloadFile(String url, final String title) {
-        final ProgressListener progressListener = new ProgressListener() {
-            @Override
-            public void update(long bytesRead, long contentLength, boolean done) {
-                Log.e("R", String.valueOf(bytesRead / (double) contentLength));
-                Log.e("R", String.valueOf(done));
-            }
-        };
-
-        ApiBuilder.getDownloadService(progressListener).getFile(url).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, final Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            writeResponseBodyToDisk(response.body(), title);
-                            return null;
-                        }
-                    }.execute();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e(SongsRecycleViewAdapter.this.getClass().getSimpleName(), Log.getStackTraceString(t));
-            }
-        });
-    }
-
-    private boolean writeResponseBodyToDisk(ResponseBody body, String title) {
-        try {
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "VoroshiloMusic");
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    return false;
-                }
-            }
-            File futureStudioIconFile = new File(mediaStorageDir + File.separator + title + ".mp3");
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-            try {
-                byte[] fileReader = new byte[4096];
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
-                while (true) {
-                    int read = inputStream.read(fileReader);
-                    if (read == -1) {
-                        break;
-                    }
-                    outputStream.write(fileReader, 0, read);
-                }
-                outputStream.flush();
-                return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
-        }
     }
 }
