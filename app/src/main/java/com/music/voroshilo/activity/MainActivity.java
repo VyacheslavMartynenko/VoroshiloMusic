@@ -3,7 +3,6 @@ package com.music.voroshilo.activity;
 import android.Manifest;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
