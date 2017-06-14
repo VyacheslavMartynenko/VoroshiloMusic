@@ -1,8 +1,12 @@
 package com.music.voroshilo.activity;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -14,15 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.interfaces.CurrentSongListener;
+import com.music.voroshilo.interfaces.RuntimePermissionListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.networking.task.FileDownloadTask;
@@ -36,6 +35,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
+    private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
+    private RuntimePermissionListener permissionListener;
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
     private SongPlayer player;
 
@@ -118,23 +119,40 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @Override
     public void downloadSong(final String url, final String title) {
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        FileDownloadTask.downloadFile(url, title);
-                    }
+        permissionListener = new RuntimePermissionListener() {
+            @Override
+            public void onGranted() {
+                FileDownloadTask.downloadFile(url, title);
+            }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        Log.e(getClass().getSimpleName(), "Permission Denied");
-                    }
+            @Override
+            public void onDenied() {
+                Log.e(getClass().getSimpleName(), "Permission Denied");
+            }
+        };
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+            permissionListener.onGranted();
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_EXTERNAL_STORAGE_PERMISSION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case WRITE_EXTERNAL_STORAGE_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionListener.onGranted();
+                } else {
+                    permissionListener.onDenied();
+                }
+                permissionListener = null;
+            }
+        }
     }
 }
