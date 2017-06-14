@@ -1,7 +1,9 @@
 package com.music.voroshilo.activity;
 
+import android.Manifest;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
@@ -13,11 +15,18 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
+import com.music.voroshilo.networking.task.FileDownloadTask;
 import com.music.voroshilo.util.SongIconChanger;
 import com.music.voroshilo.util.SongPlayer;
 
@@ -106,5 +115,27 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
         SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
         return isPlaying;
+    }
+
+    @Override
+    public void downloadSong(final String url, final String title) {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        FileDownloadTask.downloadFile(url, title);
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        Log.e(getClass().getSimpleName(), "Permission Denied");
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
 }

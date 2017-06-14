@@ -67,7 +67,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FileDownloadTask.downloadFile(url, title);
+                    listener.downloadSong(url, title);
                 }
             };
         }
