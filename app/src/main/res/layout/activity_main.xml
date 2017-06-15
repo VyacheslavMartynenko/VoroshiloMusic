@@ -65,6 +65,8 @@
                 android:id="@+id/cover_image"
                 android:layout_width="@dimen/song_cover_size"
                 android:layout_height="@dimen/song_cover_size"
+                android:layout_marginLeft="@dimen/song_button_margin"
+                android:layout_marginStart="@dimen/song_button_margin"
                 android:contentDescription="@string/song_cover" />
 
             <SeekBar
