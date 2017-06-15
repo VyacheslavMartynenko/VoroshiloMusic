@@ -5,9 +5,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.music.voroshilo.R;
+import com.music.voroshilo.activity.BaseActivity;
+import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.networking.ApiBuilder;
 
@@ -41,7 +46,7 @@ public class FileDownloadTask {
                         @Override
                         protected Void doInBackground(Void... voids) {
                             final ResponseBody responseBody = response.body();
-                            if (responseBody != null) {
+                            if (responseBody != null && responseBody.contentLength() > 0) {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -72,13 +77,13 @@ public class FileDownloadTask {
                     return false;
                 }
             }
-            File futureStudioIconFile = new File(mediaStorageDir + File.separator + title + ".mp3");
+            final File musicFile = new File(mediaStorageDir + File.separator + title + ".mp3");
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
                 byte[] fileReader = new byte[4096];
                 inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
+                outputStream = new FileOutputStream(musicFile);
                 while (true) {
                     int read = inputStream.read(fileReader);
                     if (read == -1) {
@@ -87,6 +92,7 @@ public class FileDownloadTask {
                     outputStream.write(fileReader, 0, read);
                 }
                 outputStream.flush();
+                showCompleteMessage(musicFile.getCanonicalPath());
                 return true;
             } catch (IOException e) {
                 return false;
@@ -100,6 +106,20 @@ public class FileDownloadTask {
             }
         } catch (IOException e) {
             return false;
+        }
+    }
+
+    private static void showCompleteMessage(final String path) {
+        final BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
+        if (activity != null && activity.isVisible()) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity,
+                            activity.getString(R.string.download_complete_message, path),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
 }

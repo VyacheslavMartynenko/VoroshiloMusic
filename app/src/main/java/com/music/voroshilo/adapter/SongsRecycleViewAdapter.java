@@ -69,7 +69,6 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                     if (currentPlayingSongPosition == RecyclerView.NO_POSITION) {
                         currentPlayingSongPosition = getAdapterPosition();
                     }
-
                     listener.downloadSong(imageUrl, mp3url, title);
                 }
             };
