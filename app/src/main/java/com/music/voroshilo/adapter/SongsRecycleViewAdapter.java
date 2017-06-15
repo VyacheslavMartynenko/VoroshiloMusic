@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.music.voroshilo.R;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.model.networking.Song;
-import com.music.voroshilo.networking.task.FileDownloadTask;
 import com.music.voroshilo.util.SongIconChanger;
 
 import java.util.List;
