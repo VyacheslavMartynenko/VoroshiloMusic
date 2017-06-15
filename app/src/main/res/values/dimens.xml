@@ -3,5 +3,5 @@
     <dimen name="song_container_height">48dp</dimen>
     <dimen name="song_cover_size">40dp</dimen>
     <dimen name="song_button_margin">8dp</dimen>
-    <dimen name="progress_bar_height">8dp</dimen>
+    <dimen name="progress_bar_height">4dp</dimen>
 </resources>
