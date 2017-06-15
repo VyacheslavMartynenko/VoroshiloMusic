@@ -60,6 +60,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @BindView(R.id.play_button)
     ImageView playButton;
 
+    @BindView(R.id.download_progress_bar)
+    ProgressBar downloadProgressBar;
+
     @OnClick(R.id.play_button)
     public void playOrPause() {
         songAdapter.playOrPauseSong();
