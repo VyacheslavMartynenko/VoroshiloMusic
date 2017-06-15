@@ -19,6 +19,7 @@ import com.music.voroshilo.activity.BaseActivity;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.networking.ApiBuilder;
+import com.music.voroshilo.util.NotificationUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -126,15 +127,8 @@ public class FileDownloadTask {
             });
         }
         Context context = MusicApplication.getInstance().getApplicationContext();
-        Notification notification = new NotificationCompat
-                .Builder(context)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(context.getString(R.string.app_name))
-                .setContentText(context.getString(R.string.download_complete_message, path))
-                .setAutoCancel(true)
-                .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-                .build();
-        NotificationManagerCompat.from(MusicApplication.getInstance().getApplicationContext())
-                .notify(0, notification);
+        String title = context.getString(R.string.app_name);
+        String text = context.getString(R.string.download_complete_message, path);
+        NotificationUtil.showNotification(title, text);
     }
 }
