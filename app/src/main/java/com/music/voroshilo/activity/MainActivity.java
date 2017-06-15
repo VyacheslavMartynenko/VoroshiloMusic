@@ -81,7 +81,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
-        player = new SongPlayer(new MediaPlayer(), songSeekBar);
+        player = new SongPlayer(songSeekBar);
         searchSongs();
     }
 

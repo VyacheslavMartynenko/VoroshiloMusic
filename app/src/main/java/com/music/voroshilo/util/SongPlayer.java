@@ -18,13 +18,13 @@ public class SongPlayer {
     private MediaPlayer player;
     private SeekBar seekBar;
 
-    public SongPlayer(MediaPlayer player, SeekBar seekBar) {
-        this.player = player;
+    public SongPlayer(SeekBar seekBar) {
         this.seekBar = seekBar;
         preparePlayer();
     }
 
     private void preparePlayer() {
+        player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -84,8 +84,8 @@ public class SongPlayer {
     }
 
     public void release() {
-        player.stop();
         player.release();
+        player = null;
     }
 
     private Runnable runnable = new Runnable() {
