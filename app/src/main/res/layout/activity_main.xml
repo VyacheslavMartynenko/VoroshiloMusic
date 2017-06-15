@@ -45,14 +45,15 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/download_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="@dimen/progress_bar_height"
-            android:progressDrawable="@drawable/progress_bar_drawable" />
+            android:progressDrawable="@drawable/progress_bar_drawable"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
