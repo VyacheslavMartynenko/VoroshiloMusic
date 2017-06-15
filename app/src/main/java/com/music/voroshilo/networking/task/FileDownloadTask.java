@@ -1,11 +1,15 @@
 package com.music.voroshilo.networking.task;
 
+import android.app.Notification;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -121,5 +125,16 @@ public class FileDownloadTask {
                 }
             });
         }
+        Context context = MusicApplication.getInstance().getApplicationContext();
+        Notification notification = new NotificationCompat
+                .Builder(context)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(context.getString(R.string.app_name))
+                .setContentText(context.getString(R.string.download_complete_message, path))
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                .build();
+        NotificationManagerCompat.from(MusicApplication.getInstance().getApplicationContext())
+                .notify(0, notification);
     }
 }
