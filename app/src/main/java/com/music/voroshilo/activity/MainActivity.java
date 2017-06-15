@@ -119,11 +119,20 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     @Override
-    public void downloadSong(final String url, final String title) {
+    public void downloadSong(final String imageUrl, final String mp3Url, final String title) {
         permissionListener = new RuntimePermissionListener() {
             @Override
             public void onGranted() {
-                FileDownloadTask.downloadFile(url, title, downloadProgressBar);
+                if (currentSongContainer.getVisibility() != View.VISIBLE) {
+                    currentSongContainer.setVisibility(View.VISIBLE);
+                }
+                if (downloadProgressBar.getVisibility() != View.VISIBLE) {
+                    downloadProgressBar.setVisibility(View.VISIBLE);
+                    if (!player.isPlaying()) {
+                        SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
+                    }
+                }
+                FileDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
             }
 
             @Override

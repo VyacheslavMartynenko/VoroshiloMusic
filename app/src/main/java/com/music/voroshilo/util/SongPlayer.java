@@ -56,15 +56,19 @@ public class SongPlayer {
     }
 
     private void startUpdatingSeekBar() {
-        if (player.isPlaying()) {
+        if (isPlaying()) {
             handler.postDelayed(runnable, SEEK_BAR_TIME_UPDATE);
         }
     }
 
     private void stopUpdatingSeekBar() {
-        if (player.isPlaying()) {
+        if (isPlaying()) {
             handler.removeCallbacks(runnable);
         }
+    }
+
+    public boolean isPlaying() {
+        return player.isPlaying();
     }
 
     public boolean playOrPauseSong(String url) {
@@ -123,7 +127,7 @@ public class SongPlayer {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            if (player.isPlaying()) {
+            if (isPlaying()) {
                 player.seekTo(seekBar.getProgress());
                 startUpdatingSeekBar();
             }

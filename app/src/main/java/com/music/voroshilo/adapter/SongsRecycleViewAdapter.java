@@ -62,11 +62,15 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             }
         };
 
-        private View.OnClickListener getDownloadClickListener(final String url, final String title) {
+        private View.OnClickListener getDownloadClickListener(final String imageUrl, final String mp3url, final String title) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.downloadSong(url, title);
+                    if (currentPlayingSongPosition == RecyclerView.NO_POSITION) {
+                        currentPlayingSongPosition = getAdapterPosition();
+                    }
+
+                    listener.downloadSong(imageUrl, mp3url, title);
                 }
             };
         }
@@ -98,7 +102,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             SongIconChanger.switchDrawable(context, holder.playButton, false);
         }
         holder.songTitleTextView.setText(song.getTitle());
-        holder.downloadButton.setOnClickListener(holder.getDownloadClickListener(song.getMp3Url(), song.getTitle()));
+        holder.downloadButton.setOnClickListener(holder.getDownloadClickListener(song.getImageUrl(), song.getMp3Url(), song.getTitle()));
         SongIconChanger.loadDrawableWithPicasso(context, holder.coverImageView, song.getImageUrl());
     }
 
