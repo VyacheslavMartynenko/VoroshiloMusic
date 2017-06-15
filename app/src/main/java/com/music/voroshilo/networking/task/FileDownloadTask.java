@@ -2,8 +2,11 @@ package com.music.voroshilo.networking.task;
 
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.networking.ApiBuilder;
@@ -20,12 +23,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FileDownloadTask {
-    public static void downloadFile(String url, final String title) {
+    public static void downloadFile(String url, final String title, final ProgressBar progressBar) {
         final ProgressListener progressListener = new ProgressListener() {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
-                Log.e("R", String.valueOf(bytesRead / (double) contentLength));
-                Log.e("R", String.valueOf(done));
+                progressBar.setProgress((int) bytesRead);
             }
         };
 
@@ -36,7 +38,16 @@ public class FileDownloadTask {
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
-                            writeResponseBodyToDisk(response.body(), title);
+                            final ResponseBody responseBody = response.body();
+                            if (responseBody != null) {
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setMax((int) responseBody.contentLength());
+                                    }
+                                });
+                                writeResponseBodyToDisk(responseBody, title);
+                            }
                             return null;
                         }
                     }.execute();

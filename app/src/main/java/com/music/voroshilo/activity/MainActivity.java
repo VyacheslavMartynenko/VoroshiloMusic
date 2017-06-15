@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         permissionListener = new RuntimePermissionListener() {
             @Override
             public void onGranted() {
-                FileDownloadTask.downloadFile(url, title);
+                FileDownloadTask.downloadFile(url, title, downloadProgressBar);
             }
 
             @Override
