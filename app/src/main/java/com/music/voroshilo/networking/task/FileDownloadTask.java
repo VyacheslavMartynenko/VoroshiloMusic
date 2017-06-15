@@ -23,6 +23,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FileDownloadTask {
+    private static final int INITIAL_PROGRESS = 0;
+
     public static void downloadFile(String url, final String title, final ProgressBar progressBar) {
         final ProgressListener progressListener = new ProgressListener() {
             @Override
@@ -44,6 +46,7 @@ public class FileDownloadTask {
                                     @Override
                                     public void run() {
                                         progressBar.setMax((int) responseBody.contentLength());
+                                        progressBar.setProgress(INITIAL_PROGRESS);
                                     }
                                 });
                                 writeResponseBodyToDisk(responseBody, title);
