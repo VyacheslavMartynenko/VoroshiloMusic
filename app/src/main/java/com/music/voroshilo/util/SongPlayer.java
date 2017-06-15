@@ -39,6 +39,19 @@ public class SongPlayer {
                 });
             }
         });
+        player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
+                switch (i) {
+                    case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+                        startPlayer(currentUrl);
+                        break;
+                    default:
+                        break;
+                }
+                return false;
+            }
+        });
         seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
