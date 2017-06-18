@@ -16,4 +16,5 @@
     <string name="search">search</string>
     <string name="search_hint">Type…</string>
     <string name="download_complete_message">File downloaded to: %s</string>
+    <string name="download_error_message">Something went wrong. Please try again.</string>
 </resources>

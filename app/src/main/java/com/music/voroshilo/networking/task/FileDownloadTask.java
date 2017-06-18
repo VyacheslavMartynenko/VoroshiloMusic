@@ -1,15 +1,11 @@
 package com.music.voroshilo.networking.task;
 
-import android.app.Notification;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -60,6 +56,9 @@ public class FileDownloadTask {
                                     }
                                 });
                                 writeResponseBodyToDisk(responseBody, title);
+                            } else {
+                                Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
+                                        R.string.download_error_message, Toast.LENGTH_SHORT).show();
                             }
                             return null;
                         }
@@ -76,7 +75,8 @@ public class FileDownloadTask {
 
     private static boolean writeResponseBodyToDisk(ResponseBody body, String title) {
         try {
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "VoroshiloMusic");
+            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
+                    MusicApplication.getInstance().getString(R.string.app_name));
             if (!mediaStorageDir.exists()) {
                 if (!mediaStorageDir.mkdirs()) {
                     return false;
