@@ -2,6 +2,7 @@ package com.music.voroshilo.application;
 
 import android.app.Application;
 
+import com.google.android.gms.ads.MobileAds;
 import com.music.voroshilo.activity.BaseActivity;
 
 public class MusicApplication extends Application {
@@ -15,6 +16,7 @@ public class MusicApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
         instance = this;
     }
 

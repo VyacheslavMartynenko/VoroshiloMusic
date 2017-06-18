@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.interfaces.CurrentSongListener;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     private RuntimePermissionListener permissionListener;
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
     private SongPlayer player;
+    private InterstitialAd interstitialAd;
 
     @BindView(R.id.song_seek_bar)
     SeekBar songSeekBar;
@@ -72,6 +74,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public void searchSongs() {
         requestSongs(searchEditText.getText().toString());
         KeyboardUtil.hideKeyboard(this);
+        showAd();
     }
 
     @Override
@@ -83,7 +86,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         player = new SongPlayer(songSeekBar);
-        searchSongs();
+        requestSongs("");
     }
 
     @Override

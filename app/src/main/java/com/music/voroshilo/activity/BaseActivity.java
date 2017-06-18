@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.music.voroshilo.application.MusicApplication;
 
 import butterknife.ButterKnife;
@@ -12,6 +14,7 @@ import butterknife.ButterKnife;
 abstract public class BaseActivity extends AppCompatActivity {
 
     private MusicApplication app;
+    private InterstitialAd interstitialAd;
 
     private boolean isActivityPaused = false;
 
@@ -19,6 +22,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (MusicApplication) this.getApplicationContext();
+        createAdManager();
     }
 
     @Override
@@ -53,5 +57,19 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     public boolean isVisible() {
         return !isActivityPaused;
+    }
+
+    public void createAdManager() {
+        if (interstitialAd == null) {
+            interstitialAd = new InterstitialAd(this);
+            interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+            interstitialAd.loadAd(new AdRequest.Builder().build());
+        }
+    }
+
+    public void showAd() {
+        if (interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        }
     }
 }
