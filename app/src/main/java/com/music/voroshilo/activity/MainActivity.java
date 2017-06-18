@@ -22,6 +22,7 @@ import com.music.voroshilo.interfaces.RuntimePermissionListener;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.networking.task.FileDownloadTask;
+import com.music.voroshilo.util.KeyboardUtil;
 import com.music.voroshilo.util.PermissionUtil;
 import com.music.voroshilo.util.SongIconChanger;
 import com.music.voroshilo.util.SongPlayer;
@@ -70,6 +71,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @OnClick(R.id.search_button)
     public void searchSongs() {
         requestSongs(searchEditText.getText().toString());
+        KeyboardUtil.hideKeyboard(this);
     }
 
     @Override
