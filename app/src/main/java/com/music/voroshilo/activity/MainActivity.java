@@ -117,6 +117,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         boolean isPlaying = player.playOrPauseSong(url);
         SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
         SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
+        if (isPlaying && downloadProgressBar.getVisibility() == View.VISIBLE && !FileDownloadTask.isDownloading()) {
+            downloadProgressBar.setProgress(FileDownloadTask.INITIAL_PROGRESS);
+        }
         return isPlaying;
     }
 

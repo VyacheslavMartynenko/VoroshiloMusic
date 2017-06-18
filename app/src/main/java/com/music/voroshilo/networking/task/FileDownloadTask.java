@@ -22,6 +22,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -29,7 +31,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FileDownloadTask {
-    private static final int INITIAL_PROGRESS = 0;
+    public static final int INITIAL_PROGRESS = 0;
+    private static List<AsyncTask> downloadTaskList = new ArrayList<>();
+
+    public static boolean isDownloading() {
+        return downloadTaskList.size() > 0;
+    }
 
     public static void downloadFile(String url, final String title, final ProgressBar progressBar) {
         final ProgressListener progressListener = new ProgressListener() {
@@ -43,12 +50,13 @@ public class FileDownloadTask {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    new AsyncTask<Void, Void, Void>() {
+                    final AsyncTask<Void, Void, Void> downloadTask = new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
                             final ResponseBody responseBody = response.body();
+                            final Handler handler = new Handler(Looper.getMainLooper());
                             if (responseBody != null && responseBody.contentLength() > 0) {
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                handler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         progressBar.setMax((int) responseBody.contentLength());
@@ -57,12 +65,24 @@ public class FileDownloadTask {
                                 });
                                 writeResponseBodyToDisk(responseBody, title);
                             } else {
-                                Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                        R.string.download_error_message, Toast.LENGTH_SHORT).show();
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
+                                                R.string.download_error_message, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                             return null;
                         }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            downloadTaskList.remove(this);
+                            super.onPostExecute(aVoid);
+                        }
                     }.execute();
+                    downloadTaskList.add(downloadTask);
                 }
             }
 
