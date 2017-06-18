@@ -50,12 +50,12 @@ public class FileDownloadTask {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    final AsyncTask<Void, Void, Void> downloadTask = new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            final ResponseBody responseBody = response.body();
-                            final Handler handler = new Handler(Looper.getMainLooper());
-                            if (responseBody != null && responseBody.contentLength() > 0) {
+                    final ResponseBody responseBody = response.body();
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    if (responseBody != null && responseBody.contentLength() > 0) {
+                        final AsyncTask<Void, Void, Void> downloadTask = new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... voids) {
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
@@ -64,25 +64,26 @@ public class FileDownloadTask {
                                     }
                                 });
                                 writeResponseBodyToDisk(responseBody, title);
-                            } else {
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                                R.string.download_error_message, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                            return null;
-                        }
 
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-                            downloadTaskList.remove(this);
-                            super.onPostExecute(aVoid);
-                        }
-                    }.execute();
-                    downloadTaskList.add(downloadTask);
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                downloadTaskList.remove(this);
+                                super.onPostExecute(aVoid);
+                            }
+                        }.execute();
+                        downloadTaskList.add(downloadTask);
+                    } else {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
+                                        R.string.download_error_message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
             }
 
