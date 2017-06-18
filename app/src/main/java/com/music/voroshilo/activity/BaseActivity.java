@@ -59,7 +59,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         return !isActivityPaused;
     }
 
-    public void createAdManager() {
+    private void createAdManager() {
         if (interstitialAd == null) {
             interstitialAd = new InterstitialAd(this);
             interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
