@@ -51,32 +51,10 @@ public class FileDownloadTask {
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     final ResponseBody responseBody = response.body();
-                    final Handler handler = new Handler(Looper.getMainLooper());
                     if (responseBody != null && responseBody.contentLength() > 0) {
-                        final AsyncTask<Void, Void, Void> downloadTask = new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected Void doInBackground(Void... voids) {
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        progressBar.setMax((int) responseBody.contentLength());
-                                        progressBar.setProgress(INITIAL_PROGRESS);
-                                    }
-                                });
-                                writeResponseBodyToDisk(responseBody, title);
-
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                downloadTaskList.remove(this);
-                                super.onPostExecute(aVoid);
-                            }
-                        }.execute();
-                        downloadTaskList.add(downloadTask);
+                        downloadTaskList.add(createDownloadTask(progressBar, responseBody, title));
                     } else {
-                        handler.post(new Runnable() {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
                                 Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
@@ -92,6 +70,30 @@ public class FileDownloadTask {
                 Log.e(FileDownloadTask.class.getSimpleName(), Log.getStackTraceString(t));
             }
         });
+    }
+
+    private static AsyncTask<Void, Void, Void> createDownloadTask(final ProgressBar progressBar, final ResponseBody responseBody, final String title) {
+        return new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setMax((int) responseBody.contentLength());
+                        progressBar.setProgress(INITIAL_PROGRESS);
+                    }
+                });
+                writeResponseBodyToDisk(responseBody, title);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                downloadTaskList.remove(this);
+                super.onPostExecute(aVoid);
+            }
+        }.execute();
     }
 
     private static boolean writeResponseBodyToDisk(ResponseBody body, String title) {
