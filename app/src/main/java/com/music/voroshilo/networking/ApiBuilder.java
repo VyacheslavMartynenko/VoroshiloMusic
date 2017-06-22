@@ -16,6 +16,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiBuilder {
+    //todo popup request
     private static final String BASE_URL = "https://mp3download.tube/";
 
     private static ApiBuilder apiBuilder;
