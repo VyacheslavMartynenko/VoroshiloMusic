@@ -76,8 +76,13 @@ public class SongPlayer {
             startPlayer(url);
             return true;
         } else {
-            pausePlayer();
-            return false;
+            if (isPlaying()) {
+                pausePlayer();
+                return false;
+            } else {
+                resumePlayer();
+                return true;
+            }
         }
     }
 
@@ -94,10 +99,14 @@ public class SongPlayer {
     }
 
     private void pausePlayer() {
-        currentUrl = "";
         stopUpdatingSeekBar();
-        seekBar.setProgress(SEEK_BAR_START_PROGRESS);
-        player.reset();
+        player.pause();
+    }
+
+    private void resumePlayer() {
+        player.seekTo(seekBar.getProgress());
+        player.start();
+        startUpdatingSeekBar();
     }
 
     public void release() {
