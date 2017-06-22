@@ -31,6 +31,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FileDownloadTask {
+    //todo singleton
+    //todo try service
     public static final int INITIAL_PROGRESS = 0;
     private static List<AsyncTask> downloadTaskList = new ArrayList<>();
 

@@ -10,6 +10,8 @@ import android.widget.SeekBar;
 import java.io.IOException;
 
 public class SongPlayer {
+    //todo singleton
+    //todo try service
     private static final int SEEK_BAR_TIME_UPDATE = 1000;
     private String currentUrl = "";
 
