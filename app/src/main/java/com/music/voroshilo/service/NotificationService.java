@@ -31,10 +31,12 @@ public class NotificationService extends IntentService {
 
     private void showFolder(String path) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        Uri uri = Uri.parse(path);
+        Uri uri = Uri.parse(path + "/");
         intent.setDataAndType(uri, "*/*");
-        if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
-            startActivity(Intent.createChooser(intent, "Open"));
+        Intent chooserIntent = Intent.createChooser(intent, "Open").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (chooserIntent.resolveActivityInfo(getPackageManager(), 0) != null) {
+            startActivity(chooserIntent);
         }
     }
 }
