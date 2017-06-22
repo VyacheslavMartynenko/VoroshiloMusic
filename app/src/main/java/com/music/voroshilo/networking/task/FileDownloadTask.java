@@ -120,7 +120,7 @@ public class FileDownloadTask {
                     outputStream.write(fileReader, 0, read);
                 }
                 outputStream.flush();
-                showCompleteMessage(musicFile.getCanonicalPath());
+                showCompleteMessage(musicFile.getPath(), mediaStorageDir.getPath());
                 return true;
             } catch (IOException e) {
                 return false;
@@ -137,21 +137,21 @@ public class FileDownloadTask {
         }
     }
 
-    private static void showCompleteMessage(final String path) {
+    private static void showCompleteMessage(final String filePath, final String dirPath) {
         final BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
         if (activity != null && activity.isVisible()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(activity,
-                            activity.getString(R.string.download_complete_message, path),
+                            activity.getString(R.string.download_complete_message, filePath),
                             Toast.LENGTH_LONG).show();
                 }
             });
         }
         Context context = MusicApplication.getInstance().getApplicationContext();
         String title = context.getString(R.string.app_name);
-        String text = context.getString(R.string.download_complete_message, path);
-        NotificationUtil.showNotification(title, text);
+        String text = context.getString(R.string.download_complete_message, filePath);
+        NotificationUtil.showNotification(title, text, dirPath);
     }
 }
