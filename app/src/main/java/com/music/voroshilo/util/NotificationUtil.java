@@ -27,8 +27,7 @@ public class NotificationUtil {
                 .setContentText(text)
                 .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-                .addAction(new NotificationCompat
-                        .Action(R.mipmap.ic_launcher, NotificationService.MUSIC_DOWNLOAD_ACTION, createPendingIntent(path)))
+                .setContentIntent(createPendingIntent(path))
                 .build();
         NotificationManagerCompat.from(MusicApplication.getInstance().getApplicationContext())
                 .notify(MUSIC_DOWNLOAD_NOTIFICATION_ID, notification);
