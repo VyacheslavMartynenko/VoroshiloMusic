@@ -28,6 +28,7 @@ import com.music.voroshilo.model.networking.DataBody;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SettingsRequest;
 import com.music.voroshilo.networking.request.SongRequest;
+import com.music.voroshilo.networking.task.ApkDownloadTask;
 import com.music.voroshilo.networking.task.SongDownloadTask;
 import com.music.voroshilo.util.KeyboardUtil;
 import com.music.voroshilo.util.PermissionUtil;
@@ -88,8 +89,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
             if (!marketUrl.endsWith(".apk")) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(marketUrl)));
             } else {
-                Log.e("DOWNLOAD", "Apk");
-                //todo apk download
+                ApkDownloadTask.downloadFile(marketUrl);
             }
         }
     }
