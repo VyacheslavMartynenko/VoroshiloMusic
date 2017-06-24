@@ -19,7 +19,9 @@ import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.interfaces.RuntimePermissionListener;
+import com.music.voroshilo.model.networking.SettingsBody;
 import com.music.voroshilo.model.networking.Song;
+import com.music.voroshilo.networking.ApiBuilder;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.networking.task.FileDownloadTask;
 import com.music.voroshilo.util.KeyboardUtil;
@@ -32,6 +34,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
@@ -84,7 +89,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         player = new SongPlayer(songSeekBar);
+
         requestSongs("");
+        requestSettings();
     }
 
     @Override
@@ -106,6 +113,25 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
             public void onError(Throwable throwable) {
                 progressBar.setVisibility(View.GONE);
                 Log.e("onResponse: ", Log.getStackTraceString(throwable));
+            }
+        });
+    }
+
+    private void requestSettings() {
+        ApiBuilder.getApiService().getSettings().enqueue(new Callback<SettingsBody>() {
+            @Override
+            public void onResponse(@NonNull Call<SettingsBody> call, @NonNull Response<SettingsBody> response) {
+                if (response.isSuccessful()) {
+                    SettingsBody settingsBody = response.body();
+                    if (settingsBody != null) {
+                        Log.e("popup", settingsBody.getData().getPopupUrl());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<SettingsBody> call, @NonNull Throwable t) {
+                Log.e("onResponse: ", Log.getStackTraceString(t));
             }
         });
     }

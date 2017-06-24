@@ -16,11 +16,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiBuilder {
-    //todo popup request
     private static final String BASE_URL = "https://mp3download.tube/";
+    private static final String BASE_API_URL = "http://mp3download.guru/";
 
     private static ApiBuilder apiBuilder;
     private final MusicService musicService;
+    private final ApiService apiService;
 
     private static ApiBuilder getInstance() {
         if (apiBuilder == null) {
@@ -30,22 +31,30 @@ public class ApiBuilder {
     }
 
     private ApiBuilder() {
-        musicService = getRetrofit(false, null).create(MusicService.class);
+        musicService = getRetrofit(false, false, null).create(MusicService.class);
+        apiService = getRetrofit(true, false, null).create(ApiService.class);
     }
 
     public static MusicService getMusicService() {
         return getInstance().musicService;
     }
 
+    public static ApiService getApiService() {return getInstance().apiService;}
+
     public static DownloadService getDownloadService(ProgressListener listener) {
-        return getInstance().getRetrofit(true, listener).create(DownloadService.class);
+        return getInstance().getRetrofit(false, true, listener).create(DownloadService.class);
     }
 
-    private Retrofit getRetrofit(boolean isDownloadService, ProgressListener listener) {
+    private Retrofit getRetrofit(boolean isApi, boolean isDownloadService, ProgressListener listener) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()));
+
+        if (isApi) {
+            builder.baseUrl(BASE_API_URL);
+        } else {
+            builder.baseUrl(BASE_URL);
+        }
 
         if (isDownloadService) {
             builder.client(getOkHttpClient(listener));
