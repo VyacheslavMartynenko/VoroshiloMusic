@@ -12,7 +12,7 @@ import retrofit2.Response;
 
 public class SettingsRequest {
     public interface SettingsCallback {
-        void onSuccess(String url);
+        void onSuccess(DataBody data);
 
         void onError(Throwable throwable);
     }
@@ -26,7 +26,7 @@ public class SettingsRequest {
                     if (settingsBody != null) {
                         DataBody dataBody = settingsBody.getData();
                         if (dataBody.getPopup() != 0) {
-                            callback.onSuccess(dataBody.getPopupUrl());
+                            callback.onSuccess(dataBody);
                         }
                     }
                 }

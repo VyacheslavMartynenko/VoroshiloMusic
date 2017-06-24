@@ -24,11 +24,20 @@
         android:layout_alignParentRight="true"
         android:text="@string/search" />
 
+    <Button
+        android:id="@+id/download_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_edit_text"
+        android:layout_centerInParent="true"
+        android:text="@string/app_redirection"
+        android:visibility="gone" />
+
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/search_edit_text"
+        android:layout_below="@id/download_button"
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
 

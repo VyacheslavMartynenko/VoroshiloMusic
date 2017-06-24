@@ -1,7 +1,9 @@
 package com.music.voroshilo.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +23,7 @@ import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.dialog.RatingDialogFragment;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.interfaces.RuntimePermissionListener;
+import com.music.voroshilo.model.networking.DataBody;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SettingsRequest;
 import com.music.voroshilo.networking.request.SongRequest;
@@ -41,9 +45,13 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     private RuntimePermissionListener permissionListener;
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
     private SongPlayer player;
+    private String marketUrl;
 
     @BindView(R.id.song_seek_bar)
     SeekBar songSeekBar;
+
+    @BindView(R.id.download_button)
+    Button downloadButton;
 
     @BindView(R.id.main_recycler_view)
     RecyclerView recyclerView;
@@ -66,16 +74,28 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @BindView(R.id.download_progress_bar)
     ProgressBar downloadProgressBar;
 
-    @OnClick(R.id.play_button)
-    public void playOrPause() {
-        songAdapter.playOrPauseSong();
-    }
-
     @OnClick(R.id.search_button)
     public void searchSongs() {
         requestSongs(searchEditText.getText().toString());
         KeyboardUtil.hideKeyboard(this);
         showAd();
+    }
+
+    @OnClick(R.id.download_button)
+    void redirectToDownload() {
+        if (marketUrl != null) {
+            if (!marketUrl.endsWith(".apk")) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(marketUrl)));
+            } else {
+                Log.e("DOWNLOAD", "Apk");
+                //todo apk download
+            }
+        }
+    }
+
+    @OnClick(R.id.play_button)
+    public void playOrPause() {
+        songAdapter.playOrPauseSong();
     }
 
     @Override
@@ -87,8 +107,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         player = new SongPlayer(songSeekBar);
-
-        requestSongs("");
         requestSettings();
     }
 
@@ -118,11 +136,30 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     private void requestSettings() {
         new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
             @Override
-            public void onSuccess(String url) {
+            public void onSuccess(DataBody data) {
                 boolean isAppRated = UserPreferences.getInstance().isAppRated();
                 if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
-                    RatingDialogFragment dialog = RatingDialogFragment.newInstance(url);
+                    RatingDialogFragment dialog = RatingDialogFragment.newInstance(data.getPopupUrl());
                     dialog.show(getSupportFragmentManager(), "rating");
+                }
+                marketUrl = data.getBurstUrl();
+                @DataBody.DisplayMode
+                int displayMode = data.getBurstStatus();
+                switch (displayMode) {
+                    case DataBody.BUTTON:
+                        downloadButton.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        break;
+                    case DataBody.MUSIC_AND_BUTTON:
+                        downloadButton.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        requestSongs("");
+                        break;
+                    case DataBody.MUSIC:
+                        downloadButton.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        requestSongs("");
+                        break;
                 }
             }
 
