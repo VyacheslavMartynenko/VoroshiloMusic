@@ -1,6 +1,5 @@
 package com.music.voroshilo.networking.task;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
@@ -11,17 +10,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.music.voroshilo.R;
-import com.music.voroshilo.activity.BaseActivity;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.networking.ApiBuilder;
-import com.music.voroshilo.util.NotificationUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SongDownloadTask {
+public class SongDownloadTask extends BaseDownloadTask {
     //todo singleton
     //todo try service
     public static final int INITIAL_PROGRESS = 0;
@@ -40,7 +32,7 @@ public class SongDownloadTask {
         return downloadTaskList.size() > 0;
     }
 
-    public static void downloadFile(String url, final String title, final ProgressBar progressBar) {
+    public void downloadFile(String url, final String title, final ProgressBar progressBar) {
         final ProgressListener progressListener = new ProgressListener() {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
@@ -74,7 +66,7 @@ public class SongDownloadTask {
         });
     }
 
-    private static AsyncTask<Void, Void, Void> createDownloadTask(final ProgressBar progressBar, final ResponseBody responseBody, final String title) {
+    private AsyncTask<Void, Void, Void> createDownloadTask(final ProgressBar progressBar, final ResponseBody responseBody, final String title) {
         return new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -85,7 +77,7 @@ public class SongDownloadTask {
                         progressBar.setProgress(INITIAL_PROGRESS);
                     }
                 });
-                writeResponseBodyToDisk(responseBody, title);
+                writeResponseBodyToDisk(responseBody, Environment.DIRECTORY_MUSIC, title.concat(".mp3"));
 
                 return null;
             }
@@ -96,64 +88,5 @@ public class SongDownloadTask {
                 super.onPostExecute(aVoid);
             }
         }.execute();
-    }
-
-    private static boolean writeResponseBodyToDisk(ResponseBody body, String title) {
-        try {
-            File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
-                    MusicApplication.getInstance().getString(R.string.app_name));
-            if (!mediaStorageDir.exists()) {
-                if (!mediaStorageDir.mkdirs()) {
-                    return false;
-                }
-            }
-            final File musicFile = new File(mediaStorageDir + File.separator + title + ".mp3");
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-            try {
-                byte[] fileReader = new byte[4096];
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(musicFile);
-                while (true) {
-                    int read = inputStream.read(fileReader);
-                    if (read == -1) {
-                        break;
-                    }
-                    outputStream.write(fileReader, 0, read);
-                }
-                outputStream.flush();
-                showCompleteMessage(musicFile.getPath(), mediaStorageDir.getPath());
-                return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
-        }
-    }
-
-    private static void showCompleteMessage(final String filePath, final String dirPath) {
-        final BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
-        if (activity != null && activity.isVisible()) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(activity,
-                            activity.getString(R.string.download_complete_message, filePath),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-        Context context = MusicApplication.getInstance().getApplicationContext();
-        String title = context.getString(R.string.app_name);
-        String text = context.getString(R.string.download_complete_message, filePath);
-        NotificationUtil.showNotification(title, text, dirPath);
     }
 }

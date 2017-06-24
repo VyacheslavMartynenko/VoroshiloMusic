@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
             if (!marketUrl.endsWith(".apk")) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(marketUrl)));
             } else {
-                ApkDownloadTask.downloadFile(marketUrl);
+                new ApkDownloadTask().downloadFile(marketUrl);
             }
         }
     }
@@ -213,7 +213,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                         SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
                     }
                 }
-                SongDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
+                new SongDownloadTask().downloadFile(mp3Url, title, downloadProgressBar);
             }
 
             @Override
