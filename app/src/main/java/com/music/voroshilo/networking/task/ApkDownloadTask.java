@@ -18,7 +18,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ApkDownloadTask extends BaseDownloadTask {
-
     public void downloadFile(String url) {
         ApiBuilder.getApiService().getApkFile(url).enqueue(new Callback<ResponseBody>() {
             @Override

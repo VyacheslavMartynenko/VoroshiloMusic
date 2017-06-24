@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import okhttp3.ResponseBody;
 
 abstract class BaseDownloadTask {
+    //todo rx-buffer
     boolean writeResponseBodyToDisk(ResponseBody body, String dir, String file) {
         try {
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(dir),
