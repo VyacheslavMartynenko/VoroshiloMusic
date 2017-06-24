@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.RatingBar;
 
 import com.music.voroshilo.R;
+import com.music.voroshilo.util.preferences.UserPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,6 +34,7 @@ public class RatingDialogFragment extends BaseDialogFragment {
         if (rating >= MIN_RATING_MARKET) {
             openAppInMarket();
         }
+        UserPreferences.getInstance().setIsAppRated();
         dismissAllowingStateLoss();
     }
 

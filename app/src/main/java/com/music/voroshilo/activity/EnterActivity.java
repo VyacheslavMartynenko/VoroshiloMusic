@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.MusicPageAdapter;
+import com.music.voroshilo.util.preferences.UserPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;

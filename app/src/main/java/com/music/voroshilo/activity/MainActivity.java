@@ -28,6 +28,7 @@ import com.music.voroshilo.util.KeyboardUtil;
 import com.music.voroshilo.util.PermissionUtil;
 import com.music.voroshilo.util.SongIconChanger;
 import com.music.voroshilo.util.SongPlayer;
+import com.music.voroshilo.util.preferences.UserPreferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +119,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
             @Override
             public void onSuccess(String url) {
-                if (MainActivity.this.isVisible()) {
+                boolean isAppRated = UserPreferences.getInstance().isAppRated();
+                if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
                     RatingDialogFragment dialog = RatingDialogFragment.newInstance(url);
                     dialog.show(getSupportFragmentManager(), "rating");
                 }
@@ -129,6 +131,14 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 Log.e("onResponse: ", Log.getStackTraceString(throwable));
             }
         });
+    }
+
+    private boolean isFirstLaunch() {
+        boolean isFirstRun = UserPreferences.getInstance().isFirstLaunch();
+        if (isFirstRun) {
+            UserPreferences.getInstance().setIsFirstLaunch();
+        }
+        return isFirstRun;
     }
 
     @Override
