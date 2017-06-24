@@ -28,7 +28,7 @@ import com.music.voroshilo.model.networking.DataBody;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.request.SettingsRequest;
 import com.music.voroshilo.networking.request.SongRequest;
-import com.music.voroshilo.networking.task.FileDownloadTask;
+import com.music.voroshilo.networking.task.SongDownloadTask;
 import com.music.voroshilo.util.KeyboardUtil;
 import com.music.voroshilo.util.PermissionUtil;
 import com.music.voroshilo.util.SongIconChanger;
@@ -193,8 +193,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         boolean isPlaying = player.playOrPauseSong(url);
         SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
         SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
-        if (isPlaying && downloadProgressBar.getVisibility() == View.VISIBLE && !FileDownloadTask.isDownloading()) {
-            downloadProgressBar.setProgress(FileDownloadTask.INITIAL_PROGRESS);
+        if (isPlaying && downloadProgressBar.getVisibility() == View.VISIBLE && !SongDownloadTask.isDownloading()) {
+            downloadProgressBar.setProgress(SongDownloadTask.INITIAL_PROGRESS);
         }
         return isPlaying;
     }
@@ -213,7 +213,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                         SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
                     }
                 }
-                FileDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
+                SongDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
             }
 
             @Override

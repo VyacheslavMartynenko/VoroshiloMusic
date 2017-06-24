@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FileDownloadTask {
+public class SongDownloadTask {
     //todo singleton
     //todo try service
     public static final int INITIAL_PROGRESS = 0;
@@ -69,7 +69,7 @@ public class FileDownloadTask {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e(FileDownloadTask.class.getSimpleName(), Log.getStackTraceString(t));
+                Log.e(SongDownloadTask.class.getSimpleName(), Log.getStackTraceString(t));
             }
         });
     }
