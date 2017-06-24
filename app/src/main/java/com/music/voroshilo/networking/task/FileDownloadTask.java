@@ -141,6 +141,7 @@ public class FileDownloadTask {
 
     private static void showCompleteMessage(final String filePath, final String dirPath) {
         final BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
+        //todo test
         if (activity != null && activity.isVisible()) {
             activity.runOnUiThread(new Runnable() {
                 @Override
