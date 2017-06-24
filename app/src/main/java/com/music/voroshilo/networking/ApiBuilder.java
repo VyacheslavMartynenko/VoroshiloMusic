@@ -1,14 +1,9 @@
 package com.music.voroshilo.networking;
 
-import android.support.annotation.NonNull;
-
 import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.networking.repsonse.ProgressResponseBody;
 
-import java.io.IOException;
-
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
@@ -65,14 +60,11 @@ public class ApiBuilder {
 
     private OkHttpClient getOkHttpClient(final ProgressListener progressListener) {
         return new OkHttpClient.Builder()
-                .addNetworkInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(@NonNull Chain chain) throws IOException {
-                        Response originalResponse = chain.proceed(chain.request());
-                        return originalResponse.newBuilder()
-                                .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                                .build();
-                    }
+                .addNetworkInterceptor(chain -> {
+                    Response originalResponse = chain.proceed(chain.request());
+                    return originalResponse.newBuilder()
+                            .body(new ProgressResponseBody(originalResponse.body(), progressListener))
+                            .build();
                 })
                 .build();
     }

@@ -45,7 +45,7 @@ import butterknife.OnClick;
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
     private RuntimePermissionListener permissionListener;
-    private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<Song>());
+    private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;
     private String marketUrl;
 

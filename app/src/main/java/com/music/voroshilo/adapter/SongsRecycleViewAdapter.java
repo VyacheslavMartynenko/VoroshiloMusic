@@ -55,22 +55,14 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         final ImageView downloadButton;
         final ImageView playButton;
 
-        private View.OnClickListener playClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playOrPauseSong(getAdapterPosition());
-            }
-        };
+        private View.OnClickListener playClickListener = view -> playOrPauseSong(getAdapterPosition());
 
         private View.OnClickListener getDownloadClickListener(final String imageUrl, final String mp3url, final String title) {
-            return new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (currentPlayingSongPosition == RecyclerView.NO_POSITION) {
-                        currentPlayingSongPosition = getAdapterPosition();
-                    }
-                    listener.downloadSong(imageUrl, mp3url, title);
+            return view -> {
+                if (currentPlayingSongPosition == RecyclerView.NO_POSITION) {
+                    currentPlayingSongPosition = getAdapterPosition();
                 }
+                listener.downloadSong(imageUrl, mp3url, title);
             };
         }
 

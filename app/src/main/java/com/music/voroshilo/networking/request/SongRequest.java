@@ -1,8 +1,6 @@
 package com.music.voroshilo.networking.request;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
-import android.view.View;
 
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.model.networking.SongsResponseBody;

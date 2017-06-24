@@ -27,31 +27,20 @@ public class SongPlayer {
     private void preparePlayer() {
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(final MediaPlayer mediaPlayer) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mediaPlayer.start();
-                        seekBar.setMax(mediaPlayer.getDuration());
-                        startUpdatingSeekBar();
-                    }
-                });
+        player.setOnPreparedListener(mediaPlayer -> new Handler(Looper.getMainLooper()).post(() -> {
+            mediaPlayer.start();
+            seekBar.setMax(mediaPlayer.getDuration());
+            startUpdatingSeekBar();
+        }));
+        player.setOnErrorListener((mediaPlayer, i, i1) -> {
+            switch (i) {
+                case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+                    startPlayer(currentUrl);
+                    break;
+                default:
+                    break;
             }
-        });
-        player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-            @Override
-            public boolean onError(MediaPlayer mediaPlayer, int i, int i1) {
-                switch (i) {
-                    case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                        startPlayer(currentUrl);
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
+            return false;
         });
         seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }

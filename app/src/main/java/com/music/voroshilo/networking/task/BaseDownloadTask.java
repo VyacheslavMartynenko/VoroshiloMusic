@@ -63,14 +63,9 @@ abstract class BaseDownloadTask {
     private void showCompleteMessage(final String filePath, final String dirPath) {
         final BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
         if (activity != null && activity.isVisible()) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(activity,
-                            activity.getString(R.string.download_complete_message, filePath),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
+            activity.runOnUiThread(() -> Toast.makeText(activity,
+                    activity.getString(R.string.download_complete_message, filePath),
+                    Toast.LENGTH_LONG).show());
         }
         Context context = MusicApplication.getInstance().getApplicationContext();
         String title = context.getString(R.string.app_name);

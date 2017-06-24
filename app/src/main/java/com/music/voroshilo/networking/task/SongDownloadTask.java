@@ -31,12 +31,7 @@ public class SongDownloadTask extends BaseDownloadTask {
     }
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
-        final ProgressListener progressListener = new ProgressListener() {
-            @Override
-            public void update(long bytesRead, long contentLength, boolean done) {
-                progressBar.setProgress((int) bytesRead);
-            }
-        };
+        final ProgressListener progressListener = (bytesRead, contentLength, done) -> progressBar.setProgress((int) bytesRead);
 
         ApiBuilder.getDownloadService(progressListener).getFile(url).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -46,13 +41,8 @@ public class SongDownloadTask extends BaseDownloadTask {
                     if (responseBody != null && responseBody.contentLength() > 0) {
                         downloadTaskList.add(createDownloadTask(progressBar, responseBody, title));
                     } else {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                        R.string.download_error_message, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
+                                R.string.download_error_message, Toast.LENGTH_SHORT).show());
                     }
                 }
             }
@@ -68,12 +58,9 @@ public class SongDownloadTask extends BaseDownloadTask {
         return new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBar.setMax((int) responseBody.contentLength());
-                        progressBar.setProgress(INITIAL_PROGRESS);
-                    }
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    progressBar.setMax((int) responseBody.contentLength());
+                    progressBar.setProgress(INITIAL_PROGRESS);
                 });
                 writeResponseBodyToDisk(responseBody, Environment.DIRECTORY_MUSIC, title.concat(".mp3"));
 

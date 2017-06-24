@@ -27,13 +27,8 @@ public class ApkDownloadTask extends BaseDownloadTask {
                     if (responseBody != null && responseBody.contentLength() > 0) {
                         createDownloadTask(responseBody);
                     } else {
-                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                        R.string.download_error_message, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
+                                R.string.download_error_message, Toast.LENGTH_SHORT).show());
                     }
                 }
             }
