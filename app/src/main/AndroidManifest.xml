@@ -7,8 +7,6 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!--todo transparent icon-->
-
     <application
         android:name=".application.MusicApplication"
         android:allowBackup="true"
