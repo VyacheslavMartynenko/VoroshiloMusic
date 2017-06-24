@@ -117,9 +117,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     private void requestSettings() {
         new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(String url) {
                 if (MainActivity.this.isVisible()) {
-                    RatingDialogFragment dialog = new RatingDialogFragment();
+                    RatingDialogFragment dialog = RatingDialogFragment.newInstance(url);
                     dialog.show(getSupportFragmentManager(), "rating");
                 }
             }
