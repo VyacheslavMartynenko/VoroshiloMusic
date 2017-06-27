@@ -19,12 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
 import com.music.voroshilo.dialog.RatingDialogFragment;
+import com.music.voroshilo.dialog.ReportDialogFragment;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.interfaces.RuntimePermissionListener;
 import com.music.voroshilo.model.networking.DataBody;
@@ -84,6 +84,11 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         requestSongs(searchEditText.getText().toString());
         KeyboardUtil.hideKeyboard(this);
         showAd();
+    }
+
+    @OnClick(R.id.report_button)
+    void openReportDialog() {
+        reportSong();
     }
 
     @OnClick(R.id.download_button)
@@ -245,6 +250,12 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         };
         PermissionUtil.checkPermission(MainActivity.this, WRITE_EXTERNAL_STORAGE_PERMISSION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionListener);
+    }
+
+    @Override
+    public void reportSong() {
+        ReportDialogFragment reportDialogFragment = new ReportDialogFragment();
+        reportDialogFragment.show(getSupportFragmentManager(), "report");
     }
 
     @Override

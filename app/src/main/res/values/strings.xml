@@ -22,4 +22,6 @@
     <string name="menu_policy">Policy</string>
     <string name="report">Report this</string>
     <string name="license">License</string>
+    <string name="full_name">Full Name</string>
+    <string name="message">Message</string>
 </resources>

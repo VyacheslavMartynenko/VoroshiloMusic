@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -54,8 +55,11 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         final TextView songTitleTextView;
         final ImageView downloadButton;
         final ImageView playButton;
+        final Button reportButton;
 
         private View.OnClickListener playClickListener = view -> playOrPauseSong(getAdapterPosition());
+
+        private View.OnClickListener reportClickListener = view -> listener.reportSong();
 
         private View.OnClickListener getDownloadClickListener(final String imageUrl, final String mp3url, final String title) {
             return view -> {
@@ -72,8 +76,10 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             songTitleTextView = (TextView) itemView.findViewById(R.id.song_title);
             downloadButton = (ImageView) itemView.findViewById(R.id.download_button);
             playButton = (ImageView) itemView.findViewById(R.id.play_button);
+            reportButton = (Button) itemView.findViewById(R.id.report_button);
 
             playButton.setOnClickListener(playClickListener);
+            reportButton.setOnClickListener(reportClickListener);
         }
     }
 
