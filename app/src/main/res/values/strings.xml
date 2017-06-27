@@ -19,4 +19,5 @@
     <string name="download_error_message">Something went wrong. Please try again.</string>
     <string name="rate">rate</string>
     <string name="app_redirection">Download new app with free music</string>
+    <string name="menu_policy">Policy</string>
 </resources>
