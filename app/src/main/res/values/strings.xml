@@ -16,7 +16,8 @@
     <string name="search">search</string>
     <string name="search_hint">Type…</string>
     <string name="download_complete_message">File downloaded to: %s</string>
-    <string name="download_error_message">Something went wrong. Please try again.</string>
+    <string name="report_complete_message">Report was successfully sent</string>
+    <string name="download_error_message">Something went wrong. Please try again</string>
     <string name="rate">rate</string>
     <string name="app_redirection">Download new app with free music</string>
     <string name="menu_policy">Policy</string>
