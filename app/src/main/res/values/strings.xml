@@ -20,4 +20,6 @@
     <string name="rate">rate</string>
     <string name="app_redirection">Download new app with free music</string>
     <string name="menu_policy">Policy</string>
+    <string name="report">Report this</string>
+    <string name="license">License</string>
 </resources>

@@ -22,6 +22,26 @@
         android:gravity="center"
         android:maxLines="3" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            style="@style/MusicButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_privacy"
+            android:contentDescription="@string/license" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/report"
+            android:textSize="12sp" />
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/download_button"
         style="@style/MusicButton"
