@@ -32,7 +32,15 @@ public class PolicyActivity extends BaseActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         policyWebView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (policyWebView != null) {
+            policyWebView.loadUrl("about:blank");
+        }
+        super.onDestroy();
     }
 }
