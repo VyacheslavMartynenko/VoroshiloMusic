@@ -113,7 +113,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.policy:
-                
+                Intent intent = new Intent(this, PolicyActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -168,26 +169,26 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 @DataBody.DisplayMode
                 int displayMode = data.getBurstStatus();
                 switch (displayMode) {
-                    case DataBody.BUTTON:
-                        recyclerView.setVisibility(View.GONE);
-                        downloadButton.setVisibility(View.VISIBLE);
-                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
-                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                        params.addRule(RelativeLayout.BELOW, 0);
-                        break;
-                    case DataBody.MUSIC_AND_BUTTON:
-                        recyclerView.setVisibility(View.VISIBLE);
-                        downloadButton.setVisibility(View.VISIBLE);
-                        RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
-                        newParams.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
-                        newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
-                        requestSongs("");
-                        break;
-                    case DataBody.MUSIC:
-                        recyclerView.setVisibility(View.VISIBLE);
-                        downloadButton.setVisibility(View.GONE);
-                        requestSongs("");
-                        break;
+//                    case DataBody.BUTTON:
+//                        recyclerView.setVisibility(View.GONE);
+//                        downloadButton.setVisibility(View.VISIBLE);
+//                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
+//                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+//                        params.addRule(RelativeLayout.BELOW, 0);
+//                        break;
+//                    case DataBody.MUSIC_AND_BUTTON:
+//                        recyclerView.setVisibility(View.VISIBLE);
+//                        downloadButton.setVisibility(View.VISIBLE);
+//                        RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
+//                        newParams.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
+//                        newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
+//                        requestSongs("");
+//                        break;
+//                    case DataBody.MUSIC:
+//                        recyclerView.setVisibility(View.VISIBLE);
+//                        downloadButton.setVisibility(View.GONE);
+//                        requestSongs("");
+//                        break;
                 }
             }
 

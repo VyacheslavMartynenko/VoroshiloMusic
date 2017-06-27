@@ -4,6 +4,5 @@
     <item
         android:id="@+id/policy"
         android:title="@string/menu_policy"
-        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>
