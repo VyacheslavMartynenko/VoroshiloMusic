@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.music.voroshilo.R;
 import com.music.voroshilo.activity.BaseActivity;
 import com.music.voroshilo.application.MusicApplication;
+import com.music.voroshilo.model.networking.Download;
 import com.music.voroshilo.util.NotificationUtil;
 
 import java.io.File;
@@ -18,6 +19,16 @@ import java.io.OutputStream;
 import okhttp3.ResponseBody;
 
 abstract class BaseDownloadTask {
+    @Download.Type
+    public int type;
+
+    @Download.Type
+    abstract int setType();
+
+    BaseDownloadTask() {
+        this.type = setType();
+    }
+
     //todo rx-buffer
     boolean writeResponseBodyToDisk(ResponseBody body, String dir, String file) {
         try {
@@ -70,6 +81,6 @@ abstract class BaseDownloadTask {
         Context context = MusicApplication.getInstance().getApplicationContext();
         String title = context.getString(R.string.app_name);
         String text = context.getString(R.string.download_complete_message, filePath);
-        NotificationUtil.showNotification(title, text, dirPath);
+        NotificationUtil.showNotification(type, title, text, dirPath);
     }
 }

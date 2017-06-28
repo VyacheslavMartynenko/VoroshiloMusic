@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
+import com.music.voroshilo.model.networking.Download;
 import com.music.voroshilo.networking.ApiBuilder;
 
 import okhttp3.ResponseBody;
@@ -18,6 +19,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ApkDownloadTask extends BaseDownloadTask {
+
+    @Override
+    int setType() {
+        return Download.APK;
+    }
+
     public void downloadFile(String url) {
         ApiBuilder.getApiService().getApkFile(url).enqueue(new Callback<ResponseBody>() {
             @Override

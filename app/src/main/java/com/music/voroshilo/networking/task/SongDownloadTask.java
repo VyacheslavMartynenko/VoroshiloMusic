@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.interfaces.ProgressListener;
+import com.music.voroshilo.model.networking.Download;
 import com.music.voroshilo.networking.ApiBuilder;
 
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ import retrofit2.Response;
 public class SongDownloadTask extends BaseDownloadTask {
     public static final int INITIAL_PROGRESS = 0;
     private static List<AsyncTask> downloadTaskList = new ArrayList<>();
+
+    @Override
+    int setType() {
+        return Download.MUSIC;
+    }
 
     public static boolean isDownloading() {
         return downloadTaskList.size() > 0;
