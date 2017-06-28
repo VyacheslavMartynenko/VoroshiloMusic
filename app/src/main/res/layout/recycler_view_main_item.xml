@@ -29,6 +29,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/privacy_button"
             style="@style/MusicButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

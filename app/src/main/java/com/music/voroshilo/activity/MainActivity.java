@@ -87,6 +87,11 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         showAd();
     }
 
+    @OnClick(R.id.policy_button)
+    void showPrivacyActivity() {
+        startPolicyActivity("https://creativecommons.org/licenses/by/3.0/");
+    }
+
     @OnClick(R.id.report_button)
     void openReportDialog() {
         reportSong(songAdapter.getCurrentSong().getTitle());
@@ -119,8 +124,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.policy:
-                Intent intent = new Intent(this, PolicyActivity.class);
-                startActivity(intent);
+                startPolicyActivity("http://audiko.net/privacy.html");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -257,6 +261,17 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public void reportSong(String songName) {
         ReportDialogFragment reportDialogFragment = ReportDialogFragment.newInstance(songName);
         reportDialogFragment.show(getSupportFragmentManager(), "report");
+    }
+
+    @Override
+    public void showPrivacy(String url) {
+        startPolicyActivity(url);
+    }
+
+    public void startPolicyActivity(String url) {
+        Intent intent = new Intent(this, PolicyActivity.class);
+        intent.putExtra(PolicyActivity.URL, url);
+        startActivity(intent);
     }
 
     @Override

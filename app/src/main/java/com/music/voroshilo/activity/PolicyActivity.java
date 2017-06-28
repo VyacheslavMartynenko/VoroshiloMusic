@@ -2,6 +2,7 @@ package com.music.voroshilo.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import com.music.voroshilo.R;
@@ -9,6 +10,7 @@ import com.music.voroshilo.R;
 import butterknife.BindView;
 
 public class PolicyActivity extends BaseActivity {
+    public static final String URL = "url";
 
     @BindView(R.id.policy_web_view)
     WebView policyWebView;
@@ -21,7 +23,12 @@ public class PolicyActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        policyWebView.loadUrl("http://audiko.net/privacy.html");
+        if (getIntent() != null) {
+            String url = getIntent().getStringExtra(URL);
+            policyWebView.setWebChromeClient(new WebChromeClient());
+            policyWebView.getSettings().setJavaScriptEnabled(true);
+            policyWebView.loadUrl(url);
+        }
     }
 
     @Override

@@ -62,9 +62,12 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         final TextView songTitleTextView;
         final ImageView downloadButton;
         final ImageView playButton;
+        final ImageView privacyButton;
         final Button reportButton;
 
         private View.OnClickListener playClickListener = view -> playOrPauseSong(getAdapterPosition());
+
+        private View.OnClickListener privacyClickListener = view -> listener.showPrivacy("https://creativecommons.org/licenses/by/3.0/");
 
         private View.OnClickListener getReportClickListener(String title) {
             return v -> listener.reportSong(title);
@@ -85,9 +88,11 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             songTitleTextView = (TextView) itemView.findViewById(R.id.song_title);
             downloadButton = (ImageView) itemView.findViewById(R.id.download_button);
             playButton = (ImageView) itemView.findViewById(R.id.play_button);
+            privacyButton = (ImageView) itemView.findViewById(R.id.privacy_button);
             reportButton = (Button) itemView.findViewById(R.id.report_button);
 
             playButton.setOnClickListener(playClickListener);
+            privacyButton.setOnClickListener(privacyClickListener);
         }
     }
 
