@@ -12,12 +12,16 @@ public class Song {
     @SerializedName("mp3Url")
     private String mp3Url;
 
+    @SerializedName("videoId")
+    private String videoId;
+
     private boolean isSelected;
 
-    public Song(String title, String imageUrl, String mp3Url) {
+    public Song(String title, String imageUrl, String mp3Url, String videoId) {
         this.title = title;
         this.imageUrl = imageUrl;
         this.mp3Url = mp3Url;
+        this.videoId = videoId;
     }
 
     public String getTitle() {
@@ -42,6 +46,14 @@ public class Song {
 
     public void setMp3Url(String mp3Url) {
         this.mp3Url = mp3Url;
+    }
+
+    public String getVideoId() {
+        return videoId;
+    }
+
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 
     public boolean isSelected() {

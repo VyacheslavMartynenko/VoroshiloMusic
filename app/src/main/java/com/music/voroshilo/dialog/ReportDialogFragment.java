@@ -21,11 +21,13 @@ import retrofit2.Response;
 
 public class ReportDialogFragment extends BaseDialogFragment {
     private static final String SONG_NAME = "music_name";
+    private static final String VIDEO_ID = "video_id";
 
-    public static ReportDialogFragment newInstance(String songName) {
+    public static ReportDialogFragment newInstance(String songName, String videoId) {
 
         Bundle args = new Bundle();
         args.putString(SONG_NAME, songName);
+        args.putString(VIDEO_ID, videoId);
 
         ReportDialogFragment fragment = new ReportDialogFragment();
         fragment.setArguments(args);
@@ -47,6 +49,9 @@ public class ReportDialogFragment extends BaseDialogFragment {
         Bundle arguments = getArguments();
         if (arguments != null) {
             String songName = arguments.getString(SONG_NAME, "");
+            String videoId = arguments.getString(VIDEO_ID, "");
+            stringBuilderMessage.append(" ");
+            stringBuilderMessage.append(videoId);
             stringBuilderMessage.append(" ");
             stringBuilderMessage.append(songName);
         }

@@ -96,7 +96,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                 }
             } else if (v instanceof Button) {
                 Song song = songList.get(getAdapterPosition());
-                listener.reportSong(song.getTitle());
+                listener.reportSong(song.getTitle(), song.getVideoId());
             }
         }
     }
