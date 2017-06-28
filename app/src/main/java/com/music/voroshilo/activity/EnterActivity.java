@@ -46,7 +46,7 @@ public class EnterActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             setEnterButtonText(position);
-            showSplash();
+            showAd();
         }
 
         @Override
