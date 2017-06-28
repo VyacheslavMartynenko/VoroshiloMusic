@@ -38,7 +38,8 @@ public class NotificationService extends IntentService {
         switch (type) {
             case Download.APK:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                Uri uri = Uri.parse(path);
+                File file = new File(path);
+                Uri uri = Uri.fromFile(file);
                 intent.setDataAndType(uri, "*/*");
                 Intent chooserIntent = Intent.createChooser(intent, "Open").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -49,7 +50,8 @@ public class NotificationService extends IntentService {
             case Download.MUSIC:
                 Intent musicIntent = new Intent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 musicIntent.setAction(Intent.ACTION_VIEW);
-                Uri songUri = Uri.parse(path);
+                File songFile = new File(path);
+                Uri songUri = Uri.fromFile(songFile);
                 musicIntent.setDataAndType(songUri, "audio/*");
 
                 if (musicIntent.resolveActivityInfo(getPackageManager(), 0) != null) {

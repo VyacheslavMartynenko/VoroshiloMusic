@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
-import com.music.voroshilo.model.networking.Download;
 import com.music.voroshilo.service.NotificationService;
 
 import static com.music.voroshilo.service.NotificationService.DOWNLOAD_TYPE;

@@ -54,7 +54,7 @@ abstract class BaseDownloadTask {
                     outputStream.write(fileReader, 0, read);
                 }
                 outputStream.flush();
-                showCompleteMessage(downloadFile.getPath(), mediaStorageDir.getPath());
+                showCompleteMessage(downloadFile.getPath());
                 return true;
             } catch (IOException e) {
                 return false;
@@ -71,7 +71,7 @@ abstract class BaseDownloadTask {
         }
     }
 
-    private void showCompleteMessage(final String filePath, final String dirPath) {
+    private void showCompleteMessage(final String filePath) {
         final BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
         if (activity != null && activity.isVisible()) {
             activity.runOnUiThread(() -> Toast.makeText(activity,
@@ -81,6 +81,6 @@ abstract class BaseDownloadTask {
         Context context = MusicApplication.getInstance().getApplicationContext();
         String title = context.getString(R.string.app_name);
         String text = context.getString(R.string.download_complete_message, filePath);
-        NotificationUtil.showNotification(type, title, text, dirPath);
+        NotificationUtil.showNotification(type, title, text, filePath);
     }
 }
