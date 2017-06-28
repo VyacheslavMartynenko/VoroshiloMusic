@@ -11,6 +11,9 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiBuilder {
+    public static final String PRIVACY_URL = "http://audiko.net/privacy.html";
+    public static final String LICENSE_URL = "https://creativecommons.org/licenses/by/3.0/";
+
     private static final String BASE_URL = "https://mp3download.tube/";
     private static final String BASE_API_URL = "http://mp3download.guru/";
 

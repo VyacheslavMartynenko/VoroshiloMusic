@@ -30,6 +30,7 @@ import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.interfaces.RuntimePermissionListener;
 import com.music.voroshilo.model.networking.DataBody;
 import com.music.voroshilo.model.networking.Song;
+import com.music.voroshilo.networking.ApiBuilder;
 import com.music.voroshilo.networking.request.SettingsRequest;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.networking.task.ApkDownloadTask;
@@ -87,9 +88,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         showAd();
     }
 
-    @OnClick(R.id.policy_button)
+    @OnClick(R.id.license_button)
     void showPrivacyActivity() {
-        startPolicyActivity("https://creativecommons.org/licenses/by/3.0/");
+        startPolicyActivity(ApiBuilder.LICENSE_URL);
     }
 
     @OnClick(R.id.report_button)
@@ -124,7 +125,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.policy:
-                startPolicyActivity("http://audiko.net/privacy.html");
+                startPolicyActivity(ApiBuilder.PRIVACY_URL);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
