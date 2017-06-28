@@ -88,16 +88,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         showAd();
     }
 
-    @OnClick(R.id.license_button)
-    void showPrivacyActivity() {
-        startPolicyActivity(ApiBuilder.LICENSE_URL);
-    }
-
-    @OnClick(R.id.report_button)
-    void openReportDialog() {
-        reportSong(songAdapter.getCurrentSong().getTitle());
-    }
-
     @OnClick(R.id.download_button)
     void redirectToDownload() {
         if (marketUrl != null) {

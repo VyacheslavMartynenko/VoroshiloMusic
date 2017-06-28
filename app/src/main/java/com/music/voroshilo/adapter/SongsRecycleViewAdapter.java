@@ -22,13 +22,6 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private CurrentSongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
-    public Song getCurrentSong() {
-        if (currentPlayingSongPosition != RecyclerView.NO_POSITION) {
-            return songList.get(currentPlayingSongPosition);
-        }
-        return null;
-    }
-
     public void updateSongList(List<Song> newSongList) {
         songList.clear();
         songList.addAll(newSongList);
