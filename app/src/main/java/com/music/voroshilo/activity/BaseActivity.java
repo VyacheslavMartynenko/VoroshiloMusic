@@ -15,16 +15,16 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     private MusicApplication app;
 
-    private Bundle savedInstanceState;
+    private StartAppAd startAppAd = new StartAppAd(this);
     private boolean isActivityPaused = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (MusicApplication) this.getApplicationContext();
-        this.savedInstanceState = savedInstanceState;
         StartAppSDK.init(this, "205295421", true);
         StartAppAd.disableSplash();
+        StartAppAd.disableAutoInterstitial();
     }
 
     @Override
@@ -61,7 +61,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         return !isActivityPaused;
     }
 
-    public void showSplash() {
-        StartAppAd.showSplash(this, savedInstanceState);
+    public void showAd() {
+        startAppAd.showAd();
     }
 }
