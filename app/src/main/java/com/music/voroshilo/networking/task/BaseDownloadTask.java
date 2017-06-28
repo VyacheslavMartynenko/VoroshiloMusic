@@ -20,7 +20,7 @@ import okhttp3.ResponseBody;
 
 abstract class BaseDownloadTask {
     @Download.Type
-    public int type;
+    private int type;
 
     @Download.Type
     abstract int setType();
