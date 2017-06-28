@@ -15,12 +15,14 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     private MusicApplication app;
 
+    private Bundle savedInstanceState;
     private boolean isActivityPaused = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (MusicApplication) this.getApplicationContext();
+        this.savedInstanceState = savedInstanceState;
         StartAppSDK.init(this, "205295421", true);
         StartAppAd.disableSplash();
     }
@@ -57,5 +59,9 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     public boolean isVisible() {
         return !isActivityPaused;
+    }
+
+    public void showSplash() {
+        StartAppAd.showSplash(this, savedInstanceState);
     }
 }
