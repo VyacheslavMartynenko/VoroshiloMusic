@@ -85,7 +85,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public void searchSongs() {
         requestSongs(searchEditText.getText().toString());
         KeyboardUtil.hideKeyboard(this);
-        showAd();
     }
 
     @OnClick(R.id.license_button)
