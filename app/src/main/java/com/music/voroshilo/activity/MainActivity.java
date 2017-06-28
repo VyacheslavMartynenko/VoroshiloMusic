@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @OnClick(R.id.report_button)
     void openReportDialog() {
-        reportSong();
+        reportSong(songAdapter.getCurrentSong().getTitle());
     }
 
     @OnClick(R.id.download_button)
@@ -254,8 +254,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     @Override
-    public void reportSong() {
-        ReportDialogFragment reportDialogFragment = new ReportDialogFragment();
+    public void reportSong(String songName) {
+        ReportDialogFragment reportDialogFragment = ReportDialogFragment.newInstance(songName);
         reportDialogFragment.show(getSupportFragmentManager(), "report");
     }
 

@@ -5,5 +5,5 @@ public interface CurrentSongListener {
 
     void downloadSong(String imageUrl, String mp3Url, String title);
 
-    void reportSong();
+    void reportSong(String songName);
 }

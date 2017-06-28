@@ -1,11 +1,11 @@
 package com.music.voroshilo.dialog;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.music.voroshilo.R;
@@ -20,6 +20,17 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ReportDialogFragment extends BaseDialogFragment {
+    private static final String SONG_NAME = "music_name";
+
+    public static ReportDialogFragment newInstance(String songName) {
+
+        Bundle args = new Bundle();
+        args.putString(SONG_NAME, songName);
+
+        ReportDialogFragment fragment = new ReportDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @BindView(R.id.name_edit_text)
     TextInputEditText nameEditText;
@@ -31,7 +42,15 @@ public class ReportDialogFragment extends BaseDialogFragment {
     void sendReport() {
         String fullName = nameEditText.getText().toString();
         String message = messageEditText.getText().toString();
-        ApiBuilder.getApiService().reportSong(fullName, message).enqueue(new Callback<ResponseBody>() {
+        StringBuilder stringBuilderMessage = new StringBuilder();
+        stringBuilderMessage.append(message);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            String songName = arguments.getString(SONG_NAME, "");
+            stringBuilderMessage.append(" ");
+            stringBuilderMessage.append(songName);
+        }
+        ApiBuilder.getApiService().reportSong(fullName, stringBuilderMessage.toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {

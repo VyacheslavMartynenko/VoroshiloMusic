@@ -21,6 +21,13 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private CurrentSongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
+    public Song getCurrentSong() {
+        if (currentPlayingSongPosition != RecyclerView.NO_POSITION) {
+            return songList.get(currentPlayingSongPosition);
+        }
+        return null;
+    }
+
     public void updateSongList(List<Song> newSongList) {
         songList.clear();
         songList.addAll(newSongList);
@@ -59,7 +66,9 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
 
         private View.OnClickListener playClickListener = view -> playOrPauseSong(getAdapterPosition());
 
-        private View.OnClickListener reportClickListener = view -> listener.reportSong();
+        private View.OnClickListener getReportClickListener(String title) {
+            return v -> listener.reportSong(title);
+        }
 
         private View.OnClickListener getDownloadClickListener(final String imageUrl, final String mp3url, final String title) {
             return view -> {
@@ -79,7 +88,6 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             reportButton = (Button) itemView.findViewById(R.id.report_button);
 
             playButton.setOnClickListener(playClickListener);
-            reportButton.setOnClickListener(reportClickListener);
         }
     }
 
@@ -100,6 +108,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         }
         holder.songTitleTextView.setText(song.getTitle());
         holder.downloadButton.setOnClickListener(holder.getDownloadClickListener(song.getImageUrl(), song.getMp3Url(), song.getTitle()));
+        holder.reportButton.setOnClickListener(holder.getReportClickListener(song.getTitle()));
         SongIconChanger.loadDrawableWithPicasso(context, holder.coverImageView, song.getImageUrl());
     }
 
