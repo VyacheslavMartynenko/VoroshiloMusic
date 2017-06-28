@@ -27,6 +27,7 @@ import retrofit2.Response;
 public class SongDownloadTask extends BaseDownloadTask {
     public static final int INITIAL_PROGRESS = 0;
     private static List<AsyncTask> downloadTaskList = new ArrayList<>();
+    private int timeCount = 1;
 
     @Override
     int setType() {
@@ -38,9 +39,18 @@ public class SongDownloadTask extends BaseDownloadTask {
     }
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
+        long startTime = System.currentTimeMillis();
         final ProgressListener progressListener = (bytesRead, contentLength, done) -> {
             progressBar.setProgress((int) bytesRead);
-            NotificationUtil.showProgressNotification(bytesRead, contentLength, done);
+            if (!done) {
+                long currentTime = System.currentTimeMillis() - startTime;
+                if (currentTime > 1000 * timeCount) {
+                    NotificationUtil.showProgressNotification(bytesRead, contentLength);
+                    timeCount++;
+                }
+            } else {
+                NotificationUtil.cancelProgressNotification();
+            }
         };
 
         ApiBuilder.getDownloadService(progressListener).getFile(url).enqueue(new Callback<ResponseBody>() {
