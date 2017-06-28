@@ -22,7 +22,6 @@ public class NotificationService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         if (intent != null) {
-            Log.e("Start", "Complete");
             String action = intent.getAction();
             if (action != null && action.equals(MUSIC_DOWNLOAD_ACTION)) {
                 String path = intent.getStringExtra(MUSIC_DOWNLOAD_PATH);
@@ -35,11 +34,12 @@ public class NotificationService extends IntentService {
     }
 
     private void showFolder(@Download.Type int type, String path) {
+        File file = new File(path);
+        Uri uri = Uri.fromFile(file);
+
         switch (type) {
             case Download.APK:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                File file = new File(path);
-                Uri uri = Uri.fromFile(file);
                 intent.setDataAndType(uri, "*/*");
                 Intent chooserIntent = Intent.createChooser(intent, "Open").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -48,11 +48,8 @@ public class NotificationService extends IntentService {
                 }
                 break;
             case Download.MUSIC:
-                Intent musicIntent = new Intent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                musicIntent.setAction(Intent.ACTION_VIEW);
-                File songFile = new File(path);
-                Uri songUri = Uri.fromFile(songFile);
-                musicIntent.setDataAndType(songUri, "audio/*");
+                Intent musicIntent = new Intent(Intent.ACTION_VIEW).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                musicIntent.setDataAndType(uri, "audio/*");
 
                 if (musicIntent.resolveActivityInfo(getPackageManager(), 0) != null) {
                     startActivity(musicIntent);
