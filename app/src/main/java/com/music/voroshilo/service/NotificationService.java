@@ -4,7 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 
+import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.model.networking.Download;
 
 import java.io.File;
@@ -34,7 +36,8 @@ public class NotificationService extends IntentService {
 
     private void showFolder(@Download.Type int type, String path) {
         File file = new File(path);
-        Uri uri = Uri.fromFile(file);
+        Uri uri = FileProvider.getUriForFile(MusicApplication.getInstance().getApplicationContext(),
+                "com.music.voroshilo.fileProvider", file);
 
         switch (type) {
             case Download.APK:
