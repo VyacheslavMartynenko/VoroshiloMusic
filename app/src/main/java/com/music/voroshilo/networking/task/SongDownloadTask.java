@@ -14,6 +14,7 @@ import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.model.networking.Download;
 import com.music.voroshilo.networking.ApiBuilder;
+import com.music.voroshilo.util.NotificationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,10 @@ public class SongDownloadTask extends BaseDownloadTask {
     }
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
-        final ProgressListener progressListener = (bytesRead, contentLength, done) -> progressBar.setProgress((int) bytesRead);
+        final ProgressListener progressListener = (bytesRead, contentLength, done) -> {
+            progressBar.setProgress((int) bytesRead);
+            NotificationUtil.showProgressNotification(bytesRead, contentLength, done);
+        };
 
         ApiBuilder.getDownloadService(progressListener).getFile(url).enqueue(new Callback<ResponseBody>() {
             @Override

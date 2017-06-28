@@ -12,12 +12,18 @@ import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.service.NotificationService;
 
+import java.util.Locale;
+
 import static com.music.voroshilo.service.NotificationService.DOWNLOAD_TYPE;
 import static com.music.voroshilo.service.NotificationService.MUSIC_DOWNLOAD_ACTION;
 import static com.music.voroshilo.service.NotificationService.MUSIC_DOWNLOAD_PATH;
 
 public class NotificationUtil {
     private static final int MUSIC_DOWNLOAD_NOTIFICATION_ID = 100;
+    private static final int MUSIC_DOWNLOAD_NOTIFICATION_PROGRESS = 101;
+
+    private static NotificationManagerCompat managerCompat = NotificationManagerCompat
+            .from(MusicApplication.getInstance().getApplicationContext());
 
     public static void showNotification(int type, String title, String text, String path) {
         Context context = MusicApplication.getInstance().getApplicationContext();
@@ -41,5 +47,22 @@ public class NotificationUtil {
         intent.putExtra(MUSIC_DOWNLOAD_PATH, path);
         intent.putExtra(DOWNLOAD_TYPE, type);
         return PendingIntent.getService(context, MUSIC_DOWNLOAD_NOTIFICATION_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    public static void showProgressNotification(long bytesRead, long contentLength, boolean done) {
+        if (!done) {
+            Context context = MusicApplication.getInstance().getApplicationContext();
+            Notification notification = new NotificationCompat
+                    .Builder(context)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentText(String.format(Locale.US, "Downloading file \"%1.2f MB / \"%1.2f MB", (bytesRead / (double) 1024000), (contentLength / (double) 1024000)))
+                    .setProgress((int) contentLength, (int) bytesRead, false)
+                    .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+                    .build();
+
+            managerCompat.notify(MUSIC_DOWNLOAD_NOTIFICATION_PROGRESS, notification);
+        } else {
+            managerCompat.cancel(MUSIC_DOWNLOAD_NOTIFICATION_PROGRESS);
+        }
     }
 }
