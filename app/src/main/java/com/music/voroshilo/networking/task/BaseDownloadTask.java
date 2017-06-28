@@ -28,13 +28,13 @@ abstract class BaseDownloadTask {
                     return false;
                 }
             }
-            final File musicFile = new File(mediaStorageDir + File.separator + file);
+            final File downloadFile = new File(mediaStorageDir + File.separator + file);
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {
                 byte[] fileReader = new byte[4096];
                 inputStream = body.byteStream();
-                outputStream = new FileOutputStream(musicFile);
+                outputStream = new FileOutputStream(downloadFile);
                 while (true) {
                     int read = inputStream.read(fileReader);
                     if (read == -1) {
@@ -43,7 +43,7 @@ abstract class BaseDownloadTask {
                     outputStream.write(fileReader, 0, read);
                 }
                 outputStream.flush();
-                showCompleteMessage(musicFile.getPath(), mediaStorageDir.getPath());
+                showCompleteMessage(downloadFile.getPath(), mediaStorageDir.getPath());
                 return true;
             } catch (IOException e) {
                 return false;
