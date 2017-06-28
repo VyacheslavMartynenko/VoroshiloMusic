@@ -66,6 +66,8 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         final ImageView licenseButton;
         final Button reportButton;
 
+        //todo refactor click listeners
+
         private View.OnClickListener playClickListener = view -> playOrPauseSong(getAdapterPosition());
 
         private View.OnClickListener licenseClickListener = view -> listener.showPrivacy(ApiBuilder.LICENSE_URL);
