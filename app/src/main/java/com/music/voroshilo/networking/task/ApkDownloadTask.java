@@ -1,22 +1,22 @@
 package com.music.voroshilo.networking.task;
 
-import android.os.AsyncTask;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.model.networking.Download;
-import com.music.voroshilo.networking.ApiBuilder;
+import com.music.voroshilo.util.NotificationUtil;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.io.File;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class ApkDownloadTask extends BaseDownloadTask {
 
@@ -26,35 +26,29 @@ public class ApkDownloadTask extends BaseDownloadTask {
     }
 
     public void downloadFile(String url) {
-        ApiBuilder.getApiService().getApkFile(url).enqueue(new Callback<ResponseBody>() {
+        String title = "MusicDownloader";
+        MusicApplication musicApplication = MusicApplication.getInstance();
+        String appName = musicApplication.getString(R.string.app_name);
+        String filePath = File.separator + appName + File.separator + title + ".mp3";
+
+        DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle("Download " + title);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filePath);
+        dm.enqueue(request);
+
+        BroadcastReceiver onComplete = new BroadcastReceiver() {
             @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    final ResponseBody responseBody = response.body();
-                    if (responseBody != null && responseBody.contentLength() > 0) {
-                        createDownloadTask(responseBody);
-                    } else {
-                        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                R.string.download_error_message, Toast.LENGTH_SHORT).show());
-                    }
+            public void onReceive(Context context, Intent intent) {
+                try {
+                    MusicApplication.getInstance().unregisterReceiver(this);
+                    NotificationUtil.showNotification(Download.APK, "Download complete " + title,
+                            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
+                } catch (Exception e) {
+                    Log.e(ApkDownloadTask.this.getClass().getSimpleName(), Log.getStackTraceString(e));
                 }
             }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e(SongDownloadTask.class.getSimpleName(), Log.getStackTraceString(t));
-            }
-        });
-    }
-
-    private AsyncTask<Void, Void, Void> createDownloadTask(final ResponseBody responseBody) {
-        return new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                writeResponseBodyToDisk(responseBody, Environment.DIRECTORY_DOWNLOADS, "music_downloader.apk");
-
-                return null;
-            }
-        }.execute();
+        };
+        MusicApplication.getInstance().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 }
