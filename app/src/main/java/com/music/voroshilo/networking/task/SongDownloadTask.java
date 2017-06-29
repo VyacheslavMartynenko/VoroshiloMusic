@@ -1,33 +1,26 @@
 package com.music.voroshilo.networking.task;
 
+import android.app.DownloadManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
-import com.music.voroshilo.interfaces.ProgressListener;
 import com.music.voroshilo.model.networking.Download;
-import com.music.voroshilo.networking.ApiBuilder;
-import com.music.voroshilo.util.NotificationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class SongDownloadTask extends BaseDownloadTask {
     public static final int INITIAL_PROGRESS = 0;
+    private Handler handler = new Handler(Looper.getMainLooper());
     private static List<AsyncTask> downloadTaskList = new ArrayList<>();
-    private int timeCount = 1;
 
     @Override
     int setType() {
@@ -39,59 +32,36 @@ public class SongDownloadTask extends BaseDownloadTask {
     }
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
-        long startTime = System.currentTimeMillis();
-        final ProgressListener progressListener = (bytesRead, contentLength, done) -> {
-            progressBar.setProgress((int) bytesRead);
-            if (!done) {
-                long currentTime = System.currentTimeMillis() - startTime;
-                if (currentTime > 1000 * timeCount) {
-                    NotificationUtil.showProgressNotification(bytesRead, contentLength);
-                    timeCount++;
-                }
-            } else {
-                NotificationUtil.cancelProgressNotification();
-            }
-        };
-
-        ApiBuilder.getDownloadService(progressListener).getFile(url).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    final ResponseBody responseBody = response.body();
-                    if (responseBody != null && responseBody.contentLength() > 0) {
-                        downloadTaskList.add(createDownloadTask(progressBar, responseBody, title));
-                    } else {
-                        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                R.string.download_error_message, Toast.LENGTH_SHORT).show());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e(SongDownloadTask.class.getSimpleName(), Log.getStackTraceString(t));
-            }
-        });
+        MusicApplication musicApplication = MusicApplication.getInstance();
+        DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setTitle("Download " + title);
+        request.setDestinationInExternalFilesDir(musicApplication.getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, title + ".mp3");
+        long id = dm.enqueue(request);
+        handler.post(getRunnable(progressBar, dm, id));
     }
 
-    private AsyncTask<Void, Void, Void> createDownloadTask(final ProgressBar progressBar, final ResponseBody responseBody, final String title) {
-        return new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    progressBar.setMax((int) responseBody.contentLength());
-                    progressBar.setProgress(INITIAL_PROGRESS);
-                });
-                writeResponseBodyToDisk(responseBody, Environment.DIRECTORY_MUSIC, title.concat(".mp3"));
+    private Runnable getRunnable(ProgressBar progressBar, DownloadManager dm, long id) {
+        return () -> {
+            progressBar.setProgress(getProgress(dm, id));
+            handler.postDelayed(getRunnable(progressBar, dm, id), 1000);
+        };
+    }
 
-                return null;
-            }
+    private int getProgress(DownloadManager dm, long id) {
+        int progress = 0;
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                downloadTaskList.remove(this);
-                super.onPostExecute(aVoid);
-            }
-        }.execute();
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(id);
+
+        Cursor c = dm.query(query);
+        if (c.moveToFirst()) {
+            int sizeIndex = c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
+            int downloadedIndex = c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
+            long size = c.getInt(sizeIndex);
+            long downloaded = c.getInt(downloadedIndex);
+            if (size != -1) progress = (int) (downloaded * 100.0 / size);
+        }
+        return progress;
     }
 }
