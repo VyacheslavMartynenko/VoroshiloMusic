@@ -29,7 +29,7 @@ public class ApkDownloadTask extends BaseDownloadTask {
         String title = "MusicDownloader";
         MusicApplication musicApplication = MusicApplication.getInstance();
         String appName = musicApplication.getString(R.string.app_name);
-        String filePath = File.separator + appName + File.separator + title + ".mp3";
+        String filePath = File.separator + appName + File.separator + title + ".apk";
 
         DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
