@@ -33,7 +33,7 @@ public class ApkDownloadTask extends BaseDownloadTask {
 
         DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle("Download " + title);
+        request.setTitle(musicApplication.getString(R.string.download_progress) + title);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filePath);
         dm.enqueue(request);
 
@@ -42,7 +42,7 @@ public class ApkDownloadTask extends BaseDownloadTask {
             public void onReceive(Context context, Intent intent) {
                 try {
                     MusicApplication.getInstance().unregisterReceiver(this);
-                    NotificationUtil.showNotification(Download.APK, "Download complete " + title,
+                    NotificationUtil.showNotification(Download.APK, musicApplication.getString(R.string.download_complete) + title,
                             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
                 } catch (Exception e) {
                     Log.e(ApkDownloadTask.this.getClass().getSimpleName(), Log.getStackTraceString(e));

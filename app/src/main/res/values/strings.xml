@@ -15,7 +15,6 @@
     <string name="play">play</string>
     <string name="search">search</string>
     <string name="search_hint">Type…</string>
-    <string name="download_complete_message">File downloaded to: %s</string>
     <string name="report_complete_message">Report was successfully sent</string>
     <string name="download_error_message">Something went wrong. Please try again</string>
     <string name="rate">rate</string>
@@ -29,4 +28,5 @@
     <string name="apk_name">MusicDownloader</string>
     <string name="download_process">Download</string>
     <string name="download_complete">Download complete</string>
+    <string name="download_progress">Download</string>
 </resources>

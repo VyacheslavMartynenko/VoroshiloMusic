@@ -44,7 +44,7 @@ public class SongDownloadTask extends BaseDownloadTask {
 
         DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle("Download " + title);
+        request.setTitle(musicApplication.getString(R.string.download_progress) + " " + title);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filePath);
         long id = dm.enqueue(request);
         downloadTaskList.add(id);
@@ -57,7 +57,7 @@ public class SongDownloadTask extends BaseDownloadTask {
             } else {
                 handler.removeCallbacks(runnable);
                 downloadTaskList.remove(id);
-                NotificationUtil.showNotification(Download.MUSIC, "Download complete " + title,
+                NotificationUtil.showNotification(Download.MUSIC, musicApplication.getString(R.string.download_complete) + " " + title,
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
             }
         };
