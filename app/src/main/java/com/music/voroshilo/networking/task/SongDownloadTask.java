@@ -21,6 +21,9 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 
 public class SongDownloadTask extends BaseDownloadTask {
     public static final int INITIAL_PROGRESS = 0;
+    private static final int MAX_PROGRESS = 100;
+    private static final int UPDATE_TIME = 1000;
+
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable runnable;
     private static List<Long> downloadTaskList = new ArrayList<>();
@@ -49,8 +52,8 @@ public class SongDownloadTask extends BaseDownloadTask {
         runnable = () -> {
             int progress = getProgress(dm, id);
             progressBar.setProgress(progress);
-            if (progress != 100) {
-                handler.postDelayed(runnable, 1000);
+            if (progress != MAX_PROGRESS) {
+                handler.postDelayed(runnable, UPDATE_TIME);
             } else {
                 handler.removeCallbacks(runnable);
                 downloadTaskList.remove(id);

@@ -26,4 +26,7 @@
     <string name="license">License</string>
     <string name="full_name">Full Name</string>
     <string name="message">Message</string>
+    <string name="apk_name">MusicDownloader</string>
+    <string name="download_process">Download</string>
+    <string name="download_complete">Download complete</string>
 </resources>
