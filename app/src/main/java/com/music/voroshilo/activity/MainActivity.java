@@ -49,6 +49,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
+    private SongDownloadTask songDownloadTask = new SongDownloadTask();
     private RuntimePermissionListener permissionListener;
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;
@@ -236,7 +237,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                         SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
                     }
                 }
-                new SongDownloadTask().downloadFile(mp3Url, title, downloadProgressBar);
+                songDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
             }
 
             @Override

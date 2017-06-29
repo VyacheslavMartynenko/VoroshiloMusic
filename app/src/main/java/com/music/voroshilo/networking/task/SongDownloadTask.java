@@ -3,7 +3,6 @@ package com.music.voroshilo.networking.task;
 import android.app.DownloadManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,8 +23,7 @@ public class SongDownloadTask extends BaseDownloadTask {
     public static final int INITIAL_PROGRESS = 0;
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable runnable;
-
-    private static List<AsyncTask> downloadTaskList = new ArrayList<>();
+    private static List<Long> downloadTaskList = new ArrayList<>();
 
     @Override
     int setType() {
@@ -46,6 +44,7 @@ public class SongDownloadTask extends BaseDownloadTask {
         request.setTitle("Download " + title);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filePath);
         long id = dm.enqueue(request);
+        downloadTaskList.add(id);
 
         runnable = () -> {
             int progress = getProgress(dm, id);
@@ -54,6 +53,7 @@ public class SongDownloadTask extends BaseDownloadTask {
                 handler.postDelayed(runnable, 1000);
             } else {
                 handler.removeCallbacks(runnable);
+                downloadTaskList.remove(id);
                 NotificationUtil.showNotification(Download.MUSIC, "Download complete " + title,
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
             }
