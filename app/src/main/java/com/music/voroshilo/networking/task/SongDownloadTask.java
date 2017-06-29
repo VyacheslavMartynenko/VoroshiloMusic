@@ -9,9 +9,12 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.ProgressBar;
 
+import com.music.voroshilo.R;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.model.networking.Download;
+import com.music.voroshilo.util.NotificationUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,8 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 public class SongDownloadTask extends BaseDownloadTask {
     public static final int INITIAL_PROGRESS = 0;
     private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable runnable;
+
     private static List<AsyncTask> downloadTaskList = new ArrayList<>();
 
     @Override
@@ -33,19 +38,27 @@ public class SongDownloadTask extends BaseDownloadTask {
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
         MusicApplication musicApplication = MusicApplication.getInstance();
+        String appName = musicApplication.getString(R.string.app_name);
+        String filePath = File.separator + appName + File.separator + title + ".mp3";
+
         DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle("Download " + title);
-        request.setDestinationInExternalFilesDir(musicApplication.getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, title + ".mp3");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filePath);
         long id = dm.enqueue(request);
-        handler.post(getRunnable(progressBar, dm, id));
-    }
 
-    private Runnable getRunnable(ProgressBar progressBar, DownloadManager dm, long id) {
-        return () -> {
-            progressBar.setProgress(getProgress(dm, id));
-            handler.postDelayed(getRunnable(progressBar, dm, id), 1000);
+        runnable = () -> {
+            int progress = getProgress(dm, id);
+            progressBar.setProgress(progress);
+            if (progress != 100) {
+                handler.postDelayed(runnable, 1000);
+            } else {
+                handler.removeCallbacks(runnable);
+                NotificationUtil.showNotification(Download.MUSIC, "Download complete " + title,
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
+            }
         };
+        handler.post(runnable);
     }
 
     private int getProgress(DownloadManager dm, long id) {

@@ -29,7 +29,6 @@ abstract class BaseDownloadTask {
         this.type = setType();
     }
 
-    //todo rx-buffer
     boolean writeResponseBodyToDisk(ResponseBody body, String dir, String file) {
         try {
             File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(dir),
@@ -80,7 +79,6 @@ abstract class BaseDownloadTask {
         }
         Context context = MusicApplication.getInstance().getApplicationContext();
         String title = context.getString(R.string.app_name);
-        String text = context.getString(R.string.download_complete_message, filePath);
-        NotificationUtil.showNotification(type, title, text, filePath);
+        NotificationUtil.showNotification(type, title, filePath);
     }
 }
