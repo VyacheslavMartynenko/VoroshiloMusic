@@ -50,7 +50,7 @@ public class NotificationService extends IntentService {
                 }
                 break;
             case Download.MUSIC:
-                Intent musicIntent = new Intent(Intent.ACTION_VIEW).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent musicIntent = new Intent(Intent.ACTION_VIEW).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 musicIntent.setDataAndType(uri, "audio/*");
 
                 if (musicIntent.resolveActivityInfo(getPackageManager(), 0) != null) {
