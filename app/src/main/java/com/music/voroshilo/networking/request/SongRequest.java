@@ -20,7 +20,13 @@ public class SongRequest {
     }
 
     public void requestSongs(String query, final SongCallback songCallback) {
-        ApiBuilder.getMusicService().getSongsList(query).enqueue(new Callback<SongsResponseBody>() {
+        Call<SongsResponseBody> call;
+        if (query != null && !query.equals("")) {
+            call = ApiBuilder.getApiService().getSongsList(query);
+        } else {
+            call = ApiBuilder.getApiService().getTopSongsList();
+        }
+        call.enqueue(new Callback<SongsResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<SongsResponseBody> call, @NonNull Response<SongsResponseBody> response) {
                 if (response.isSuccessful()) {
