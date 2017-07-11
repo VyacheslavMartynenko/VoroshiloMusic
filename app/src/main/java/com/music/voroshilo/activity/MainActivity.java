@@ -24,6 +24,7 @@ import android.widget.SeekBar;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
+import com.music.voroshilo.dialog.RatingDialogFragment;
 import com.music.voroshilo.dialog.ReportDialogFragment;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.interfaces.RuntimePermissionListener;
@@ -182,6 +183,21 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 requestSongs("");
                 break;
         }
+        
+        boolean isAppRated = UserPreferences.getInstance().isAppRated();
+        if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
+            String popUpUrl = UserPreferences.getInstance().getPopUpUrl();
+            RatingDialogFragment dialog = RatingDialogFragment.newInstance(popUpUrl);
+            dialog.show(getSupportFragmentManager(), "rating");
+        }
+    }
+
+    private boolean isFirstLaunch() {
+        boolean isFirstRun = UserPreferences.getInstance().isFirstLaunch();
+        if (isFirstRun) {
+            UserPreferences.getInstance().setIsFirstLaunch();
+        }
+        return isFirstRun;
     }
 
     @Override

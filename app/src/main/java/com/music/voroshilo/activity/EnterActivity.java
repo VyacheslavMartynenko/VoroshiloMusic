@@ -88,14 +88,10 @@ public class EnterActivity extends BaseActivity {
         new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
             @Override
             public void onSuccess(DataBody data) {
-                boolean isAppRated = UserPreferences.getInstance().isAppRated();
-                if (EnterActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
-                    RatingDialogFragment dialog = RatingDialogFragment.newInstance(data.getPopupUrl());
-                    dialog.show(getSupportFragmentManager(), "rating");
-                }
                 UserPreferences.getInstance().setBustStatus(data.getBurstStatus());
                 UserPreferences.getInstance().setMarketUrl(data.getBurstUrl());
                 UserPreferences.getInstance().setAdStatus(data.getNetType());
+                UserPreferences.getInstance().setPopUpUrl(data.getPopupUrl());
             }
 
             @Override
@@ -103,13 +99,5 @@ public class EnterActivity extends BaseActivity {
                 Log.e("onResponse: ", Log.getStackTraceString(throwable));
             }
         });
-    }
-
-    private boolean isFirstLaunch() {
-        boolean isFirstRun = UserPreferences.getInstance().isFirstLaunch();
-        if (isFirstRun) {
-            UserPreferences.getInstance().setIsFirstLaunch();
-        }
-        return isFirstRun;
     }
 }

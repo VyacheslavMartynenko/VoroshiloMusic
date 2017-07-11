@@ -9,6 +9,7 @@ public class UserPreferences extends AbstractPreferences {
     private static final String PREFERENCES = "UserPreferences";
     private static final String IS_FIRST_LAUNCH = "IsFirstLaunch";
     private static final String IS_APP_RATED = "IsFirstLaunch";
+    private static final String POP_UP_URL = "PopUpUrl";
     private static final String BURST_STATUS = "BurstStatus";
     private static final String MARKET_URL = "MarketUrl";
     private static final String AD_STATUS = "AdStatus";
@@ -33,6 +34,14 @@ public class UserPreferences extends AbstractPreferences {
 
     public void setIsFirstLaunch() {
         preferences.edit().putBoolean(IS_FIRST_LAUNCH, false).apply();
+    }
+
+    public String getPopUpUrl() {
+        return preferences.getString(POP_UP_URL, null);
+    }
+
+    public void setPopUpUrl(String popUpUrl) {
+        preferences.edit().putString(POP_UP_URL, popUpUrl).apply();
     }
 
     public boolean isAppRated() {
