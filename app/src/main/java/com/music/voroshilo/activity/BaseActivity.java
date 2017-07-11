@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
+import com.appodeal.ads.Appodeal;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.model.networking.DataBody;
 import com.music.voroshilo.util.preferences.UserPreferences;
@@ -28,6 +29,10 @@ abstract public class BaseActivity extends AppCompatActivity {
         int adStatus = UserPreferences.getInstance().getAdStatus();
         switch (adStatus) {
             case DataBody.APPODEAL:
+                Appodeal.disableNetwork(this, "cheetah");
+                String appKey = "f6475db1ac03100428c424b948f6af7b2d96e45a248084c4";
+                Appodeal.disableLocationPermissionCheck();
+                Appodeal.initialize(this, appKey, Appodeal.INTERSTITIAL);
                 break;
             case DataBody.NO:
                 break;
@@ -74,6 +79,17 @@ abstract public class BaseActivity extends AppCompatActivity {
     }
 
     public void showAd() {
-        startAppAd.showAd();
+        @DataBody.AdMode
+        int adStatus = UserPreferences.getInstance().getAdStatus();
+        switch (adStatus) {
+            case DataBody.APPODEAL:
+                Appodeal.show(this, Appodeal.INTERSTITIAL);
+                break;
+            case DataBody.NO:
+                break;
+            case DataBody.START_APP:
+                startAppAd.showAd();
+                break;
+        }
     }
 }
