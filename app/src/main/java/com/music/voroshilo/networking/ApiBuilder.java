@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiBuilder {
     public static final String PRIVACY_URL = "http://audiko.net/privacy.html";
     public static final String LICENSE_URL = "https://creativecommons.org/licenses/by/3.0/";
-    private static final String BASE_API_URL = "http://mp3download.guru/";
+    private static final String BASE_API_URL = "http://newgeneration.asoptimize.me/";
 
     private static ApiBuilder apiBuilder;
     private final ApiService apiService;
