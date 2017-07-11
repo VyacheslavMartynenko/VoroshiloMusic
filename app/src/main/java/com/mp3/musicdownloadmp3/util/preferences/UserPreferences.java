@@ -12,6 +12,7 @@ public class UserPreferences extends AbstractPreferences {
     private static final String BURST_STATUS = "BurstStatus";
     private static final String MARKET_URL = "MarketUrl";
     private static final String AD_STATUS = "AdStatus";
+    private static final String POP_UP_STATUS = "PopUpStatus";
 
     private static UserPreferences instance;
 
@@ -73,5 +74,13 @@ public class UserPreferences extends AbstractPreferences {
 
     public void setAdStatus(int adStatus) {
         preferences.edit().putInt(AD_STATUS, adStatus).apply();
+    }
+
+    public int getPopUpStatus() {
+        return preferences.getInt(POP_UP_STATUS, DataBody.APPODEAL);
+    }
+
+    public void setPopUpStatus(int popUpStatus) {
+        preferences.edit().putInt(POP_UP_STATUS, popUpStatus).apply();
     }
 }

@@ -183,12 +183,14 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 requestSongs("");
                 break;
         }
-        
-        boolean isAppRated = UserPreferences.getInstance().isAppRated();
-        if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
-            String popUpUrl = UserPreferences.getInstance().getPopUpUrl();
-            RatingDialogFragment dialog = RatingDialogFragment.newInstance(popUpUrl);
-            dialog.show(getSupportFragmentManager(), "rating");
+
+        if (UserPreferences.getInstance().getPopUpStatus() != 0) {
+            boolean isAppRated = UserPreferences.getInstance().isAppRated();
+            if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
+                String popUpUrl = UserPreferences.getInstance().getPopUpUrl();
+                RatingDialogFragment dialog = RatingDialogFragment.newInstance(popUpUrl);
+                dialog.show(getSupportFragmentManager(), "rating");
+            }
         }
     }
 

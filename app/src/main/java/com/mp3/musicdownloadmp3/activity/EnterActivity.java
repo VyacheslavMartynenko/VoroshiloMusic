@@ -91,6 +91,7 @@ public class EnterActivity extends BaseActivity {
                 UserPreferences.getInstance().setMarketUrl(data.getBurstUrl());
                 UserPreferences.getInstance().setAdStatus(data.getNetType());
                 UserPreferences.getInstance().setPopUpUrl(data.getPopupUrl());
+                UserPreferences.getInstance().setPopUpStatus(data.getPopup());
             }
 
             @Override

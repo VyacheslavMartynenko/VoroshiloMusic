@@ -25,9 +25,7 @@ public class SettingsRequest {
                     SettingsBody settingsBody = response.body();
                     if (settingsBody != null) {
                         DataBody dataBody = settingsBody.getData();
-                        if (dataBody.getPopup() != 0) {
-                            callback.onSuccess(dataBody);
-                        }
+                        callback.onSuccess(dataBody);
                     }
                 }
             }
