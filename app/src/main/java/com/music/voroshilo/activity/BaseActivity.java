@@ -30,7 +30,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         switch (adStatus) {
             case DataBody.APPODEAL:
                 Appodeal.disableNetwork(this, "cheetah");
-                String appKey = "f6475db1ac03100428c424b948f6af7b2d96e45a248084c4";
+                String appKey = "2c7b18d1306efd0ff21a20c17f85a414812a8ce62cf00af1";
                 Appodeal.disableLocationPermissionCheck();
                 Appodeal.initialize(this, appKey, Appodeal.INTERSTITIAL);
                 break;
