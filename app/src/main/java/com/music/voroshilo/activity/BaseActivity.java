@@ -6,6 +6,8 @@ import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
 
 import com.music.voroshilo.application.MusicApplication;
+import com.music.voroshilo.model.networking.DataBody;
+import com.music.voroshilo.util.preferences.UserPreferences;
 import com.startapp.android.publish.adsCommon.StartAppAd;
 import com.startapp.android.publish.adsCommon.StartAppSDK;
 
@@ -22,9 +24,19 @@ abstract public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         app = (MusicApplication) this.getApplicationContext();
-        StartAppSDK.init(this, "205295421", true);
-        StartAppAd.disableSplash();
-        StartAppAd.disableAutoInterstitial();
+        @DataBody.AdMode
+        int adStatus = UserPreferences.getInstance().getAdStatus();
+        switch (adStatus) {
+            case DataBody.APPODEAL:
+                break;
+            case DataBody.NO:
+                break;
+            case DataBody.START_APP:
+                StartAppSDK.init(this, "205295421", true);
+                StartAppAd.disableSplash();
+                StartAppAd.disableAutoInterstitial();
+                break;
+        }
     }
 
     @Override

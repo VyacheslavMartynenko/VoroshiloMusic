@@ -17,6 +17,15 @@ public class DataBody {
     public @interface DisplayMode {
     }
 
+    public static final int NO = 0;
+    public static final int START_APP = 1;
+    public static final int APPODEAL = 2;
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({NO, START_APP, APPODEAL})
+    public @interface AdMode {
+    }
+
     @SerializedName("net_type")
     private int netType;
 

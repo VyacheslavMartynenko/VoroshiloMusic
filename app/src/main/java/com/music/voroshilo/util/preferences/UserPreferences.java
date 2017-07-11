@@ -60,7 +60,7 @@ public class UserPreferences extends AbstractPreferences {
     }
 
     public int getAdStatus() {
-        return preferences.getInt(AD_STATUS, 1);
+        return preferences.getInt(AD_STATUS, DataBody.APPODEAL);
     }
 
     public void setAdStatus(int adStatus) {
