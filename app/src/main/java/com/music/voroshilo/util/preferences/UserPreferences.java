@@ -1,11 +1,17 @@
 package com.music.voroshilo.util.preferences;
 
 import android.content.Context;
+import android.view.Display;
+
+import com.music.voroshilo.model.networking.DataBody;
 
 public class UserPreferences extends AbstractPreferences {
     private static final String PREFERENCES = "UserPreferences";
     private static final String IS_FIRST_LAUNCH = "IsFirstLaunch";
     private static final String IS_APP_RATED = "IsFirstLaunch";
+    private static final String BURST_STATUS = "BurstStatus";
+    private static final String MARKET_URL = "MarketUrl";
+    private static final String AD_STATUS = "AdStatus";
 
     private static UserPreferences instance;
 
@@ -35,5 +41,29 @@ public class UserPreferences extends AbstractPreferences {
 
     public void setIsAppRated() {
         preferences.edit().putBoolean(IS_APP_RATED, true).apply();
+    }
+
+    public int getBurstStatus() {
+        return preferences.getInt(BURST_STATUS, DataBody.MUSIC);
+    }
+
+    public void setBustStatus(int burstStatus) {
+        preferences.edit().putInt(BURST_STATUS, burstStatus).apply();
+    }
+
+    public String getMarketUrl() {
+        return preferences.getString(MARKET_URL, null);
+    }
+
+    public void setMarketUrl(String marketUrl) {
+        preferences.edit().putString(MARKET_URL, marketUrl).apply();
+    }
+
+    public int getAdStatus() {
+        return preferences.getInt(AD_STATUS, 1);
+    }
+
+    public void setAdStatus(int adStatus) {
+        preferences.edit().putInt(AD_STATUS, adStatus).apply();
     }
 }

@@ -4,10 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.widget.Button;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.MusicPageAdapter;
+import com.music.voroshilo.dialog.RatingDialogFragment;
+import com.music.voroshilo.model.networking.DataBody;
+import com.music.voroshilo.networking.request.SettingsRequest;
+import com.music.voroshilo.util.preferences.UserPreferences;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -56,6 +61,7 @@ public class EnterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestSettings();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enter);
 
@@ -76,5 +82,34 @@ public class EnterActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void requestSettings() {
+        new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
+            @Override
+            public void onSuccess(DataBody data) {
+                boolean isAppRated = UserPreferences.getInstance().isAppRated();
+                if (EnterActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
+                    RatingDialogFragment dialog = RatingDialogFragment.newInstance(data.getPopupUrl());
+                    dialog.show(getSupportFragmentManager(), "rating");
+                }
+                UserPreferences.getInstance().setBustStatus(data.getBurstStatus());
+                UserPreferences.getInstance().setMarketUrl(data.getBurstUrl());
+                UserPreferences.getInstance().setAdStatus(data.getNetType());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                Log.e("onResponse: ", Log.getStackTraceString(throwable));
+            }
+        });
+    }
+
+    private boolean isFirstLaunch() {
+        boolean isFirstRun = UserPreferences.getInstance().isFirstLaunch();
+        if (isFirstRun) {
+            UserPreferences.getInstance().setIsFirstLaunch();
+        }
+        return isFirstRun;
     }
 }

@@ -24,14 +24,12 @@ import android.widget.SeekBar;
 
 import com.music.voroshilo.R;
 import com.music.voroshilo.adapter.SongsRecycleViewAdapter;
-import com.music.voroshilo.dialog.RatingDialogFragment;
 import com.music.voroshilo.dialog.ReportDialogFragment;
 import com.music.voroshilo.interfaces.CurrentSongListener;
 import com.music.voroshilo.interfaces.RuntimePermissionListener;
 import com.music.voroshilo.model.networking.DataBody;
 import com.music.voroshilo.model.networking.Song;
 import com.music.voroshilo.networking.ApiBuilder;
-import com.music.voroshilo.networking.request.SettingsRequest;
 import com.music.voroshilo.networking.request.SongRequest;
 import com.music.voroshilo.networking.task.ApkDownloadTask;
 import com.music.voroshilo.networking.task.SongDownloadTask;
@@ -159,54 +157,31 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     private void requestSettings() {
-        new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
-            @Override
-            public void onSuccess(DataBody data) {
-                boolean isAppRated = UserPreferences.getInstance().isAppRated();
-                if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
-                    RatingDialogFragment dialog = RatingDialogFragment.newInstance(data.getPopupUrl());
-                    dialog.show(getSupportFragmentManager(), "rating");
-                }
-                marketUrl = data.getBurstUrl();
-                @DataBody.DisplayMode
-                int displayMode = data.getBurstStatus();
-                switch (displayMode) {
-                    case DataBody.BUTTON:
-                        recyclerView.setVisibility(View.GONE);
-                        downloadButton.setVisibility(View.VISIBLE);
-                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
-                        params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-                        params.addRule(RelativeLayout.BELOW, 0);
-                        break;
-                    case DataBody.MUSIC_AND_BUTTON:
-                        recyclerView.setVisibility(View.VISIBLE);
-                        downloadButton.setVisibility(View.VISIBLE);
-                        RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
-                        newParams.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
-                        newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
-                        requestSongs("");
-                        break;
-                    case DataBody.MUSIC:
-                        recyclerView.setVisibility(View.VISIBLE);
-                        downloadButton.setVisibility(View.GONE);
-                        requestSongs("");
-                        break;
-                }
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                Log.e("onResponse: ", Log.getStackTraceString(throwable));
-            }
-        });
-    }
-
-    private boolean isFirstLaunch() {
-        boolean isFirstRun = UserPreferences.getInstance().isFirstLaunch();
-        if (isFirstRun) {
-            UserPreferences.getInstance().setIsFirstLaunch();
+        marketUrl = UserPreferences.getInstance().getMarketUrl();
+        @DataBody.DisplayMode
+        int displayMode = UserPreferences.getInstance().getBurstStatus();
+        switch (displayMode) {
+            case DataBody.BUTTON:
+                recyclerView.setVisibility(View.GONE);
+                downloadButton.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
+                params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+                params.addRule(RelativeLayout.BELOW, 0);
+                break;
+            case DataBody.MUSIC_AND_BUTTON:
+                recyclerView.setVisibility(View.VISIBLE);
+                downloadButton.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
+                newParams.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
+                newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
+                requestSongs("");
+                break;
+            case DataBody.MUSIC:
+                recyclerView.setVisibility(View.VISIBLE);
+                downloadButton.setVisibility(View.GONE);
+                requestSongs("");
+                break;
         }
-        return isFirstRun;
     }
 
     @Override
