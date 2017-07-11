@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.widget.ProgressBar;
 
 import com.music.voroshilo.R;
+import com.music.voroshilo.activity.BaseActivity;
 import com.music.voroshilo.application.MusicApplication;
 import com.music.voroshilo.model.networking.Download;
 import com.music.voroshilo.util.NotificationUtil;
@@ -59,6 +60,11 @@ public class SongDownloadTask extends BaseDownloadTask {
                 downloadTaskList.remove(id);
                 NotificationUtil.showNotification(Download.MUSIC, musicApplication.getString(R.string.download_complete) + " " + title,
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
+
+                BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
+                if (activity != null) {
+                    activity.showAd();
+                }
             }
         };
         handler.post(runnable);
