@@ -18,7 +18,7 @@ public interface ApiService {
     @GET("search.php?offset=0&limit=10")
     Call<SongsResponseBody> getSongsList(@Query("q") String query);
 
-    @GET("http://t3.mp3free.click/report.php")
+    @GET("report-song.php")
     Call<ResponseBody> reportSong(@Query("fullname") String fullName, @Query("message") String message);
 
 }
