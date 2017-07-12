@@ -76,13 +76,20 @@ public class SongDownloadTask extends BaseDownloadTask {
         DownloadManager.Query query = new DownloadManager.Query();
         query.setFilterById(id);
 
-        Cursor c = dm.query(query);
-        if (c.moveToFirst()) {
-            int sizeIndex = c.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
-            int downloadedIndex = c.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
-            long size = c.getInt(sizeIndex);
-            long downloaded = c.getInt(downloadedIndex);
-            if (size != -1) progress = (int) (downloaded * 100.0 / size);
+        Cursor cursor = null;
+        try {
+            cursor = dm.query(query);
+            if (cursor.moveToFirst()) {
+                int sizeIndex = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES);
+                int downloadedIndex = cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR);
+                long size = cursor.getInt(sizeIndex);
+                long downloaded = cursor.getInt(downloadedIndex);
+                if (size != -1) progress = (int) (downloaded * 100.0 / size);
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
         return progress;
     }
