@@ -7,6 +7,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.SeekBar;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.io.IOException;
 
 public class SongPlayer {
@@ -27,9 +29,14 @@ public class SongPlayer {
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(mediaPlayer -> new Handler(Looper.getMainLooper()).post(() -> {
-            mediaPlayer.start();
-            seekBar.setMax(mediaPlayer.getDuration());
-            startUpdatingSeekBar();
+            try {
+                mediaPlayer.start();
+                seekBar.setMax(mediaPlayer.getDuration());
+                startUpdatingSeekBar();
+            } catch (IllegalStateException e) {
+                Log.e(SongPlayer.class.getSimpleName(), Log.getStackTraceString(e));
+                Crashlytics.logException(e);
+            }
         }));
         player.setOnErrorListener((mediaPlayer, i, i1) -> {
             switch (i) {

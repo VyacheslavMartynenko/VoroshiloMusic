@@ -6,7 +6,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.ProgressBar;
+
+import com.crashlytics.android.Crashlytics;
 
 import free.mp3.musicdownloadmp3.R;
 import free.mp3.musicdownloadmp3.activity.BaseActivity;
@@ -86,6 +89,9 @@ public class SongDownloadTask extends BaseDownloadTask {
                 long downloaded = cursor.getInt(downloadedIndex);
                 if (size != -1) progress = (int) (downloaded * 100.0 / size);
             }
+        } catch (Exception e) {
+            Log.e(SongDownloadTask.class.getSimpleName(), Log.getStackTraceString(e));
+            Crashlytics.logException(e);
         } finally {
             if (cursor != null) {
                 cursor.close();
