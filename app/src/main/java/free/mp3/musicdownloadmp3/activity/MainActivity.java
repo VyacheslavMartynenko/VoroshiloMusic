@@ -135,6 +135,18 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        player.startUpdatingSeekBar();
+    }
+
+    @Override
+    protected void onPause() {
+        player.stopUpdatingSeekBar();
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
         player.release();
         super.onDestroy();

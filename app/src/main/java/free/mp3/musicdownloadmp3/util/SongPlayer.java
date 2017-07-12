@@ -11,6 +11,9 @@ import com.crashlytics.android.Crashlytics;
 
 import java.io.IOException;
 
+import free.mp3.musicdownloadmp3.activity.BaseActivity;
+import free.mp3.musicdownloadmp3.application.MusicApplication;
+
 public class SongPlayer {
     //todo service
     private static final int SEEK_BAR_TIME_UPDATE = 1000;
@@ -30,9 +33,12 @@ public class SongPlayer {
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(mediaPlayer -> new Handler(Looper.getMainLooper()).post(() -> {
             try {
-                mediaPlayer.start();
-                seekBar.setMax(mediaPlayer.getDuration());
-                startUpdatingSeekBar();
+                BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
+                if (activity != null && activity.isVisible()) {
+                    mediaPlayer.start();
+                    seekBar.setMax(mediaPlayer.getDuration());
+                    startUpdatingSeekBar();
+                }
             } catch (IllegalStateException e) {
                 Log.e(SongPlayer.class.getSimpleName(), Log.getStackTraceString(e));
                 Crashlytics.logException(e);
@@ -51,13 +57,13 @@ public class SongPlayer {
         seekBar.setOnSeekBarChangeListener(seekBarChangeListener);
     }
 
-    private void startUpdatingSeekBar() {
+    public void startUpdatingSeekBar() {
         if (isPlaying()) {
             handler.postDelayed(runnable, SEEK_BAR_TIME_UPDATE);
         }
     }
 
-    private void stopUpdatingSeekBar() {
+    public void stopUpdatingSeekBar() {
         if (isPlaying()) {
             handler.removeCallbacks(runnable);
         }
