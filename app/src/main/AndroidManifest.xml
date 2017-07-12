@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mp3.musicdownloadmp3">
+    package="free.mp3.musicdownloadmp3">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -15,7 +15,7 @@
     <!-- end of add permissions -->
 
     <application
-        android:name="com.mp3.musicdownloadmp3.application.MusicApplication"
+        android:name="free.mp3.musicdownloadmp3.application.MusicApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mp3.musicdownloadmp3.activity.EnterActivity"
+            android:name="free.mp3.musicdownloadmp3.activity.EnterActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,17 +33,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mp3.musicdownloadmp3.activity.MainActivity"
+            android:name="free.mp3.musicdownloadmp3.activity.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name="com.mp3.musicdownloadmp3.activity.PolicyActivity"
-            android:parentActivityName="com.mp3.musicdownloadmp3.activity.MainActivity"
+            android:name="free.mp3.musicdownloadmp3.activity.PolicyActivity"
+            android:parentActivityName="free.mp3.musicdownloadmp3.activity.MainActivity"
             android:screenOrientation="portrait" />
 
         <service
-            android:name="com.mp3.musicdownloadmp3.service.NotificationService"
+            android:name="free.mp3.musicdownloadmp3.service.NotificationService"
             android:exported="false" />
 
         <meta-data
@@ -52,7 +52,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.mp3.musicdownloadmp3.fileProvider"
+            android:authorities="free.mp3.musicdownloadmp3.fileProvider"
             android:grantUriPermissions="true"
             android:exported="false">
             <meta-data
