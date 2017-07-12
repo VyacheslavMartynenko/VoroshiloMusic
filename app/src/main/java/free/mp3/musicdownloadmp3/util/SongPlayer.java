@@ -113,9 +113,11 @@ public class SongPlayer {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            int progress = player.getCurrentPosition();
-            seekBar.setProgress(progress);
-            handler.postDelayed(this, SEEK_BAR_TIME_UPDATE);
+            if (player != null) {
+                int progress = player.getCurrentPosition();
+                seekBar.setProgress(progress);
+                handler.postDelayed(this, SEEK_BAR_TIME_UPDATE);
+            }
         }
     };
 
