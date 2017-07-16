@@ -198,20 +198,12 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
         if (UserPreferences.getInstance().getPopUpStatus() != 0) {
             boolean isAppRated = UserPreferences.getInstance().isAppRated();
-            if (MainActivity.this.isVisible() && !isAppRated && !isFirstLaunch()) {
+            if (MainActivity.this.isVisible() && !isAppRated) {
                 String popUpUrl = UserPreferences.getInstance().getPopUpUrl();
                 RatingDialogFragment dialog = RatingDialogFragment.newInstance(popUpUrl);
                 dialog.show(getSupportFragmentManager(), "rating");
             }
         }
-    }
-
-    private boolean isFirstLaunch() {
-        boolean isFirstRun = UserPreferences.getInstance().isFirstLaunch();
-        if (isFirstRun) {
-            UserPreferences.getInstance().setIsFirstLaunch();
-        }
-        return isFirstRun;
     }
 
     @Override

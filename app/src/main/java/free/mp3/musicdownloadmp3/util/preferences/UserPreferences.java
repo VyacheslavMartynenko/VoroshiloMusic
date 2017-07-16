@@ -6,7 +6,6 @@ import free.mp3.musicdownloadmp3.model.networking.DataBody;
 
 public class UserPreferences extends AbstractPreferences {
     private static final String PREFERENCES = "UserPreferences";
-    private static final String IS_FIRST_LAUNCH = "IsFirstLaunch";
     private static final String IS_APP_RATED = "IsFirstLaunch";
     private static final String POP_UP_URL = "PopUpUrl";
     private static final String BURST_STATUS = "BurstStatus";
@@ -27,14 +26,6 @@ public class UserPreferences extends AbstractPreferences {
 
     static void init(Context context) {
         instance = new UserPreferences(context, PREFERENCES);
-    }
-
-    public boolean isFirstLaunch() {
-        return preferences.getBoolean(IS_FIRST_LAUNCH, true);
-    }
-
-    public void setIsFirstLaunch() {
-        preferences.edit().putBoolean(IS_FIRST_LAUNCH, false).apply();
     }
 
     public String getPopUpUrl() {
