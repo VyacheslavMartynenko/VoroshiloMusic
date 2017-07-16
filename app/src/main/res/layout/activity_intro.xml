@@ -5,10 +5,24 @@
     android:layout_height="match_parent"
     tools:context="free.mp3.musicdownloadmp3.activity.IntroActivity">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view_progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/progress_text" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/song_button_margin" />
+    </LinearLayout>
 
 </RelativeLayout>

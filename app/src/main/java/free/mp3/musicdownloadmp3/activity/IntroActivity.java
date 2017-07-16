@@ -4,18 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
 import android.util.Log;
-import android.widget.ProgressBar;
 
-import butterknife.BindView;
 import free.mp3.musicdownloadmp3.R;
 import free.mp3.musicdownloadmp3.model.networking.DataBody;
 import free.mp3.musicdownloadmp3.networking.request.SettingsRequest;
 import free.mp3.musicdownloadmp3.util.preferences.UserPreferences;
 
 public class IntroActivity extends BaseActivity {
-
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

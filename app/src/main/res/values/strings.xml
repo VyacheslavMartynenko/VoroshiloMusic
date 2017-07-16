@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Mp3 Music Download</string>
 
+    <!-- IntroActivity -->
+    <string name="progress_text">Updating preferences...</string>
+
     <!-- EnterActivity -->
     <string name="next">Next</string>
     <string name="open_application">Open Application</string>
