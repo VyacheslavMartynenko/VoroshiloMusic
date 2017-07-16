@@ -43,7 +43,7 @@ public class IntroActivity extends BaseActivity {
     }
 
     private void showNewActivity() {
-        Class<?> activityClass = UserPreferences.getInstance().getTutorialStatus() != DataBody.NO ? MainActivity.class : EnterActivity.class;
+        Class<?> activityClass = UserPreferences.getInstance().getTutorialStatus() == DataBody.NO ? MainActivity.class : EnterActivity.class;
         Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | IntentCompat.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
