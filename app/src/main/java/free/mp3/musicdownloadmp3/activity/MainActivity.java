@@ -258,8 +258,10 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @Override
     public void reportSong(String songName, String videoId) {
-        ReportDialogFragment reportDialogFragment = ReportDialogFragment.newInstance(songName, videoId);
-        reportDialogFragment.show(getSupportFragmentManager(), "report");
+        if (MainActivity.this.isVisible()) {
+            ReportDialogFragment reportDialogFragment = ReportDialogFragment.newInstance(songName, videoId);
+            reportDialogFragment.show(getSupportFragmentManager(), "report");
+        }
     }
 
     @Override
