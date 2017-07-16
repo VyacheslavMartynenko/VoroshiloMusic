@@ -91,7 +91,8 @@ public class SongPlayer {
             player.setDataSource(url);
             player.prepareAsync();
         } catch (IOException e) {
-            Log.e("onPlay: ", Log.getStackTraceString(e));
+            Log.e(SongPlayer.class.getSimpleName(), Log.getStackTraceString(e));
+            Crashlytics.logException(e);
         }
     }
 
