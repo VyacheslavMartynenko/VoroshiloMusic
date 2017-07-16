@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import free.mp3.musicdownloadmp3.R;
+import free.mp3.musicdownloadmp3.activity.BaseActivity;
 import free.mp3.musicdownloadmp3.application.MusicApplication;
 import free.mp3.musicdownloadmp3.networking.ApiBuilder;
 
@@ -59,9 +60,13 @@ public class ReportDialogFragment extends BaseDialogFragment {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    new Handler(Looper.getMainLooper())
-                            .post(() -> Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
-                                    R.string.report_complete_message, Toast.LENGTH_SHORT).show());
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        BaseActivity baseActivity = MusicApplication.getInstance().getCurrentActivity();
+                        if (baseActivity != null && baseActivity.isVisible()) {
+                            Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
+                                    R.string.report_complete_message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
                 ReportDialogFragment.this.dismissAllowingStateLoss();
             }
