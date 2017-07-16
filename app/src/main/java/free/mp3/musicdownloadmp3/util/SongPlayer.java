@@ -32,16 +32,11 @@ public class SongPlayer {
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
         player.setOnPreparedListener(mediaPlayer -> new Handler(Looper.getMainLooper()).post(() -> {
-            try {
-                BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
-                if (activity != null && activity.isVisible()) {
-                    mediaPlayer.start();
-                    seekBar.setMax(mediaPlayer.getDuration());
-                    startUpdatingSeekBar();
-                }
-            } catch (IllegalStateException e) {
-                Log.e(SongPlayer.class.getSimpleName(), Log.getStackTraceString(e));
-                Crashlytics.logException(e);
+            BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
+            if (activity != null && activity.isVisible()) {
+                mediaPlayer.start();
+                seekBar.setMax(mediaPlayer.getDuration());
+                startUpdatingSeekBar();
             }
         }));
         player.setOnErrorListener((mediaPlayer, i, i1) -> {
