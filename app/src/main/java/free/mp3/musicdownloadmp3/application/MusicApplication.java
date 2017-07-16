@@ -1,14 +1,14 @@
 package free.mp3.musicdownloadmp3.application;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
+
 import free.mp3.musicdownloadmp3.activity.BaseActivity;
 import free.mp3.musicdownloadmp3.util.preferences.SharedPreferencesProvider;
-
 import io.fabric.sdk.android.Fabric;
 
-public class MusicApplication extends Application {
+public class MusicApplication extends MultiDexApplication {
     private static MusicApplication instance;
     private BaseActivity currentActivity = null;
 
