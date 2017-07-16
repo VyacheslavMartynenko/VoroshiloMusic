@@ -43,8 +43,7 @@ public class SongDownloadTask extends BaseDownloadTask {
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
         MusicApplication musicApplication = MusicApplication.getInstance();
-        String appName = musicApplication.getString(R.string.app_name);
-        String filePath = File.separator + appName + File.separator + title + ".mp3";
+        String filePath = File.separator + title + ".mp3";
 
         DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
