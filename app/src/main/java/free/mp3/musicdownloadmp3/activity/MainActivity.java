@@ -269,11 +269,13 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                         }
                     }
                     songDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
+                    permissionListener = null;
                 }
 
                 @Override
                 public void onDenied() {
                     Log.e(MainActivity.class.getSimpleName(), "Permission Denied");
+                    permissionListener = null;
                 }
             };
             PermissionUtil.checkPermission(MainActivity.this, WRITE_EXTERNAL_STORAGE_PERMISSION,
@@ -309,7 +311,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 } else {
                     permissionListener.onDenied();
                 }
-                permissionListener = null;
             }
         }
     }
