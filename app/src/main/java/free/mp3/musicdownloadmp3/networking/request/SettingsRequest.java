@@ -26,7 +26,11 @@ public class SettingsRequest {
                     if (settingsBody != null) {
                         DataBody dataBody = settingsBody.getData();
                         callback.onSuccess(dataBody);
+                    } else {
+                        callback.onError(new NullPointerException());
                     }
+                } else {
+                    callback.onError(new Exception(String.valueOf(response.code())));
                 }
             }
 

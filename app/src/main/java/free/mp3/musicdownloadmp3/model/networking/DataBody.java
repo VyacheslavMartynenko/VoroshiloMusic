@@ -41,12 +41,16 @@ public class DataBody {
     @SerializedName("burst_url")
     private String burstUrl;
 
-    public DataBody(int netType, int popup, String popupUrl, int burstStatus, String burstUrl) {
+    @SerializedName("show_tutorial")
+    private int tutorialStatus;
+
+    public DataBody(int netType, int popup, String popupUrl, int burstStatus, String burstUrl, int tutorialStatus) {
         this.netType = netType;
         this.popup = popup;
         this.popupUrl = popupUrl;
         this.burstStatus = burstStatus;
         this.burstUrl = burstUrl;
+        this.tutorialStatus = tutorialStatus;
     }
 
     public int getNetType() {
@@ -87,5 +91,13 @@ public class DataBody {
 
     public void setBurstUrl(String burstUrl) {
         this.burstUrl = burstUrl;
+    }
+
+    public int getTutorialStatus() {
+        return tutorialStatus;
+    }
+
+    public void setTutorialStatus(int tutorialStatus) {
+        this.tutorialStatus = tutorialStatus;
     }
 }
