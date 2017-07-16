@@ -13,18 +13,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SongRequest {
+    public static final int LIMIT = 20;
+
     public interface SongCallback {
         void onSuccess(List<Song> list);
 
         void onError(Throwable throwable);
     }
 
-    public void requestSongs(String query, final SongCallback songCallback) {
+    public void requestSongs(String query, int offset, final SongCallback songCallback) {
         Call<SongsResponseBody> call;
         if (query != null && !query.equals("")) {
-            call = ApiBuilder.getApiService().getSongsList(query);
+            call = ApiBuilder.getApiService().getSongsList(query, offset, LIMIT);
         } else {
-            call = ApiBuilder.getApiService().getTopSongsList();
+            call = ApiBuilder.getApiService().getSongsList(null, offset, LIMIT);
         }
         call.enqueue(new Callback<SongsResponseBody>() {
             @Override

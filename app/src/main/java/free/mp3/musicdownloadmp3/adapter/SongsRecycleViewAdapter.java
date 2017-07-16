@@ -22,11 +22,20 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private CurrentSongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
+    public int getOffset() {
+        return songList != null ? songList.size() : 0;
+    }
+
     public void updateSongList(List<Song> newSongList) {
         songList.clear();
         songList.addAll(newSongList);
         currentPlayingSongPosition = RecyclerView.NO_POSITION;
         notifyDataSetChanged();
+    }
+
+    public void addSongList(List<Song> newSongList) {
+        songList.addAll(newSongList);
+        notifyItemRangeChanged(songList.size(), newSongList.size());
     }
 
     private void playOrPauseSong(int adapterPosition) {

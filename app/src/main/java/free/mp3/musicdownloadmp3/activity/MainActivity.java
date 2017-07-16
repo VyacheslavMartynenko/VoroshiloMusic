@@ -22,6 +22,11 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import free.mp3.musicdownloadmp3.R;
 import free.mp3.musicdownloadmp3.adapter.SongsRecycleViewAdapter;
 import free.mp3.musicdownloadmp3.dialog.RatingDialogFragment;
@@ -34,17 +39,12 @@ import free.mp3.musicdownloadmp3.networking.ApiBuilder;
 import free.mp3.musicdownloadmp3.networking.request.SongRequest;
 import free.mp3.musicdownloadmp3.networking.task.ApkDownloadTask;
 import free.mp3.musicdownloadmp3.networking.task.SongDownloadTask;
+import free.mp3.musicdownloadmp3.util.EndlessRecyclerViewScrollListener;
 import free.mp3.musicdownloadmp3.util.KeyboardUtil;
 import free.mp3.musicdownloadmp3.util.PermissionUtil;
 import free.mp3.musicdownloadmp3.util.SongIconChanger;
 import free.mp3.musicdownloadmp3.util.SongPlayer;
 import free.mp3.musicdownloadmp3.util.preferences.UserPreferences;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
@@ -68,6 +68,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
+    @BindView(R.id.progress_bar_more)
+    ProgressBar progressBarMore;
 
     @BindView(R.id.current_song_container)
     CardView currentSongContainer;
@@ -126,9 +129,19 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                requestMoreSongs(searchEditText.getText().toString());
+            }
+        };
         recyclerView.setAdapter(songAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(linearLayoutManager);
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        recyclerView.addOnScrollListener(scrollListener);
+
 
         player = new SongPlayer(songSeekBar);
         requestSettings();
@@ -154,11 +167,28 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     private void requestSongs(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        new SongRequest().requestSongs(query, new SongRequest.SongCallback() {
+        new SongRequest().requestSongs(query, 0, new SongRequest.SongCallback() {
             @Override
             public void onSuccess(List<Song> list) {
                 progressBar.setVisibility(View.GONE);
                 songAdapter.updateSongList(list);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                progressBar.setVisibility(View.GONE);
+                Log.e("onResponse: ", Log.getStackTraceString(throwable));
+            }
+        });
+    }
+
+    private void requestMoreSongs(String query) {
+        progressBarMore.setVisibility(View.VISIBLE);
+        new SongRequest().requestSongs(query, songAdapter.getOffset(), new SongRequest.SongCallback() {
+            @Override
+            public void onSuccess(List<Song> list) {
+                progressBarMore.setVisibility(View.GONE);
+                songAdapter.addSongList(list);
             }
 
             @Override
@@ -210,6 +240,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public boolean updateCurrentSongInfo(String url, String imageUrl) {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) progressBarMore.getLayoutParams();
+            newParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, 0);
+            newParams.addRule(RelativeLayout.ABOVE, R.id.current_song_container);
         }
         boolean isPlaying = player.playOrPauseSong(url);
         SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
