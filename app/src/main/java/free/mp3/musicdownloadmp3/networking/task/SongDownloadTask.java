@@ -62,14 +62,14 @@ public class SongDownloadTask extends BaseDownloadTask {
                 downloadTaskList.remove(id);
                 NotificationUtil.showNotification(Download.MUSIC, musicApplication.getString(R.string.download_complete) + " " + title,
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
-
-                BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
-                if (activity != null) {
-                    activity.showAd();
-                }
             }
         };
         handler.post(runnable);
+
+        BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
+        if (activity != null) {
+            activity.showAd();
+        }
     }
 
     private int getProgress(DownloadManager dm, long id) {
