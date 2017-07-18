@@ -10,8 +10,6 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 
-import java.io.IOException;
-
 import free.mp3.musicdownloadmp3.R;
 import free.mp3.musicdownloadmp3.activity.BaseActivity;
 import free.mp3.musicdownloadmp3.application.MusicApplication;
@@ -92,7 +90,7 @@ public class SongPlayer {
             player.reset();
             player.setDataSource(url);
             player.prepareAsync();
-        } catch (IOException e) {
+        } catch (Exception e) {
             BaseActivity baseActivity = MusicApplication.getInstance().getCurrentActivity();
             if (baseActivity != null && baseActivity.isVisible()) {
                 Toast.makeText(baseActivity, R.string.download_error_message, Toast.LENGTH_LONG).show();
