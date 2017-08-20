@@ -20,7 +20,8 @@ public class IntroActivity extends BaseActivity {
     }
 
     private void requestSettings() {
-        new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
+        int isFirstLaunch = UserPreferences.getInstance().isFirstLaunch();
+        new SettingsRequest().requestSettings(isFirstLaunch, new SettingsRequest.SettingsCallback() {
             @Override
             public void onSuccess(DataBody data) {
                 UserPreferences.getInstance().setAdNetType(data.getAdNetType());
@@ -40,6 +41,7 @@ public class IntroActivity extends BaseActivity {
                 UserPreferences.getInstance().setTutorialStatus(data.getTutorialStatus());
                 UserPreferences.getInstance().setMusicUrl(data.getMusicUrl());
 
+                UserPreferences.getInstance().setIsFirstLaunch();
                 showNewActivity();
             }
 

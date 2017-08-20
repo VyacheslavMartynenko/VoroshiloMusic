@@ -9,7 +9,7 @@ import retrofit2.http.Query;
 
 public interface ApiService {
     @GET("settings.php")
-    Call<SettingsBody> getSettings();
+    Call<SettingsBody> getSettings(@Query("is_first") int isFirst);
 
     @GET("search.php")
     Call<SongsResponseBody> getSongsList(@Query("q") String query, @Query("offset") int offset, @Query("limit") int limit);

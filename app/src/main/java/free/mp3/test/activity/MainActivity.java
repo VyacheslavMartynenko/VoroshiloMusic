@@ -203,7 +203,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     private void requestSettings() {
-        marketUrl = UserPreferences.getInstance().getMarketUrl();
+        marketUrl = UserPreferences.getInstance().getBurstUrl();
         @DataBody.DisplayMode
         int displayMode = UserPreferences.getInstance().getBurstStatus();
         switch (displayMode) {
@@ -229,10 +229,10 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 break;
         }
 
-        if (UserPreferences.getInstance().getPopUpStatus() != 0) {
+        if (UserPreferences.getInstance().getPopupStatus() != DataBody.NO) {
             boolean isAppRated = UserPreferences.getInstance().isAppRated();
             if (MainActivity.this.isVisible() && !isAppRated) {
-                String popUpUrl = UserPreferences.getInstance().getPopUpUrl();
+                String popUpUrl = UserPreferences.getInstance().getPopupUrl();
                 RatingDialogFragment dialog = RatingDialogFragment.newInstance(popUpUrl);
                 dialog.show(getSupportFragmentManager(), "rating");
             }

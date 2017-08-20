@@ -6,6 +6,8 @@ import free.mp3.test.model.networking.DataBody;
 
 public class UserPreferences extends AbstractPreferences {
     private static final String PREFERENCES = "UserPreferences";
+    private static final String IS_FIRST_LAUNCH = "IsFirstLaunch";
+    private static final String IS_APP_RATED = "IsAppRated";
 
     private static final String AD_NET_TYPE = "AdNetType";
     private static final String AD_NET_TUTORIAL = "AdNetTutorial";
@@ -36,6 +38,22 @@ public class UserPreferences extends AbstractPreferences {
 
     static void init(Context context) {
         instance = new UserPreferences(context, PREFERENCES);
+    }
+
+    public int isFirstLaunch() {
+        return preferences.getInt(IS_FIRST_LAUNCH, 0);
+    }
+
+    public void setIsFirstLaunch() {
+        preferences.edit().putInt(IS_FIRST_LAUNCH, 1).apply();
+    }
+
+    public boolean isAppRated() {
+        return preferences.getBoolean(IS_APP_RATED, false);
+    }
+
+    public void setIsAppRated() {
+        preferences.edit().putBoolean(IS_APP_RATED, true).apply();
     }
 
     public int getAdNetType() {
