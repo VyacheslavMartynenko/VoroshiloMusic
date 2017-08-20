@@ -17,8 +17,6 @@ import butterknife.ButterKnife;
 abstract public class BaseActivity extends AppCompatActivity {
 
     private MusicApplication app;
-
-    private StartAppAd startAppAd = new StartAppAd(this);
     private boolean isActivityPaused = false;
 
     @Override
@@ -26,7 +24,7 @@ abstract public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         app = (MusicApplication) this.getApplicationContext();
         @DataBody.AdMode
-        int adStatus = UserPreferences.getInstance().getAdStatus();
+        int adStatus = UserPreferences.getInstance().getAdNetType();
         switch (adStatus) {
             case DataBody.APPODEAL:
                 Appodeal.disableNetwork(this, "cheetah");
@@ -80,7 +78,7 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     public void showAd() {
         @DataBody.AdMode
-        int adStatus = UserPreferences.getInstance().getAdStatus();
+        int adStatus = UserPreferences.getInstance().getAdNetType();
         switch (adStatus) {
             case DataBody.APPODEAL:
                 Appodeal.show(this, Appodeal.INTERSTITIAL);
@@ -88,7 +86,7 @@ abstract public class BaseActivity extends AppCompatActivity {
             case DataBody.NO:
                 break;
             case DataBody.START_APP:
-                startAppAd.showAd();
+                StartAppAd.showAd(getApplicationContext());
                 break;
         }
     }
