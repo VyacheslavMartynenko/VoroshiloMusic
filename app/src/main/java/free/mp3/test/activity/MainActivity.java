@@ -53,6 +53,12 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;
 
+    @BindView(R.id.full_container)
+    RelativeLayout fullContainer;
+
+    @BindView(R.id.main_content_container)
+    RelativeLayout mainContentContainer;
+
     @BindView(R.id.song_seek_bar)
     SeekBar songSeekBar;
 
@@ -248,6 +254,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 dialog.show(getSupportFragmentManager(), "rating");
             }
         }
+
+        showBanner(mainContentContainer, fullContainer);
     }
 
     @Override
