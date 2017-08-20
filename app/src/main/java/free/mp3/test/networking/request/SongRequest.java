@@ -39,8 +39,14 @@ public class SongRequest {
                         List<Song> list = body.getSongsList();
                         if (list != null) {
                             songCallback.onSuccess(list);
+                        } else {
+                            songCallback.onError(new NullPointerException());
                         }
+                    } else {
+                        songCallback.onError(new NullPointerException());
                     }
+                } else {
+                    songCallback.onError(new Exception(String.valueOf(response.code())));
                 }
             }
 
