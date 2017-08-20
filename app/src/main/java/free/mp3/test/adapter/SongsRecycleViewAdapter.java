@@ -9,16 +9,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import free.mp3.test.R;
 import free.mp3.test.interfaces.CurrentSongListener;
 import free.mp3.test.model.networking.Song;
 import free.mp3.test.networking.ApiBuilder;
 import free.mp3.test.util.SongIconChanger;
 
-import java.util.List;
-
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
     private List<Song> songList;
+    private Song cacheSong;
     private CurrentSongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
@@ -27,6 +28,9 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     }
 
     public void updateSongList(List<Song> newSongList) {
+        if (currentPlayingSongPosition != RecyclerView.NO_POSITION) {
+            cacheSong = songList.get(currentPlayingSongPosition);
+        }
         songList.clear();
         songList.addAll(newSongList);
         currentPlayingSongPosition = RecyclerView.NO_POSITION;
@@ -41,13 +45,16 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private void playOrPauseSong(int adapterPosition) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Song song = songList.get(adapterPosition);
-            boolean isSelected = listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl());
+            boolean isSelected = listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl(), false);
             song.setSelected(isSelected);
             notifyItemChanged(currentPlayingSongPosition);
             if (currentPlayingSongPosition != adapterPosition) {
                 currentPlayingSongPosition = adapterPosition;
                 notifyItemChanged(currentPlayingSongPosition);
             }
+        } else if (cacheSong != null) {
+            boolean isSelected = listener.updateCurrentSongInfo(cacheSong.getMp3Url(), cacheSong.getImageUrl(), true);
+            cacheSong.setSelected(isSelected);
         }
     }
 
@@ -70,12 +77,12 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
 
         SongViewHolder(View itemView) {
             super(itemView);
-            coverImageView = (ImageView) itemView.findViewById(R.id.cover_image);
-            songTitleTextView = (TextView) itemView.findViewById(R.id.song_title);
-            downloadButton = (ImageView) itemView.findViewById(R.id.download_button);
-            playButton = (ImageView) itemView.findViewById(R.id.play_button);
-            licenseButton = (ImageView) itemView.findViewById(R.id.license_button);
-            reportButton = (Button) itemView.findViewById(R.id.report_button);
+            coverImageView = itemView.findViewById(R.id.cover_image);
+            songTitleTextView = itemView.findViewById(R.id.song_title);
+            downloadButton = itemView.findViewById(R.id.download_button);
+            playButton = itemView.findViewById(R.id.play_button);
+            licenseButton = itemView.findViewById(R.id.license_button);
+            reportButton = itemView.findViewById(R.id.report_button);
 
             playButton.setOnClickListener(this);
             licenseButton.setOnClickListener(this);

@@ -259,7 +259,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     @Override
-    public boolean updateCurrentSongInfo(String url, String imageUrl) {
+    public boolean updateCurrentSongInfo(String url, String imageUrl, boolean isCache) {
         if (currentSongContainer.getVisibility() != View.VISIBLE) {
             currentSongContainer.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) progressBarMore.getLayoutParams();
@@ -268,7 +268,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         }
         boolean isPlaying = player.playOrPauseSong(url);
         SongIconChanger.switchDrawable(getApplicationContext(), playButton, isPlaying);
-        SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
+        if (!isCache) {
+            SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
+        }
         if (isPlaying && downloadProgressBar.getVisibility() == View.VISIBLE && !SongDownloadTask.isDownloading()) {
             downloadProgressBar.setProgress(SongDownloadTask.INITIAL_PROGRESS);
         }
