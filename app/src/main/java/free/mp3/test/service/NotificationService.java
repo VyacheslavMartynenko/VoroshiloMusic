@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
+import android.transition.Transition;
+import android.transition.TransitionValues;
 
 import free.mp3.test.application.MusicApplication;
 import free.mp3.test.model.networking.Download;
@@ -36,8 +38,13 @@ public class NotificationService extends IntentService {
 
     private void showFolder(@Download.Type int type, String path) {
         File file = new File(path);
-        Uri uri = FileProvider.getUriForFile(MusicApplication.getInstance().getApplicationContext(),
-                "free.mp3.test.fileProvider", file);
+        Uri uri;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(MusicApplication.getInstance().getApplicationContext(),
+                    "free.mp3.test.fileProvider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
 
         switch (type) {
             case Download.APK:
