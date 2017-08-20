@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/search_edit_text"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
 
