@@ -2,7 +2,6 @@ package free.mp3.test.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +31,6 @@ import free.mp3.test.adapter.SongsRecycleViewAdapter;
 import free.mp3.test.dialog.RatingDialogFragment;
 import free.mp3.test.dialog.ReportDialogFragment;
 import free.mp3.test.interfaces.CurrentSongListener;
-import free.mp3.test.interfaces.RuntimePermissionListener;
 import free.mp3.test.model.networking.DataBody;
 import free.mp3.test.model.networking.Song;
 import free.mp3.test.networking.ApiBuilder;
@@ -41,7 +39,6 @@ import free.mp3.test.networking.task.ApkDownloadTask;
 import free.mp3.test.networking.task.SongDownloadTask;
 import free.mp3.test.util.EndlessRecyclerViewScrollListener;
 import free.mp3.test.util.KeyboardUtil;
-import free.mp3.test.util.PermissionUtil;
 import free.mp3.test.util.SongIconChanger;
 import free.mp3.test.util.SongPlayer;
 import free.mp3.test.util.preferences.UserPreferences;
@@ -50,9 +47,7 @@ import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class MainActivity extends BaseActivity implements CurrentSongListener {
-    private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
     private SongDownloadTask songDownloadTask = new SongDownloadTask();
-    private RuntimePermissionListener permissionListener;
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;
     private String marketUrl;
