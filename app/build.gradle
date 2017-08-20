@@ -11,7 +11,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "free.mp3.musicdownloadmp3"
+        applicationId "free.mp3.test"
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 3

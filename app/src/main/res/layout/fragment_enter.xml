@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|bottom"
-    tools:context="free.mp3.musicdownloadmp3.fragment.enter.EnterFragment">
+    tools:context="free.mp3.test.fragment.enter.EnterFragment">
 
     <TextView
         android:id="@+id/enter_text"

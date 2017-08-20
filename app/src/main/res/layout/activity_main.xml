@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="free.mp3.musicdownloadmp3.activity.MainActivity">
+    tools:context="free.mp3.test.activity.MainActivity">
 
     <EditText
         android:id="@+id/search_edit_text"
