@@ -9,7 +9,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,11 +21,11 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import free.mp3.test.R;
 import free.mp3.test.adapter.SongsRecycleViewAdapter;
@@ -178,36 +177,12 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     private void requestSongs(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        SongRequest.requestSongs(query, 0, new SongRequest.SongCallback() {
-            @Override
-            public void onSuccess(List<Song> list) {
-                progressBar.setVisibility(View.GONE);
-                songAdapter.updateSongList(list);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                progressBar.setVisibility(View.GONE);
-                Log.e("onResponse: ", Log.getStackTraceString(throwable));
-            }
-        });
+        SongRequest.requestSongs(query, 0, new SongRequestCallback(this, SongRequestCallback.REQUEST_SONGS));
     }
 
     private void requestMoreSongs(String query) {
         progressBarMore.setVisibility(View.VISIBLE);
-        SongRequest.requestSongs(query, songAdapter.getOffset(), new SongRequest.SongCallback() {
-            @Override
-            public void onSuccess(List<Song> list) {
-                progressBarMore.setVisibility(View.GONE);
-                songAdapter.addSongList(list);
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-                progressBar.setVisibility(View.GONE);
-                Log.e("onResponse: ", Log.getStackTraceString(throwable));
-            }
-        });
+        SongRequest.requestSongs(query, songAdapter.getOffset(), new SongRequestCallback(this, SongRequestCallback.REQUEST_MORE_SONGS));
     }
 
     private void requestSettings() {
@@ -222,7 +197,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 params.addRule(RelativeLayout.BELOW, 0);
                 String text = UserPreferences.getInstance().getBurstText();
                 if (text != null) {
-                    TextView textView = ButterKnife.findById(burstContainer, R.id.download_text);
+                    TextView textView = (TextView) findViewById(R.id.download_text);
                     textView.setText(text);
                 }
                 break;
@@ -234,7 +209,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
                 newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
                 String burstText = UserPreferences.getInstance().getBurstText();
                 if (burstText != null) {
-                    TextView textView = ButterKnife.findById(burstContainer, R.id.download_text);
+                    TextView textView = (TextView) findViewById(R.id.download_text);
                     textView.setText(burstText);
                 }
                 requestSongs("");
@@ -319,5 +294,40 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+    }
+
+    private static class SongRequestCallback implements SongRequest.SongCallback {
+        private static final int REQUEST_SONGS = 0;
+        private static final int REQUEST_MORE_SONGS = 1;
+
+        private WeakReference<MainActivity> mainActivityWeakReference;
+        private int type;
+
+        SongRequestCallback(MainActivity mainActivity, int type) {
+            this.mainActivityWeakReference = new WeakReference<>(mainActivity);
+            this.type = type;
+        }
+
+        @Override
+        public void onSuccess(List<Song> list) {
+            MainActivity mainActivity = mainActivityWeakReference.get();
+            if (mainActivity != null) {
+                if (type == REQUEST_SONGS) {
+                    mainActivity.progressBar.setVisibility(View.GONE);
+                    mainActivity.songAdapter.updateSongList(list);
+                } else if (type == REQUEST_MORE_SONGS) {
+                    mainActivity.progressBarMore.setVisibility(View.GONE);
+                    mainActivity.songAdapter.addSongList(list);
+                }
+            }
+        }
+
+        @Override
+        public void onError(Throwable throwable) {
+            MainActivity mainActivity = mainActivityWeakReference.get();
+            if (mainActivity != null) {
+                mainActivity.progressBar.setVisibility(View.GONE);
+            }
+        }
     }
 }
