@@ -105,6 +105,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @OnClick(R.id.play_button)
     public void playOrPause() {
         songAdapter.playOrPauseSong();
+        if (UserPreferences.getInstance().getAdNetPlay() != DataBody.NO) {
+            showAd();
+        }
     }
 
     @Override
