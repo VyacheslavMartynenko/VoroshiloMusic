@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     private SongDownloadTask songDownloadTask = new SongDownloadTask();
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;
-    private String marketUrl;
 
     @BindView(R.id.song_seek_bar)
     SeekBar songSeekBar;
@@ -93,6 +92,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @OnClick(R.id.download_button)
     void redirectToDownload() {
+        String marketUrl = UserPreferences.getInstance().getBurstUrl();
         if (marketUrl != null) {
             if (!marketUrl.endsWith(".apk")) {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(marketUrl)));
@@ -203,7 +203,6 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     }
 
     private void requestSettings() {
-        marketUrl = UserPreferences.getInstance().getBurstUrl();
         @DataBody.DisplayMode
         int displayMode = UserPreferences.getInstance().getBurstStatus();
         switch (displayMode) {
