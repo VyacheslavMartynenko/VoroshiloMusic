@@ -45,7 +45,7 @@ public class SongDownloadTask extends BaseDownloadTask {
 
     public void downloadFile(String url, final String title, final ProgressBar progressBar) {
         MusicApplication musicApplication = MusicApplication.getInstance();
-        String filePath = File.separator + title + ".mp3";
+        String filePath = title + ".mp3";
 
         DownloadManager dm = (DownloadManager) musicApplication.getSystemService(DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -63,7 +63,7 @@ public class SongDownloadTask extends BaseDownloadTask {
                 handler.removeCallbacks(runnable);
                 downloadTaskList.remove(id);
                 NotificationUtil.showNotification(Download.MUSIC, musicApplication.getString(R.string.download_complete) + " " + title,
-                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + filePath);
+                        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath() + File.separator + filePath);
             }
         };
         handler.post(runnable);
