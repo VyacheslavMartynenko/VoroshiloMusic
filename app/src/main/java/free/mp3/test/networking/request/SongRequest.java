@@ -8,6 +8,7 @@ import free.mp3.test.networking.ApiBuilder;
 
 import java.util.List;
 
+import free.mp3.test.util.preferences.UserPreferences;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,11 +23,12 @@ public class SongRequest {
     }
 
     public static void requestSongs(String query, int offset, final SongCallback songCallback) {
+        String url = UserPreferences.getInstance().getMusicUrl();
         Call<SongsResponseBody> call;
         if (query != null && !query.equals("")) {
-            call = ApiBuilder.getApiService().getSongsList(query, offset, LIMIT);
+            call = ApiBuilder.getApiService().getSongsList(url, query, offset, LIMIT);
         } else {
-            call = ApiBuilder.getApiService().getSongsList(null, offset, LIMIT);
+            call = ApiBuilder.getApiService().getSongsList(url, null, offset, LIMIT);
         }
         call.enqueue(new Callback<SongsResponseBody>() {
             @Override
