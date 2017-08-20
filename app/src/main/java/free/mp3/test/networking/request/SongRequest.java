@@ -21,7 +21,7 @@ public class SongRequest {
         void onError(Throwable throwable);
     }
 
-    public void requestSongs(String query, int offset, final SongCallback songCallback) {
+    public static void requestSongs(String query, int offset, final SongCallback songCallback) {
         Call<SongsResponseBody> call;
         if (query != null && !query.equals("")) {
             call = ApiBuilder.getApiService().getSongsList(query, offset, LIMIT);

@@ -8,6 +8,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class DataBody {
+    public static final int MULTIPLE = 0;
+    public static final int FIRST = 1;
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({MULTIPLE, FIRST})
+    public @interface LaunchMode {
+    }
+
     public static final int MUSIC = 0;
     public static final int BUTTON = 1;
     public static final int MUSIC_AND_BUTTON = 2;

@@ -170,7 +170,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     private void requestSongs(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        new SongRequest().requestSongs(query, 0, new SongRequest.SongCallback() {
+        SongRequest.requestSongs(query, 0, new SongRequest.SongCallback() {
             @Override
             public void onSuccess(List<Song> list) {
                 progressBar.setVisibility(View.GONE);
@@ -187,7 +187,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     private void requestMoreSongs(String query) {
         progressBarMore.setVisibility(View.VISIBLE);
-        new SongRequest().requestSongs(query, songAdapter.getOffset(), new SongRequest.SongCallback() {
+        SongRequest.requestSongs(query, songAdapter.getOffset(), new SongRequest.SongCallback() {
             @Override
             public void onSuccess(List<Song> list) {
                 progressBarMore.setVisibility(View.GONE);

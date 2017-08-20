@@ -17,7 +17,7 @@ public class SettingsRequest {
         void onError(Throwable throwable);
     }
 
-    public void requestSettings(final int isFirstLaunch, final SettingsCallback callback) {
+    public static void requestSettings(final int isFirstLaunch, final SettingsCallback callback) {
         ApiBuilder.getApiService().getSettings(isFirstLaunch).enqueue(new Callback<SettingsBody>() {
             @Override
             public void onResponse(@NonNull Call<SettingsBody> call, @NonNull Response<SettingsBody> response) {

@@ -21,7 +21,7 @@ public class IntroActivity extends BaseActivity {
 
     private void requestSettings() {
         int isFirstLaunch = UserPreferences.getInstance().isFirstLaunch();
-        new SettingsRequest().requestSettings(isFirstLaunch, new SettingsRequest.SettingsCallback() {
+        SettingsRequest.requestSettings(isFirstLaunch, new SettingsRequest.SettingsCallback() {
             @Override
             public void onSuccess(DataBody data) {
                 UserPreferences.getInstance().setAdNetType(data.getAdNetType());

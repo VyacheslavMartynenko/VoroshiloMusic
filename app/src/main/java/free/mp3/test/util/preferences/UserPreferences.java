@@ -41,11 +41,11 @@ public class UserPreferences extends AbstractPreferences {
     }
 
     public int isFirstLaunch() {
-        return preferences.getInt(IS_FIRST_LAUNCH, 0);
+        return preferences.getInt(IS_FIRST_LAUNCH, DataBody.FIRST);
     }
 
     public void setIsFirstLaunch() {
-        preferences.edit().putInt(IS_FIRST_LAUNCH, 1).apply();
+        preferences.edit().putInt(IS_FIRST_LAUNCH, DataBody.MULTIPLE).apply();
     }
 
     public boolean isAppRated() {
