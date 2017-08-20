@@ -14,17 +14,19 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import free.mp3.test.R;
 import free.mp3.test.adapter.SongsRecycleViewAdapter;
@@ -54,8 +56,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @BindView(R.id.song_seek_bar)
     SeekBar songSeekBar;
 
-    @BindView(R.id.download_button)
-    Button downloadButton;
+    @BindView(R.id.burst_container)
+    LinearLayout burstContainer;
 
     @BindView(R.id.main_recycler_view)
     RecyclerView recyclerView;
@@ -208,22 +210,32 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
         switch (displayMode) {
             case DataBody.BUTTON:
                 recyclerView.setVisibility(View.GONE);
-                downloadButton.setVisibility(View.VISIBLE);
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
+                burstContainer.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) burstContainer.getLayoutParams();
                 params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
                 params.addRule(RelativeLayout.BELOW, 0);
+                String text = UserPreferences.getInstance().getBurstText();
+                if (text != null) {
+                    TextView textView = ButterKnife.findById(burstContainer, R.id.download_text);
+                    textView.setText(text);
+                }
                 break;
             case DataBody.MUSIC_AND_BUTTON:
                 recyclerView.setVisibility(View.VISIBLE);
-                downloadButton.setVisibility(View.VISIBLE);
-                RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) downloadButton.getLayoutParams();
+                burstContainer.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams newParams = (RelativeLayout.LayoutParams) burstContainer.getLayoutParams();
                 newParams.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
                 newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
+                String burstText = UserPreferences.getInstance().getBurstText();
+                if (burstText != null) {
+                    TextView textView = ButterKnife.findById(burstContainer, R.id.download_text);
+                    textView.setText(burstText);
+                }
                 requestSongs("");
                 break;
             case DataBody.MUSIC:
                 recyclerView.setVisibility(View.VISIBLE);
-                downloadButton.setVisibility(View.GONE);
+                burstContainer.setVisibility(View.GONE);
                 requestSongs("");
                 break;
         }

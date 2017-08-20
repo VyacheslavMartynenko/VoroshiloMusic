@@ -25,20 +25,33 @@
         android:layout_alignParentRight="true"
         android:text="@string/search" />
 
-    <Button
-        android:id="@+id/download_button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/burst_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/search_edit_text"
         android:layout_centerHorizontal="true"
-        android:text="@string/app_redirection"
-        android:visibility="gone" />
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/download_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/download_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_redirection" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/download_button"
+        android:layout_below="@id/burst_container"
         android:layout_centerHorizontal="true"
         android:visibility="gone" />
 
@@ -54,8 +67,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/current_song_container"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:visibility="gone" />
 
     <android.support.v7.widget.CardView
