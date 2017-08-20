@@ -3,7 +3,12 @@ package free.mp3.test.dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RatingBar;
+import android.widget.TextView;
 
 import free.mp3.test.R;
 import free.mp3.test.util.preferences.UserPreferences;
@@ -28,6 +33,9 @@ public class RatingDialogFragment extends BaseDialogFragment {
     @BindView(R.id.rating_bar)
     RatingBar ratingBar;
 
+    @BindView(R.id.text_view_rating)
+    TextView textView;
+
     @OnClick(R.id.rating_button)
     void rate() {
         int rating = (int) ratingBar.getRating();
@@ -36,6 +44,17 @@ public class RatingDialogFragment extends BaseDialogFragment {
         }
         UserPreferences.getInstance().setIsAppRated();
         dismissAllowingStateLoss();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        String text = UserPreferences.getInstance().getPopupText();
+        if (text != null) {
+            textView.setText(text);
+        }
+        return view;
     }
 
     @Override
