@@ -14,8 +14,10 @@ import com.crashlytics.android.Crashlytics;
 import free.mp3.test.R;
 import free.mp3.test.activity.BaseActivity;
 import free.mp3.test.application.MusicApplication;
+import free.mp3.test.model.networking.DataBody;
 import free.mp3.test.model.networking.Download;
 import free.mp3.test.util.NotificationUtil;
+import free.mp3.test.util.preferences.UserPreferences;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +70,9 @@ public class SongDownloadTask extends BaseDownloadTask {
 
         BaseActivity activity = MusicApplication.getInstance().getCurrentActivity();
         if (activity != null) {
-            activity.showAd();
+            if (UserPreferences.getInstance().getAdNetDownload() != DataBody.NO) {
+                activity.showAd();
+            }
         }
     }
 
