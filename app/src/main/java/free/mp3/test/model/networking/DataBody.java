@@ -16,7 +16,7 @@ public class DataBody {
     @IntDef({MUSIC, MUSIC_AND_BUTTON, BUTTON})
     public @interface DisplayMode {
     }
-    
+
     public static final int NO = 0;
     public static final int START_APP = 1;
     public static final int APPODEAL = 2;
@@ -26,14 +26,29 @@ public class DataBody {
     public @interface AdMode {
     }
 
-    @SerializedName("net_type")
-    private int netType;
+    @SerializedName("adnet_type")
+    private int adNetType;
+
+    @SerializedName("adnet_tutorial")
+    private int adNetTutorial;
+
+    @SerializedName("adnet_download")
+    private int adNetDownload;
+
+    @SerializedName("adnet_play")
+    private int adNetPlay;
+
+    @SerializedName("adnet_search")
+    private int adNetSearch;
+
+    @SerializedName("adnet_banner")
+    private int adNetBanner;
 
     @SerializedName("popup")
-    private int popup;
+    private int popupStatus;
 
     @SerializedName("popup_text")
-    private int popupText;
+    private String popupText;
 
     @SerializedName("popup_url")
     private String popupUrl;
@@ -42,46 +57,103 @@ public class DataBody {
     private int burstStatus;
 
     @SerializedName("burst_text")
-    private int burstText;
+    private String burstText;
 
     @SerializedName("burst_url")
     private String burstUrl;
 
+    @SerializedName("appodeal_key")
+    private String appodealKey;
+
+    @SerializedName("startapp_key")
+    private String startappKey;
+
     @SerializedName("show_tutorial")
     private int tutorialStatus;
 
-    public DataBody(int netType, int popup, int popupText, String popupUrl, int burstStatus, int burstText, String burstUrl, int tutorialStatus) {
-        this.netType = netType;
-        this.popup = popup;
+    @SerializedName("music_url")
+    private String musicUrl;
+
+    public DataBody(int adNetType, int adNetTutorial, int adNetDownload, int adNetPlay, int adNetSearch, int adNetBanner, int popupStatus, String popupText, String popupUrl, int burstStatus, String burstText, String burstUrl, String appodealKey, String startappKey, int tutorialStatus, String musicUrl) {
+        this.adNetType = adNetType;
+        this.adNetTutorial = adNetTutorial;
+        this.adNetDownload = adNetDownload;
+        this.adNetPlay = adNetPlay;
+        this.adNetSearch = adNetSearch;
+        this.adNetBanner = adNetBanner;
+        this.popupStatus = popupStatus;
         this.popupText = popupText;
         this.popupUrl = popupUrl;
         this.burstStatus = burstStatus;
         this.burstText = burstText;
         this.burstUrl = burstUrl;
+        this.appodealKey = appodealKey;
+        this.startappKey = startappKey;
         this.tutorialStatus = tutorialStatus;
+        this.musicUrl = musicUrl;
     }
 
-    public int getNetType() {
-        return netType;
+    public int getAdNetType() {
+        return adNetType;
     }
 
-    public void setNetType(int netType) {
-        this.netType = netType;
+    public void setAdNetType(int adNetType) {
+        this.adNetType = adNetType;
     }
 
-    public int getPopup() {
-        return popup;
+    public int getAdNetTutorial() {
+        return adNetTutorial;
     }
 
-    public void setPopup(int popup) {
-        this.popup = popup;
+    public void setAdNetTutorial(int adNetTutorial) {
+        this.adNetTutorial = adNetTutorial;
     }
 
-    public int getPopupText() {
+    public int getAdNetDownload() {
+        return adNetDownload;
+    }
+
+    public void setAdNetDownload(int adNetDownload) {
+        this.adNetDownload = adNetDownload;
+    }
+
+    public int getAdNetPlay() {
+        return adNetPlay;
+    }
+
+    public void setAdNetPlay(int adNetPlay) {
+        this.adNetPlay = adNetPlay;
+    }
+
+    public int getAdNetSearch() {
+        return adNetSearch;
+    }
+
+    public void setAdNetSearch(int adNetSearch) {
+        this.adNetSearch = adNetSearch;
+    }
+
+    public int getAdNetBanner() {
+        return adNetBanner;
+    }
+
+    public void setAdNetBanner(int adNetBanner) {
+        this.adNetBanner = adNetBanner;
+    }
+
+    public int getPopupStatus() {
+        return popupStatus;
+    }
+
+    public void setPopupStatus(int popupStatus) {
+        this.popupStatus = popupStatus;
+    }
+
+    public String getPopupText() {
         return popupText;
     }
 
-    public void setPopupText(int popupText) {
+    public void setPopupText(String popupText) {
         this.popupText = popupText;
     }
 
@@ -101,11 +173,11 @@ public class DataBody {
         this.burstStatus = burstStatus;
     }
 
-    public int getBurstText() {
+    public String getBurstText() {
         return burstText;
     }
 
-    public void setBurstText(int burstText) {
+    public void setBurstText(String burstText) {
         this.burstText = burstText;
     }
 
@@ -117,11 +189,35 @@ public class DataBody {
         this.burstUrl = burstUrl;
     }
 
+    public String getAppodealKey() {
+        return appodealKey;
+    }
+
+    public void setAppodealKey(String appodealKey) {
+        this.appodealKey = appodealKey;
+    }
+
+    public String getStartappKey() {
+        return startappKey;
+    }
+
+    public void setStartappKey(String startappKey) {
+        this.startappKey = startappKey;
+    }
+
     public int getTutorialStatus() {
         return tutorialStatus;
     }
 
     public void setTutorialStatus(int tutorialStatus) {
         this.tutorialStatus = tutorialStatus;
+    }
+
+    public String getMusicUrl() {
+        return musicUrl;
+    }
+
+    public void setMusicUrl(String musicUrl) {
+        this.musicUrl = musicUrl;
     }
 }

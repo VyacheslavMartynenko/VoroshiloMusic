@@ -23,12 +23,22 @@ public class IntroActivity extends BaseActivity {
         new SettingsRequest().requestSettings(new SettingsRequest.SettingsCallback() {
             @Override
             public void onSuccess(DataBody data) {
+                UserPreferences.getInstance().setAdNetType(data.getAdNetType());
+                UserPreferences.getInstance().setAdNetTutorial(data.getAdNetTutorial());
+                UserPreferences.getInstance().setAdNetDownload(data.getAdNetTutorial());
+                UserPreferences.getInstance().setAdNetPlay(data.getAdNetPlay());
+                UserPreferences.getInstance().setAdNetSearch(data.getAdNetSearch());
+                UserPreferences.getInstance().setAdNetBanner(data.getAdNetBanner());
+                UserPreferences.getInstance().setPopupStatus(data.getPopupStatus());
+                UserPreferences.getInstance().setPopupText(data.getPopupText());
+                UserPreferences.getInstance().setPopupUrl(data.getPopupUrl());
                 UserPreferences.getInstance().setBurstStatus(data.getBurstStatus());
-                UserPreferences.getInstance().setMarketUrl(data.getBurstUrl());
-                UserPreferences.getInstance().setAdStatus(data.getNetType());
-                UserPreferences.getInstance().setPopUpUrl(data.getPopupUrl());
-                UserPreferences.getInstance().setPopUpStatus(data.getPopup());
+                UserPreferences.getInstance().setBurstText(data.getBurstText());
+                UserPreferences.getInstance().setBurstUrl(data.getBurstUrl());
+                UserPreferences.getInstance().setAppodealKey(data.getAppodealKey());
+                UserPreferences.getInstance().setStartappKey(data.getStartappKey());
                 UserPreferences.getInstance().setTutorialStatus(data.getTutorialStatus());
+                UserPreferences.getInstance().setMusicUrl(data.getMusicUrl());
 
                 showNewActivity();
             }
