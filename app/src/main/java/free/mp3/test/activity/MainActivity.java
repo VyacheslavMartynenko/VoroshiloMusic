@@ -86,7 +86,9 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public void searchSongs() {
         requestSongs(searchEditText.getText().toString());
         KeyboardUtil.hideKeyboard(this);
-        showAd();
+        if (UserPreferences.getInstance().getAdNetSearch() != DataBody.NO) {
+            showAd();
+        }
     }
 
     @OnClick(R.id.download_button)

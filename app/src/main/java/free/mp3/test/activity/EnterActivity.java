@@ -10,6 +10,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import free.mp3.test.R;
 import free.mp3.test.adapter.MusicPageAdapter;
+import free.mp3.test.model.networking.DataBody;
+import free.mp3.test.util.preferences.UserPreferences;
 
 public class EnterActivity extends BaseActivity {
 
@@ -45,7 +47,9 @@ public class EnterActivity extends BaseActivity {
         @Override
         public void onPageSelected(int position) {
             setEnterButtonText(position);
-            showAd();
+            if (UserPreferences.getInstance().getAdNetTutorial() != DataBody.NO) {
+                showAd();
+            }
         }
 
         @Override
