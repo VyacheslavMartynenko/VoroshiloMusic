@@ -45,7 +45,10 @@ import free.mp3.test.util.PermissionUtil;
 import free.mp3.test.util.SongIconChanger;
 import free.mp3.test.util.SongPlayer;
 import free.mp3.test.util.preferences.UserPreferences;
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.RuntimePermissions;
 
+@RuntimePermissions
 public class MainActivity extends BaseActivity implements CurrentSongListener {
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION = 100;
     private SongDownloadTask songDownloadTask = new SongDownloadTask();
@@ -255,32 +258,21 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @Override
     public void downloadSong(final String imageUrl, final String mp3Url, final String title) {
-        if (permissionListener == null) {
-            permissionListener = new RuntimePermissionListener() {
-                @Override
-                public void onGranted() {
-                    if (currentSongContainer.getVisibility() != View.VISIBLE) {
-                        currentSongContainer.setVisibility(View.VISIBLE);
-                    }
-                    if (downloadProgressBar.getVisibility() != View.VISIBLE) {
-                        downloadProgressBar.setVisibility(View.VISIBLE);
-                        if (!player.isPlaying()) {
-                            SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
-                        }
-                    }
-                    songDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
-                    permissionListener = null;
-                }
+        downloadIfPermissionGranted(imageUrl, mp3Url, title);
+    }
 
-                @Override
-                public void onDenied() {
-                    Log.e(MainActivity.class.getSimpleName(), "Permission Denied");
-                    permissionListener = null;
-                }
-            };
-            PermissionUtil.checkPermission(MainActivity.this, WRITE_EXTERNAL_STORAGE_PERMISSION,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE, permissionListener);
+    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    void downloadIfPermissionGranted(final String imageUrl, final String mp3Url, final String title) {
+        if (currentSongContainer.getVisibility() != View.VISIBLE) {
+            currentSongContainer.setVisibility(View.VISIBLE);
         }
+        if (downloadProgressBar.getVisibility() != View.VISIBLE) {
+            downloadProgressBar.setVisibility(View.VISIBLE);
+            if (!player.isPlaying()) {
+                SongIconChanger.loadDrawableWithPicasso(getApplicationContext(), coverImage, imageUrl);
+            }
+        }
+        songDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
     }
 
     @Override
@@ -304,14 +296,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case WRITE_EXTERNAL_STORAGE_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    permissionListener.onGranted();
-                } else {
-                    permissionListener.onDenied();
-                }
-            }
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        MainActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 }
