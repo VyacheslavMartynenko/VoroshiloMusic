@@ -153,7 +153,7 @@ public class UserPreferences extends AbstractPreferences {
     }
 
     public String getAppodealKey() {
-        return preferences.getString(APPODEAL_KEY, null);
+        return preferences.getString(APPODEAL_KEY, "ce1428dbf38eaecd37c305f088343f98eed87d5b22169426");
     }
 
     public void setAppodealKey(String appodealKey) {
@@ -161,7 +161,7 @@ public class UserPreferences extends AbstractPreferences {
     }
 
     public String getStartappKey() {
-        return preferences.getString(STARTAPP_KEY, null);
+        return preferences.getString(STARTAPP_KEY, "207572485");
     }
 
     public void setStartappKey(String startappKey) {
