@@ -10,7 +10,7 @@
         android:id="@+id/main_content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="free.mp3.test.activity.MainActivity">
+        tools:context=".activity.MainActivity">
 
         <EditText
             android:id="@+id/search_edit_text"

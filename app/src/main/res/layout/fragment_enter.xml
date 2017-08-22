@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|bottom"
-    tools:context="free.mp3.test.fragment.enter.EnterFragment">
+    tools:context=".activity.EnterActivity">
 
     <TextView
         android:id="@+id/enter_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorText"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="64dp" />
+        android:layout_marginBottom="64dp"
+        android:textColor="@color/colorText" />
 
 </RelativeLayout>
