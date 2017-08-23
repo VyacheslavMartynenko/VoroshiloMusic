@@ -9,8 +9,8 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 public interface ApiService {
-    @GET("settings")
-    Call<SettingsBody> getSettings(@Query("is_first") int isFirst);
+    @GET
+    Call<SettingsBody> getSettings(@Url String url, @Query("is_first") int isFirst);
 
     @GET
     Call<SongsResponseBody> getSongsList(@Url String url, @Query("q") String query, @Query("offset") int offset, @Query("limit") int limit);

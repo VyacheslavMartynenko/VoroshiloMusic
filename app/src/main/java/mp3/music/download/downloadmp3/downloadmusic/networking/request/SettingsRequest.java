@@ -11,6 +11,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SettingsRequest {
+    private static final String url = "http://lazyplayer.tk/api/v1/imba/settings";
     public interface SettingsCallback {
         void onSuccess(DataBody data);
 
@@ -18,7 +19,8 @@ public class SettingsRequest {
     }
 
     public static void requestSettings(final int isFirstLaunch, final SettingsCallback callback) {
-        ApiBuilder.getApiService().getSettings(isFirstLaunch).enqueue(new Callback<SettingsBody>() {
+
+        ApiBuilder.getApiService().getSettings(url, isFirstLaunch).enqueue(new Callback<SettingsBody>() {
             @Override
             public void onResponse(@NonNull Call<SettingsBody> call, @NonNull Response<SettingsBody> response) {
                 if (response.isSuccessful()) {
