@@ -42,13 +42,13 @@ public class EnterFragment extends BaseFragment {
 
         switch (position) {
             case 0:
-                setUpFragment(getString(R.string.enter_text_first), getBackgroundDrawable(R.drawable.bg_first));
+                setUpFragment(getString(R.string.enter_text_first), getBackgroundDrawable(R.drawable.bg_1));
                 break;
             case 1:
-                setUpFragment(getString(R.string.enter_text_second), getBackgroundDrawable(R.drawable.bg_second));
+                setUpFragment(getString(R.string.enter_text_second), getBackgroundDrawable(R.drawable.bg_2));
                 break;
             case 2:
-                setUpFragment(getString(R.string.enter_text_third), getBackgroundDrawable(R.drawable.bg_third));
+                setUpFragment(getString(R.string.enter_text_third), getBackgroundDrawable(R.drawable.bg_3));
                 break;
             default:
                 break;
