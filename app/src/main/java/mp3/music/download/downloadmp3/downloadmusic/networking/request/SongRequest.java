@@ -6,7 +6,7 @@ import java.util.List;
 
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.SongsResponseBody;
-import mp3.music.download.downloadmp3.downloadmusic.networking.ApiBuilder;
+import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,9 +25,9 @@ public class SongRequest {
         String url = UserPreferences.getInstance().getMusicUrl();
         Call<SongsResponseBody> call;
         if (query != null && !query.equals("")) {
-            call = ApiBuilder.getApiService().getSongsList(url, query, offset, LIMIT);
+            call = NetworkBuilder.getApiService().getSongsList(url, query, offset, LIMIT);
         } else {
-            call = ApiBuilder.getApiService().getSongsList(url, null, offset, LIMIT);
+            call = NetworkBuilder.getApiService().getSongsList(url, null, offset, LIMIT);
         }
         call.enqueue(new Callback<SongsResponseBody>() {
             @Override

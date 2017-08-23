@@ -14,7 +14,7 @@ import java.util.List;
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.interfaces.CurrentSongListener;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
-import mp3.music.download.downloadmp3.downloadmusic.networking.ApiBuilder;
+import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.util.SongIconChanger;
 
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
@@ -105,7 +105,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                         playOrPauseSong(getAdapterPosition());
                         break;
                     case R.id.license_button:
-                        listener.showPrivacy(ApiBuilder.LICENSE_URL);
+                        listener.showPrivacy(NetworkBuilder.LICENSE_URL);
                         break;
                     default:
                         break;

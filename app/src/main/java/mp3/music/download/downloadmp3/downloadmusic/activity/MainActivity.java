@@ -27,7 +27,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.adapter.SongsRecycleViewAdapter;
 import mp3.music.download.downloadmp3.downloadmusic.dialog.RatingDialogFragment;
@@ -35,7 +34,7 @@ import mp3.music.download.downloadmp3.downloadmusic.dialog.ReportDialogFragment;
 import mp3.music.download.downloadmp3.downloadmusic.interfaces.CurrentSongListener;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
-import mp3.music.download.downloadmp3.downloadmusic.networking.ApiBuilder;
+import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.networking.request.SongRequest;
 import mp3.music.download.downloadmp3.downloadmusic.networking.task.ApkDownloadTask;
 import mp3.music.download.downloadmp3.downloadmusic.networking.task.SongDownloadTask;
@@ -129,7 +128,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.policy:
-                startPolicyActivity(ApiBuilder.PRIVACY_URL);
+                startPolicyActivity(NetworkBuilder.PRIVACY_URL);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -255,7 +254,7 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
 
     @Override
     public void downloadSong(final String imageUrl, final String mp3Url, final String title) {
-        downloadIfPermissionGranted(imageUrl, mp3Url, title);
+        MainActivityPermissionsDispatcher.downloadIfPermissionGrantedWithCheck(this, imageUrl, mp3Url, title);
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)

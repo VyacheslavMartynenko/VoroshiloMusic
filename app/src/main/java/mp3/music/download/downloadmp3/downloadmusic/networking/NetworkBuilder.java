@@ -5,27 +5,27 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiBuilder {
+public class NetworkBuilder {
     public static final String PRIVACY_URL = "http://audiko.net/privacy.html";
     public static final String LICENSE_URL = "https://creativecommons.org/licenses/by/3.0/";
     private static final String BASE_API_URL = "http://mp3download.guru/api/v1/imba/";
 
-    private static ApiBuilder apiBuilder;
-    private final ApiService apiService;
+    private static NetworkBuilder networkBuilder;
+    private final NetworkService networkService;
 
-    private static ApiBuilder getInstance() {
-        if (apiBuilder == null) {
-            apiBuilder = new ApiBuilder();
+    private static NetworkBuilder getInstance() {
+        if (networkBuilder == null) {
+            networkBuilder = new NetworkBuilder();
         }
-        return apiBuilder;
+        return networkBuilder;
     }
 
-    private ApiBuilder() {
-        apiService = getRetrofit().create(ApiService.class);
+    private NetworkBuilder() {
+        networkService = getRetrofit().create(NetworkService.class);
     }
 
-    public static ApiService getApiService() {
-        return getInstance().apiService;
+    public static NetworkService getApiService() {
+        return getInstance().networkService;
     }
 
     private Retrofit getRetrofit() {

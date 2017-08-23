@@ -13,7 +13,7 @@ import butterknife.OnClick;
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.activity.BaseActivity;
 import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication;
-import mp3.music.download.downloadmp3.downloadmusic.networking.ApiBuilder;
+import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +55,7 @@ public class ReportDialogFragment extends BaseDialogFragment {
             stringBuilderMessage.append(" ");
             stringBuilderMessage.append(songName);
         }
-        ApiBuilder.getApiService().reportSong(fullName, stringBuilderMessage.toString()).enqueue(new Callback<ResponseBody>() {
+        NetworkBuilder.getApiService().reportSong(fullName, stringBuilderMessage.toString()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {

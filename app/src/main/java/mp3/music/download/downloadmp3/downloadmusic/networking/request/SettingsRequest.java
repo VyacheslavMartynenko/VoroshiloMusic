@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.SettingsBody;
-import mp3.music.download.downloadmp3.downloadmusic.networking.ApiBuilder;
+import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,7 +20,7 @@ public class SettingsRequest {
 
     public static void requestSettings(final int isFirstLaunch, final SettingsCallback callback) {
 
-        ApiBuilder.getApiService().getSettings(url, isFirstLaunch).enqueue(new Callback<SettingsBody>() {
+        NetworkBuilder.getApiService().getSettings(url, isFirstLaunch).enqueue(new Callback<SettingsBody>() {
             @Override
             public void onResponse(@NonNull Call<SettingsBody> call, @NonNull Response<SettingsBody> response) {
                 if (response.isSuccessful()) {

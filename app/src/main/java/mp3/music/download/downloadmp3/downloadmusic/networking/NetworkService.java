@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
-public interface ApiService {
+public interface NetworkService {
     @GET
     Call<SettingsBody> getSettings(@Url String url, @Query("is_first") int isFirst);
 
