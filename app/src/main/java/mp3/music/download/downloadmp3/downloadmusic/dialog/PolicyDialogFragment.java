@@ -19,17 +19,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReportDialogFragment extends BaseDialogFragment {
+public class PolicyDialogFragment extends BaseDialogFragment {
     private static final String SONG_NAME = "music_name";
     private static final String VIDEO_ID = "video_id";
 
-    public static ReportDialogFragment newInstance(String songName, String videoId) {
+    public static PolicyDialogFragment newInstance(String songName, String videoId) {
 
         Bundle args = new Bundle();
         args.putString(SONG_NAME, songName);
         args.putString(VIDEO_ID, videoId);
 
-        ReportDialogFragment fragment = new ReportDialogFragment();
+        PolicyDialogFragment fragment = new PolicyDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,13 +67,13 @@ public class ReportDialogFragment extends BaseDialogFragment {
                         }
                     });
                 }
-                ReportDialogFragment.this.dismissAllowingStateLoss();
+                PolicyDialogFragment.this.dismissAllowingStateLoss();
             }
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                Log.e(ReportDialogFragment.this.getClass().getSimpleName(), Log.getStackTraceString(t));
-                ReportDialogFragment.this.dismissAllowingStateLoss();
+                Log.e(PolicyDialogFragment.this.getClass().getSimpleName(), Log.getStackTraceString(t));
+                PolicyDialogFragment.this.dismissAllowingStateLoss();
             }
         });
     }

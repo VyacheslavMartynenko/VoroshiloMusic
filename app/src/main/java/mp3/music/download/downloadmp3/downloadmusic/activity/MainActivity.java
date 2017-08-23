@@ -29,8 +29,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.adapter.SongsRecycleViewAdapter;
+import mp3.music.download.downloadmp3.downloadmusic.dialog.PolicyDialogFragment;
 import mp3.music.download.downloadmp3.downloadmusic.dialog.RatingDialogFragment;
-import mp3.music.download.downloadmp3.downloadmusic.dialog.ReportDialogFragment;
 import mp3.music.download.downloadmp3.downloadmusic.interfaces.CurrentSongListener;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
@@ -274,8 +274,8 @@ public class MainActivity extends BaseActivity implements CurrentSongListener {
     @Override
     public void reportSong(String songName, String videoId) {
         if (MainActivity.this.isVisible()) {
-            ReportDialogFragment reportDialogFragment = ReportDialogFragment.newInstance(songName, videoId);
-            reportDialogFragment.show(getSupportFragmentManager(), "report");
+            PolicyDialogFragment policyDialogFragment = PolicyDialogFragment.newInstance(songName, videoId);
+            policyDialogFragment.show(getSupportFragmentManager(), "report");
         }
     }
 
