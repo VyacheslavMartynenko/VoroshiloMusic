@@ -31,7 +31,7 @@ import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.adapter.SongsRecycleViewAdapter;
 import mp3.music.download.downloadmp3.downloadmusic.dialog.PolicyDialogFragment;
 import mp3.music.download.downloadmp3.downloadmusic.dialog.RatingDialogFragment;
-import mp3.music.download.downloadmp3.downloadmusic.interfaces.CurrentSongListener;
+import mp3.music.download.downloadmp3.downloadmusic.interfaces.SongListener;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
 import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
@@ -47,7 +47,7 @@ import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class MainActivity extends BaseActivity implements CurrentSongListener {
+public class MainActivity extends BaseActivity implements SongListener {
     private SongDownloadTask songDownloadTask = new SongDownloadTask();
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;

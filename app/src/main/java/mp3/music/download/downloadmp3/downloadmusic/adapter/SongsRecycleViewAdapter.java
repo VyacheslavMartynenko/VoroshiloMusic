@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import mp3.music.download.downloadmp3.downloadmusic.R;
-import mp3.music.download.downloadmp3.downloadmusic.interfaces.CurrentSongListener;
+import mp3.music.download.downloadmp3.downloadmusic.interfaces.SongListener;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
 import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.util.SongIconChanger;
@@ -20,7 +20,7 @@ import mp3.music.download.downloadmp3.downloadmusic.util.SongIconChanger;
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
     private List<Song> songList;
     private Song cacheSong;
-    private CurrentSongListener listener;
+    private SongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
     public int getOffset() {
@@ -62,7 +62,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         playOrPauseSong(currentPlayingSongPosition);
     }
 
-    public SongsRecycleViewAdapter(CurrentSongListener listener, List<Song> songList) {
+    public SongsRecycleViewAdapter(SongListener listener, List<Song> songList) {
         this.listener = listener;
         this.songList = songList;
     }
