@@ -10,6 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 public class DataBody {
     public static final int MULTIPLE = 0;
     public static final int FIRST = 1;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({MULTIPLE, FIRST})
     public @interface LaunchMode {
@@ -81,7 +82,10 @@ public class DataBody {
     @SerializedName("music_url")
     private String musicUrl;
 
-    public DataBody(int adNetType, int adNetTutorial, int adNetDownload, int adNetPlay, int adNetSearch, int adNetBanner, int popupStatus, String popupText, String popupUrl, int burstStatus, String burstText, String burstUrl, String appodealKey, String startappKey, int tutorialStatus, String musicUrl) {
+    @SerializedName("report_url")
+    private String reportUrl;
+
+    public DataBody(int adNetType, int adNetTutorial, int adNetDownload, int adNetPlay, int adNetSearch, int adNetBanner, int popupStatus, String popupText, String popupUrl, int burstStatus, String burstText, String burstUrl, String appodealKey, String startappKey, int tutorialStatus, String musicUrl, String reportUrl) {
         this.adNetType = adNetType;
         this.adNetTutorial = adNetTutorial;
         this.adNetDownload = adNetDownload;
@@ -98,6 +102,7 @@ public class DataBody {
         this.startappKey = startappKey;
         this.tutorialStatus = tutorialStatus;
         this.musicUrl = musicUrl;
+        this.reportUrl = reportUrl;
     }
 
     public int getAdNetType() {
@@ -226,5 +231,13 @@ public class DataBody {
 
     public void setMusicUrl(String musicUrl) {
         this.musicUrl = musicUrl;
+    }
+
+    public String getReportUrl() {
+        return reportUrl;
+    }
+
+    public void setReportUrl(String reportUrl) {
+        this.reportUrl = reportUrl;
     }
 }

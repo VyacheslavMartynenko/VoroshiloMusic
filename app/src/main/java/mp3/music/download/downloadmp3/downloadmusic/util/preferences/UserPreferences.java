@@ -24,6 +24,7 @@ public class UserPreferences extends AbstractPreferences {
     private static final String STARTAPP_KEY = "StartappKey";
     private static final String TUTORIAL_STATUS = "TutorialStatus";
     private static final String MUSIC_URL = "MusicUrl";
+    private static final String REPORT_URL = "ReportUrl";
 
     private static UserPreferences instance;
 
@@ -173,5 +174,13 @@ public class UserPreferences extends AbstractPreferences {
 
     public void setMusicUrl(String musicUrl) {
         preferences.edit().putString(MUSIC_URL, musicUrl).apply();
+    }
+
+    public String getReportUrl() {
+        return preferences.getString(REPORT_URL, null);
+    }
+
+    public void setReportUrl(String reportUrl) {
+        preferences.edit().putString(REPORT_URL, reportUrl).apply();
     }
 }

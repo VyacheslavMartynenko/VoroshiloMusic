@@ -58,6 +58,7 @@ public class IntroActivity extends BaseActivity {
             UserPreferences.getInstance().setStartappKey(data.getStartappKey());
             UserPreferences.getInstance().setTutorialStatus(data.getTutorialStatus());
             UserPreferences.getInstance().setMusicUrl(data.getMusicUrl());
+            UserPreferences.getInstance().setReportUrl(data.getReportUrl());
 
             IntroActivity introActivity = introActivityWeakReference.get();
             if (introActivity != null) {

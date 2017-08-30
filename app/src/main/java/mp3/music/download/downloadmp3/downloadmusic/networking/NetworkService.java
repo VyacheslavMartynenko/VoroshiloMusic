@@ -15,7 +15,7 @@ public interface NetworkService {
     @GET
     Call<SongsResponseBody> getSongsList(@Url String url, @Query("q") String query, @Query("offset") int offset, @Query("limit") int limit);
 
-    @GET("report-song")
-    Call<ResponseBody> reportSong(@Query("fullname") String fullName, @Query("message") String message);
+    @GET()
+    Call<ResponseBody> reportSong(@Url String url, @Query("dev_id") String deviceId, @Query("fullname") String fullName, @Query("msg") String message, @Query("video_id") String videoId);
 
 }

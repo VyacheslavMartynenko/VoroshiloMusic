@@ -14,6 +14,8 @@ import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.activity.BaseActivity;
 import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication;
 import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
+import mp3.music.download.downloadmp3.downloadmusic.util.DeviceInformationUtil;
+import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,20 +44,21 @@ public class PolicyDialogFragment extends BaseDialogFragment {
 
     @OnClick(R.id.report_button)
     void sendReport() {
+        String url = UserPreferences.getInstance().getReportUrl();
+        String deviceId = DeviceInformationUtil.getDeviceUniqueID((BaseActivity) getActivity());
         String fullName = nameEditText.getText().toString();
         String message = messageEditText.getText().toString();
+        String videoId = "";
         StringBuilder stringBuilderMessage = new StringBuilder();
         stringBuilderMessage.append(message);
         Bundle arguments = getArguments();
         if (arguments != null) {
             String songName = arguments.getString(SONG_NAME, "");
-            String videoId = arguments.getString(VIDEO_ID, "");
-            stringBuilderMessage.append(" ");
-            stringBuilderMessage.append(videoId);
+            videoId = arguments.getString(VIDEO_ID, "");
             stringBuilderMessage.append(" ");
             stringBuilderMessage.append(songName);
         }
-        NetworkBuilder.getApiService().reportSong(fullName, stringBuilderMessage.toString()).enqueue(new Callback<ResponseBody>() {
+        NetworkBuilder.getApiService().reportSong(url, deviceId, fullName, stringBuilderMessage.toString(), videoId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
