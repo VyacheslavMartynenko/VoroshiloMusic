@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements SongListener {
                 params.addRule(RelativeLayout.BELOW, 0);
                 String text = UserPreferences.getInstance().getBurstText();
                 if (text != null) {
-                    TextView textView = (TextView) findViewById(R.id.download_text);
+                    TextView textView = findViewById(R.id.download_text);
                     textView.setText(text);
                 }
                 break;
@@ -209,7 +209,7 @@ public class MainActivity extends BaseActivity implements SongListener {
                 newParams.addRule(RelativeLayout.BELOW, R.id.search_edit_text);
                 String burstText = UserPreferences.getInstance().getBurstText();
                 if (burstText != null) {
-                    TextView textView = (TextView) findViewById(R.id.download_text);
+                    TextView textView = findViewById(R.id.download_text);
                     textView.setText(burstText);
                 }
                 requestSongs("");

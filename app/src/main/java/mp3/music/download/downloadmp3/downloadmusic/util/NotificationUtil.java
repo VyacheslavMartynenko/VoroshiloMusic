@@ -4,6 +4,8 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,16 +19,16 @@ public class NotificationUtil {
 
     public static void showNotification(int type, String title, String path) {
         Context context = MusicApplication.getInstance().getApplicationContext();
-        Notification notification = new NotificationCompat
-                .Builder(context)
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setAutoCancel(true)
+                .setSound(defaultSoundUri)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark))
                 .setContentIntent(createPendingIntent(type, path))
                 .build();
-        NotificationManagerCompat.from(MusicApplication.getInstance().getApplicationContext())
-                .notify(MUSIC_DOWNLOAD_NOTIFICATION_ID, notification);
+        NotificationManagerCompat.from(context).notify(MUSIC_DOWNLOAD_NOTIFICATION_ID, notification);
     }
 
     private static PendingIntent createPendingIntent(int type, String path) {
