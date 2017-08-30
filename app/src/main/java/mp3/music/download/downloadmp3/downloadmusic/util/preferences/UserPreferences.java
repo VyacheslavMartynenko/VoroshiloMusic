@@ -6,7 +6,6 @@ import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 
 public class UserPreferences extends AbstractPreferences {
     private static final String PREFERENCES = "UserPreferences";
-    private static final String IS_FIRST_LAUNCH = "IsFirstLaunch";
     private static final String IS_APP_RATED = "IsAppRated";
 
     private static final String AD_NET_TYPE = "AdNetType";
@@ -38,14 +37,6 @@ public class UserPreferences extends AbstractPreferences {
 
     static void init(Context context) {
         instance = new UserPreferences(context, PREFERENCES);
-    }
-
-    public int isFirstLaunch() {
-        return preferences.getInt(IS_FIRST_LAUNCH, DataBody.FIRST);
-    }
-
-    public void setIsFirstLaunch() {
-        preferences.edit().putInt(IS_FIRST_LAUNCH, DataBody.MULTIPLE).apply();
     }
 
     public boolean isAppRated() {

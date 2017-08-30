@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import java.lang.ref.WeakReference;
 
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.networking.request.SettingsRequest;
+import mp3.music.download.downloadmp3.downloadmusic.util.DeviceInformationUtil;
 import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 
 public class IntroActivity extends BaseActivity {
@@ -17,8 +21,9 @@ public class IntroActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        int isFirstLaunch = UserPreferences.getInstance().isFirstLaunch();
-        SettingsRequest.requestSettings(isFirstLaunch, new SettingsRequestCallback(this));
+        String deviceId = DeviceInformationUtil.getDeviceUniqueID(this);
+        String gcmToken = FirebaseInstanceId.getInstance().getToken();
+        SettingsRequest.requestSettings(deviceId, gcmToken, new SettingsRequestCallback(this));
     }
 
     private void showNewActivity() {
@@ -54,7 +59,6 @@ public class IntroActivity extends BaseActivity {
             UserPreferences.getInstance().setTutorialStatus(data.getTutorialStatus());
             UserPreferences.getInstance().setMusicUrl(data.getMusicUrl());
 
-            UserPreferences.getInstance().setIsFirstLaunch();
             IntroActivity introActivity = introActivityWeakReference.get();
             if (introActivity != null) {
                 introActivity.showNewActivity();

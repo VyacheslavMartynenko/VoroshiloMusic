@@ -18,9 +18,9 @@ public class SettingsRequest {
         void onError(Throwable throwable);
     }
 
-    public static void requestSettings(final int isFirstLaunch, final SettingsCallback callback) {
+    public static void requestSettings(String deviceId, String gcmToken, final SettingsCallback callback) {
 
-        NetworkBuilder.getApiService().getSettings(url, isFirstLaunch).enqueue(new Callback<SettingsBody>() {
+        NetworkBuilder.getApiService().getSettings(url, deviceId, gcmToken).enqueue(new Callback<SettingsBody>() {
             @Override
             public void onResponse(@NonNull Call<SettingsBody> call, @NonNull Response<SettingsBody> response) {
                 if (response.isSuccessful()) {

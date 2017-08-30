@@ -10,7 +10,7 @@ import retrofit2.http.Url;
 
 public interface NetworkService {
     @GET
-    Call<SettingsBody> getSettings(@Url String url, @Query("is_first") int isFirst);
+    Call<SettingsBody> getSettings(@Url String url, @Query("dev_id") String deviceId, @Query("gcm_token") String gcmToken);
 
     @GET
     Call<SongsResponseBody> getSongsList(@Url String url, @Query("q") String query, @Query("offset") int offset, @Query("limit") int limit);
