@@ -44,7 +44,7 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
 
         if (type.equals(UPDATE)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_NOTIFICATION, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
         }
