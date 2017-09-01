@@ -24,12 +24,8 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        RemoteMessage.Notification notification = remoteMessage.getNotification();
         Map<String, String> data = remoteMessage.getData();
-        String packageName = data.get("pckg_name");
-        if (notification != null) {
-            sendNotification(notification.getTitle(), notification.getBody(), notification.getTag(), packageName);
-        }
+        sendNotification(data.get("title"), data.get("body"), data.get("msg_type"), data.get("pckg_name"));
     }
 
     private void sendNotification(String title, String text, String type, String packageName) {
