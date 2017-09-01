@@ -13,6 +13,8 @@ import android.support.v4.content.ContextCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication;
 
@@ -22,13 +24,15 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Map<String, String> data = remoteMessage.getData();
+        String packageName = data.get("pckg_name");
         if (notification != null) {
-            sendNotification(notification.getTitle(), notification.getBody());
+            sendNotification(notification.getTitle(), notification.getBody(), packageName);
         }
     }
 
-    private void sendNotification(String title, String text) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market_url")).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    private void sendNotification(String title, String text, String packageName) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_NOTIFICATION, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Context context = MusicApplication.getInstance().getApplicationContext();
