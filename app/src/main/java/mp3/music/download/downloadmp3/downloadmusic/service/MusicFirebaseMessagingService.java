@@ -15,6 +15,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Map;
 
 import mp3.music.download.downloadmp3.downloadmusic.R;
+import mp3.music.download.downloadmp3.downloadmusic.activity.MainActivity;
 import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication;
 
 public class MusicFirebaseMessagingService extends FirebaseMessagingService {
@@ -42,6 +43,10 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
         if (type.equals(UPDATE)) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_NOTIFICATION, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            notification.setContentIntent(pendingIntent);
+        } else if (type.equals(INFO)) {
+            Intent intent = new Intent(MusicApplication.getInstance().getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             notification.setContentIntent(pendingIntent);
         }
 
