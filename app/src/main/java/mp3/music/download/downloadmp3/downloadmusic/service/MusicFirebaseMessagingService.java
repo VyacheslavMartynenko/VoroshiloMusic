@@ -23,7 +23,11 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
     private static final int FIREBASE_INFO = 104;
 
     private static final String UPDATE = "update";
-    public static final String INFO = "info";
+    private static final String INFO = "info";
+
+    public static final String IS_UPDATE = "Is Update";
+    public static final String PACKAGE_NAME = "Package Name";
+    public static final String FIREBASE_ACTION = "Firebase Action";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,14 +46,19 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
 
+        Intent intent = new Intent(MusicApplication.getInstance().getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
         if (type.equals(UPDATE)) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setAction(FIREBASE_ACTION);
+            intent.putExtra(IS_UPDATE, true);
+            intent.putExtra(PACKAGE_NAME, packageName);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_UPDATE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
 
             NotificationManagerCompat.from(context).notify(FIREBASE_UPDATE, notification.build());
         } else if (type.equals(INFO)) {
-            Intent intent = new Intent(MusicApplication.getInstance().getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setAction(FIREBASE_ACTION);
+            intent.putExtra(IS_UPDATE, false);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_INFO, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
 

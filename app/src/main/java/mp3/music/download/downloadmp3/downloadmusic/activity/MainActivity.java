@@ -41,6 +41,7 @@ import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.networking.request.SongRequest;
 import mp3.music.download.downloadmp3.downloadmusic.networking.task.ApkDownloadTask;
 import mp3.music.download.downloadmp3.downloadmusic.networking.task.SongDownloadTask;
+import mp3.music.download.downloadmp3.downloadmusic.service.MusicFirebaseMessagingService;
 import mp3.music.download.downloadmp3.downloadmusic.util.EndlessRecyclerViewScrollListener;
 import mp3.music.download.downloadmp3.downloadmusic.util.KeyboardUtil;
 import mp3.music.download.downloadmp3.downloadmusic.util.SongIconChanger;
@@ -161,6 +162,11 @@ public class MainActivity extends BaseActivity implements SongListener {
 
         player = new SongPlayer(songSeekBar);
         requestSettings();
+
+        Intent intent = getIntent();
+        if (intent != null && intent.getAction() != null && intent.getAction().equals(MusicFirebaseMessagingService.FIREBASE_ACTION)) {
+            handleIntent(intent);
+        }
     }
 
     @Override
@@ -179,6 +185,29 @@ public class MainActivity extends BaseActivity implements SongListener {
     protected void onDestroy() {
         player.release();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent != null && intent.getAction().equals(MusicFirebaseMessagingService.FIREBASE_ACTION)) {
+            handleIntent(intent);
+        } else {
+            super.onNewIntent(intent);
+        }
+    }
+
+    private void handleIntent(Intent intent) {
+        boolean isUpdate = intent.getBooleanExtra(MusicFirebaseMessagingService.IS_UPDATE, false);
+        if (isUpdate) {
+            String packageName = intent.getStringExtra(MusicFirebaseMessagingService.PACKAGE_NAME);
+            if (packageName != null) {
+                Intent updateIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(updateIntent);
+                Answers.getInstance().logCustom(new CustomEvent("Update notification"));
+            }
+        } else {
+            Answers.getInstance().logCustom(new CustomEvent("Info notification"));
+        }
     }
 
     private void requestSongs(String query) {

@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.appodeal.ads.Appodeal;
-
 import com.startapp.android.publish.ads.banner.Banner;
 import com.startapp.android.publish.adsCommon.StartAppAd;
 import com.startapp.android.publish.adsCommon.StartAppSDK;
+
+import java.util.Random;
 
 import butterknife.ButterKnife;
 import mp3.music.download.downloadmp3.downloadmusic.R;
@@ -25,6 +26,8 @@ abstract public class BaseActivity extends AppCompatActivity {
 
     private MusicApplication app;
     private boolean isActivityPaused = false;
+    private StartAppAd startAppAd = new StartAppAd(this);
+    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,12 @@ abstract public class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
     }
 
+    @Override
+    protected void onRestoreInstanceState (Bundle savedInstanceState){
+        startAppAd.onRestoreInstanceState(savedInstanceState);
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
     protected void onResume() {
         isActivityPaused = false;
         super.onResume();
@@ -65,6 +74,12 @@ abstract public class BaseActivity extends AppCompatActivity {
         isActivityPaused = true;
         clearReferences();
         super.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState (Bundle outState){
+        super.onSaveInstanceState(outState);
+        startAppAd.onSaveInstanceState(outState);
     }
 
     protected void onDestroy() {
@@ -88,12 +103,24 @@ abstract public class BaseActivity extends AppCompatActivity {
         int adStatus = UserPreferences.getInstance().getAdNetType();
         switch (adStatus) {
             case DataBody.APPODEAL:
-                Appodeal.show(this, Appodeal.INTERSTITIAL);
+                int value = random.nextInt(100);
+                if (value < 25) {
+                    Appodeal.show(this, Appodeal.NON_SKIPPABLE_VIDEO);
+                } else if (value < 50) {
+                    Appodeal.show(this, Appodeal.SKIPPABLE_VIDEO);
+                } else {
+                    Appodeal.show(this, Appodeal.INTERSTITIAL);
+                }
                 break;
             case DataBody.NO:
                 break;
             case DataBody.START_APP:
-                StartAppAd.showAd(getApplicationContext());
+                int newValue = random.nextInt(100);
+                if (newValue < 25) {
+                    startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
+                } else {
+                    startAppAd.showAd();
+                }
                 break;
         }
     }
