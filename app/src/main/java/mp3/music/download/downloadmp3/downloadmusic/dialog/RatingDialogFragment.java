@@ -1,5 +1,6 @@
 package mp3.music.download.downloadmp3.downloadmusic.dialog;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +47,7 @@ public class RatingDialogFragment extends BaseDialogFragment {
         }
         UserPreferences.getInstance().setIsAppRated();
         dismissAllowingStateLoss();
+        Answers.getInstance().logCustom(new CustomEvent("Rating Us " + rating + " star"));
     }
 
     @Nullable
@@ -54,6 +59,12 @@ public class RatingDialogFragment extends BaseDialogFragment {
             textView.setText(text);
         }
         return view;
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        Answers.getInstance().logCustom(new CustomEvent("Rating Us no star"));
     }
 
     @Override

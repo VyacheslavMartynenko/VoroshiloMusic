@@ -21,6 +21,9 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,11 +93,13 @@ public class MainActivity extends BaseActivity implements SongListener {
 
     @OnClick(R.id.search_button)
     public void searchSongs() {
-        requestSongs(searchEditText.getText().toString());
+        String searchText = searchEditText.getText().toString();
+        requestSongs(searchText);
         KeyboardUtil.hideKeyboard(this);
         if (UserPreferences.getInstance().getAdNetSearch() != DataBody.NO) {
             showAd();
         }
+        Answers.getInstance().logCustom(new CustomEvent("Search Song").putCustomAttribute("Song name", searchText));
     }
 
     @OnClick(R.id.download_button)
@@ -145,6 +150,7 @@ public class MainActivity extends BaseActivity implements SongListener {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 requestMoreSongs(searchEditText.getText().toString());
+                Answers.getInstance().logCustom(new CustomEvent("Pagination").putCustomAttribute("Song count", totalItemsCount));
             }
         };
         recyclerView.setAdapter(songAdapter);
@@ -200,6 +206,7 @@ public class MainActivity extends BaseActivity implements SongListener {
                     TextView textView = findViewById(R.id.download_text);
                     textView.setText(text);
                 }
+                Answers.getInstance().logCustom(new CustomEvent("Burst full screen"));
                 break;
             case DataBody.MUSIC_AND_BUTTON:
                 recyclerView.setVisibility(View.VISIBLE);
@@ -213,6 +220,7 @@ public class MainActivity extends BaseActivity implements SongListener {
                     textView.setText(burstText);
                 }
                 requestSongs("");
+                Answers.getInstance().logCustom(new CustomEvent("Burst on top"));
                 break;
             case DataBody.MUSIC:
                 recyclerView.setVisibility(View.VISIBLE);
@@ -269,6 +277,7 @@ public class MainActivity extends BaseActivity implements SongListener {
             }
         }
         songDownloadTask.downloadFile(mp3Url, title, downloadProgressBar);
+        Answers.getInstance().logCustom(new CustomEvent("Download Song").putCustomAttribute("Song name", title));
     }
 
     @Override
@@ -276,12 +285,14 @@ public class MainActivity extends BaseActivity implements SongListener {
         if (MainActivity.this.isVisible()) {
             PolicyDialogFragment policyDialogFragment = PolicyDialogFragment.newInstance(songName, videoId);
             policyDialogFragment.show(getSupportFragmentManager(), "report");
+            Answers.getInstance().logCustom(new CustomEvent("Report click").putCustomAttribute("Song name", songName));
         }
     }
 
     @Override
     public void showPrivacy(String url) {
         startPolicyActivity(url);
+        Answers.getInstance().logCustom(new CustomEvent("Policy show"));
     }
 
     public void startPolicyActivity(String url) {

@@ -8,6 +8,9 @@ import android.support.design.widget.TextInputEditText;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import mp3.music.download.downloadmp3.downloadmusic.R;
@@ -24,6 +27,8 @@ import retrofit2.Response;
 public class PolicyDialogFragment extends BaseDialogFragment {
     private static final String SONG_NAME = "music_name";
     private static final String VIDEO_ID = "video_id";
+
+    private String songName;
 
     public static PolicyDialogFragment newInstance(String songName, String videoId) {
 
@@ -53,7 +58,7 @@ public class PolicyDialogFragment extends BaseDialogFragment {
         stringBuilderMessage.append(message);
         Bundle arguments = getArguments();
         if (arguments != null) {
-            String songName = arguments.getString(SONG_NAME, "");
+            songName = arguments.getString(SONG_NAME, "");
             videoId = arguments.getString(VIDEO_ID, "");
             stringBuilderMessage.append(" ");
             stringBuilderMessage.append(songName);
@@ -67,6 +72,8 @@ public class PolicyDialogFragment extends BaseDialogFragment {
                         if (baseActivity != null && baseActivity.isVisible()) {
                             Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
                                     R.string.report_complete_message, Toast.LENGTH_SHORT).show();
+                            Answers.getInstance().logCustom(new CustomEvent("Report send").putCustomAttribute("Song name", songName));
+
                         }
                     });
                 }

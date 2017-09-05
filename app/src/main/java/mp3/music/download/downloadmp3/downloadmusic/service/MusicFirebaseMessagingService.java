@@ -19,7 +19,9 @@ import mp3.music.download.downloadmp3.downloadmusic.activity.MainActivity;
 import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication;
 
 public class MusicFirebaseMessagingService extends FirebaseMessagingService {
-    private static final int FIREBASE_NOTIFICATION = 103;
+    private static final int FIREBASE_UPDATE = 103;
+    private static final int FIREBASE_INFO = 104;
+
     private static final String UPDATE = "update";
     public static final String INFO = "info";
 
@@ -42,14 +44,17 @@ public class MusicFirebaseMessagingService extends FirebaseMessagingService {
 
         if (type.equals(UPDATE)) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_NOTIFICATION, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_UPDATE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
+
+            NotificationManagerCompat.from(context).notify(FIREBASE_UPDATE, notification.build());
         } else if (type.equals(INFO)) {
             Intent intent = new Intent(MusicApplication.getInstance().getApplicationContext(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, FIREBASE_INFO, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
-        }
 
-        NotificationManagerCompat.from(context).notify(FIREBASE_NOTIFICATION, notification.build());
+            NotificationManagerCompat.from(context).notify(FIREBASE_INFO, notification.build());
+
+        }
     }
 }

@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import java.util.List;
 
 import mp3.music.download.downloadmp3.downloadmusic.R;
@@ -51,6 +54,9 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             if (currentPlayingSongPosition != adapterPosition) {
                 currentPlayingSongPosition = adapterPosition;
                 notifyItemChanged(currentPlayingSongPosition);
+            }
+            if (isSelected) {
+                Answers.getInstance().logCustom(new CustomEvent("Play Song").putCustomAttribute("Song name", song.getTitle()));
             }
         } else if (cacheSong != null) {
             boolean isSelected = listener.updateCurrentSongInfo(cacheSong.getMp3Url(), cacheSong.getImageUrl(), true);

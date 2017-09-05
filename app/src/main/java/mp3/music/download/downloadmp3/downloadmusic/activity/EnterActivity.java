@@ -6,6 +6,9 @@ import android.support.v4.content.IntentCompat;
 import android.support.v4.view.ViewPager;
 import android.widget.Button;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import mp3.music.download.downloadmp3.downloadmusic.R;
@@ -37,6 +40,7 @@ public class EnterActivity extends BaseActivity {
             default:
                 break;
         }
+        Answers.getInstance().logCustom(new CustomEvent("Tutorial click " + position + " screen"));
     }
 
     private ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
