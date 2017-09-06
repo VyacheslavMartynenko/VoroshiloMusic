@@ -11,8 +11,10 @@ import android.widget.RelativeLayout;
 
 import com.appodeal.ads.Appodeal;
 import com.startapp.android.publish.ads.banner.Banner;
+import com.startapp.android.publish.adsCommon.Ad;
 import com.startapp.android.publish.adsCommon.StartAppAd;
 import com.startapp.android.publish.adsCommon.StartAppSDK;
+import com.startapp.android.publish.adsCommon.adListeners.AdEventListener;
 
 import java.util.Random;
 
@@ -22,7 +24,7 @@ import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 
-abstract public class BaseActivity extends AppCompatActivity {
+abstract public class BaseActivity extends AppCompatActivity implements AdEventListener {
 
     private MusicApplication app;
     private boolean isActivityPaused = false;
@@ -59,7 +61,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState (Bundle savedInstanceState){
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         startAppAd.onRestoreInstanceState(savedInstanceState);
         super.onRestoreInstanceState(savedInstanceState);
     }
@@ -77,7 +79,7 @@ abstract public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState (Bundle outState){
+    protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         startAppAd.onSaveInstanceState(outState);
     }
@@ -117,12 +119,25 @@ abstract public class BaseActivity extends AppCompatActivity {
             case DataBody.START_APP:
                 int newValue = random.nextInt(100);
                 if (newValue < 25) {
-                    startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO);
+                    startAppAd.loadAd(StartAppAd.AdMode.REWARDED_VIDEO, this);
+                } else if (newValue < 50) {
+                    startAppAd.loadAd(StartAppAd.AdMode.VIDEO, this);
                 } else {
-                    startAppAd.showAd();
+                    startAppAd.loadAd(StartAppAd.AdMode.OFFERWALL, this);
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onReceiveAd(Ad ad) {
+        if (!this.isFinishing()) {
+            startAppAd.showAd();
+        }
+    }
+
+    @Override
+    public void onFailedToReceiveAd(Ad ad) {
     }
 
     public void showBanner(ViewGroup viewGroup, ViewGroup viewGroupWrapper) {
