@@ -123,7 +123,7 @@ abstract public class BaseActivity extends AppCompatActivity implements AdEventL
                 } else if (newValue < 50) {
                     startAppAd.loadAd(StartAppAd.AdMode.VIDEO, this);
                 } else {
-                    startAppAd.loadAd(StartAppAd.AdMode.OFFERWALL, this);
+                    startAppAd.loadAd(StartAppAd.AdMode.FULLPAGE, this);
                 }
                 break;
         }
