@@ -13,6 +13,8 @@ import com.crashlytics.android.Crashlytics;
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.activity.BaseActivity;
 import mp3.music.download.downloadmp3.downloadmusic.application.MusicApplication;
+import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
+import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 
 public class SongPlayer {
     //todo service
@@ -37,6 +39,9 @@ public class SongPlayer {
                 mediaPlayer.start();
                 seekBar.setMax(mediaPlayer.getDuration());
                 startUpdatingSeekBar();
+                if (UserPreferences.getInstance().getAdNetPlay() != DataBody.NO) {
+                    activity.showAd();
+                }
             }
         }));
         player.setOnErrorListener((mediaPlayer, i, i1) -> {

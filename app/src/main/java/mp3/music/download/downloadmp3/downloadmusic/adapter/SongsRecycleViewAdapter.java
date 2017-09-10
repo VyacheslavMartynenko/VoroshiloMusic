@@ -16,11 +16,9 @@ import java.util.List;
 
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.interfaces.SongListener;
-import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
 import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.util.SongIconChanger;
-import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
     private List<Song> songList;
@@ -47,7 +45,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         notifyItemRangeChanged(songList.size(), newSongList.size());
     }
 
-    private void playOrPauseSong(int adapterPosition, boolean isAdShow) {
+    private void playOrPauseSong(int adapterPosition) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Song song = songList.get(adapterPosition);
             boolean isSelected = listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl(), false);
@@ -59,9 +57,6 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             }
             if (isSelected) {
                 Answers.getInstance().logCustom(new CustomEvent("Play Song").putCustomAttribute("Song name", song.getTitle()));
-                if (isAdShow && UserPreferences.getInstance().getAdNetPlay() != DataBody.NO) {
-                    listener.showAd();
-                }
             }
         } else if (cacheSong != null) {
             boolean isSelected = listener.updateCurrentSongInfo(cacheSong.getMp3Url(), cacheSong.getImageUrl(), true);
@@ -70,7 +65,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     }
 
     public void playOrPauseSong() {
-        playOrPauseSong(currentPlayingSongPosition, false);
+        playOrPauseSong(currentPlayingSongPosition);
     }
 
     public SongsRecycleViewAdapter(SongListener listener, List<Song> songList) {
@@ -113,7 +108,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                         listener.downloadSong(song.getImageUrl(), song.getMp3Url(), song.getTitle());
                         break;
                     case R.id.play_button:
-                        playOrPauseSong(getAdapterPosition(), true);
+                        playOrPauseSong(getAdapterPosition());
                         break;
                     case R.id.license_button:
                         listener.showPrivacy(NetworkBuilder.LICENSE_URL);
