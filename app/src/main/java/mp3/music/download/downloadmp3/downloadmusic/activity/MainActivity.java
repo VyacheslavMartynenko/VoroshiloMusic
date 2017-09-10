@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.adapter.SongsRecycleViewAdapter;
 import mp3.music.download.downloadmp3.downloadmusic.dialog.PolicyDialogFragment;
@@ -91,6 +92,12 @@ public class MainActivity extends BaseActivity implements SongListener {
 
     @BindView(R.id.download_progress_bar)
     ProgressBar downloadProgressBar;
+
+    @OnEditorAction(R.id.search_edit_text)
+    public boolean searchSongsWithDone() {
+        searchSongs();
+        return true;
+    }
 
     @OnClick(R.id.search_button)
     public void searchSongs() {

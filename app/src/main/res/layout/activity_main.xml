@@ -20,6 +20,7 @@
             android:layout_toLeftOf="@id/search_button"
             android:layout_toStartOf="@id/search_button"
             android:hint="@string/search_hint"
+            android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="1" />
 
