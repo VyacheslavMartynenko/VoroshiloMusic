@@ -44,7 +44,7 @@ public class IntroActivity extends BaseActivity {
         public void onSuccess(DataBody data) {
             UserPreferences.getInstance().setAdNetType(data.getAdNetType());
             UserPreferences.getInstance().setAdNetTutorial(data.getAdNetTutorial());
-            UserPreferences.getInstance().setAdNetDownload(data.getAdNetTutorial());
+            UserPreferences.getInstance().setAdNetDownload(data.getAdNetDownload());
             UserPreferences.getInstance().setAdNetPlay(data.getAdNetPlay());
             UserPreferences.getInstance().setAdNetSearch(data.getAdNetSearch());
             UserPreferences.getInstance().setAdNetBanner(data.getAdNetBanner());
