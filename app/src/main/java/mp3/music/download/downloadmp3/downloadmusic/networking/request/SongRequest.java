@@ -13,21 +13,21 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SongRequest {
-    public static final int LIMIT = 20;
+    private static final int LIMIT = 20;
 
     public interface SongCallback {
-        void onSuccess(List<Song> list);
+        void onSuccess(List<Song> list, String token);
 
         void onError(Throwable throwable);
     }
 
-    public static void requestSongs(String query, int offset, final SongCallback songCallback) {
+    public static void requestSongs(String query, int offset, String token, final SongCallback songCallback) {
         String url = UserPreferences.getInstance().getMusicUrl();
         Call<SongsResponseBody> call;
         if (query != null && !query.equals("")) {
-            call = NetworkBuilder.getApiService().getSongsList(url, query, offset, LIMIT);
+            call = NetworkBuilder.getApiService().getSongsList(url, query, offset, LIMIT, token);
         } else {
-            call = NetworkBuilder.getApiService().getSongsList(url, null, offset, LIMIT);
+            call = NetworkBuilder.getApiService().getSongsList(url, null, offset, LIMIT, token);
         }
         call.enqueue(new Callback<SongsResponseBody>() {
             @Override
@@ -37,7 +37,7 @@ public class SongRequest {
                     if (body != null) {
                         List<Song> list = body.getSongsList();
                         if (list != null) {
-                            songCallback.onSuccess(list);
+                            songCallback.onSuccess(list, body.getNextPageToken());
                         } else {
                             songCallback.onError(new NullPointerException());
                         }

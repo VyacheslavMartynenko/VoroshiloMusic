@@ -56,6 +56,7 @@ public class MainActivity extends BaseActivity implements SongListener {
     private SongDownloadTask songDownloadTask = new SongDownloadTask();
     private SongsRecycleViewAdapter songAdapter = new SongsRecycleViewAdapter(this, new ArrayList<>());
     private SongPlayer player;
+    private String token;
 
     @BindView(R.id.full_container)
     RelativeLayout fullContainer;
@@ -216,12 +217,12 @@ public class MainActivity extends BaseActivity implements SongListener {
 
     private void requestSongs(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        SongRequest.requestSongs(query, 0, new SongRequestCallback(this, SongRequestCallback.REQUEST_SONGS));
+        SongRequest.requestSongs(query, 0, null, new SongRequestCallback(this, SongRequestCallback.REQUEST_SONGS));
     }
 
     private void requestMoreSongs(String query) {
         progressBarMore.setVisibility(View.VISIBLE);
-        SongRequest.requestSongs(query, songAdapter.getOffset(), new SongRequestCallback(this, SongRequestCallback.REQUEST_MORE_SONGS));
+        SongRequest.requestSongs(query, songAdapter.getOffset(), token, new SongRequestCallback(this, SongRequestCallback.REQUEST_MORE_SONGS));
     }
 
     private void requestSettings() {
@@ -353,7 +354,7 @@ public class MainActivity extends BaseActivity implements SongListener {
         }
 
         @Override
-        public void onSuccess(List<Song> list) {
+        public void onSuccess(List<Song> list, String token) {
             MainActivity mainActivity = mainActivityWeakReference.get();
             if (mainActivity != null) {
                 if (type == REQUEST_SONGS) {
@@ -363,6 +364,7 @@ public class MainActivity extends BaseActivity implements SongListener {
                     mainActivity.progressBarMore.setVisibility(View.GONE);
                     mainActivity.songAdapter.addSongList(list);
                 }
+                mainActivity.token = token;
             }
         }
 

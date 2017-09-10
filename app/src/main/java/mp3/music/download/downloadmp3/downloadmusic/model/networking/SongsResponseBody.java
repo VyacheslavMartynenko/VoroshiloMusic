@@ -6,10 +6,14 @@ import java.util.List;
 
 public class SongsResponseBody {
     @SerializedName("videos")
-    List<Song> songsList;
+    private List<Song> songsList;
 
-    public SongsResponseBody(List<Song> songsList) {
+    @SerializedName("next_page_token")
+    private String nextPageToken;
+
+    public SongsResponseBody(List<Song> songsList, String nextPageToken) {
         this.songsList = songsList;
+        this.nextPageToken = nextPageToken;
     }
 
     public List<Song> getSongsList() {
@@ -18,5 +22,13 @@ public class SongsResponseBody {
 
     public void setSongsList(List<Song> songsList) {
         this.songsList = songsList;
+    }
+
+    public String getNextPageToken() {
+        return nextPageToken;
+    }
+
+    public void setNextPageToken(String nextPageToken) {
+        this.nextPageToken = nextPageToken;
     }
 }
