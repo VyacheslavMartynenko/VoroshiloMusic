@@ -155,7 +155,7 @@ abstract public class BaseActivity extends AppCompatActivity implements AdEventL
                     break;
                 case DataBody.START_APP:
                     setMargins(params);
-                    Banner startAppBanner = new Banner(getApplicationContext());
+                    Banner startAppBanner = new Banner(BaseActivity.this);
                     RelativeLayout.LayoutParams bannerParameters = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     bannerParameters.addRule(RelativeLayout.CENTER_HORIZONTAL);
                     bannerParameters.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
