@@ -85,7 +85,7 @@ public class UserPreferences extends AbstractPreferences {
     }
 
     public void setAdNetSearch(int adNetSearch) {
-        preferences.edit().putInt(AD_NET_SEARCH, getAdNetSearch()).apply();
+        preferences.edit().putInt(AD_NET_SEARCH, adNetSearch).apply();
     }
 
     public int getAdNetBanner() {
