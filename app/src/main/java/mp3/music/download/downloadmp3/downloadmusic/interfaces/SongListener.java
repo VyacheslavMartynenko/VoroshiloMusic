@@ -8,4 +8,6 @@ public interface SongListener {
     void reportSong(String songName, String videoId);
 
     void showPrivacy(String url);
+
+    void showAd();
 }

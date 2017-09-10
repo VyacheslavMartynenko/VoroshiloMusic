@@ -16,9 +16,11 @@ import java.util.List;
 
 import mp3.music.download.downloadmp3.downloadmusic.R;
 import mp3.music.download.downloadmp3.downloadmusic.interfaces.SongListener;
+import mp3.music.download.downloadmp3.downloadmusic.model.networking.DataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
 import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.util.SongIconChanger;
+import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
 
 public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleViewAdapter.SongViewHolder> {
     private List<Song> songList;
@@ -57,6 +59,9 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             }
             if (isSelected) {
                 Answers.getInstance().logCustom(new CustomEvent("Play Song").putCustomAttribute("Song name", song.getTitle()));
+                if (UserPreferences.getInstance().getAdNetPlay() != DataBody.NO) {
+                    listener.showAd();
+                }
             }
         } else if (cacheSong != null) {
             boolean isSelected = listener.updateCurrentSongInfo(cacheSong.getMp3Url(), cacheSong.getImageUrl(), true);
