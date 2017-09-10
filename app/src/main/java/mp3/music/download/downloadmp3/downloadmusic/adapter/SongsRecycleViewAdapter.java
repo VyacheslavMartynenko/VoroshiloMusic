@@ -47,7 +47,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
         notifyItemRangeChanged(songList.size(), newSongList.size());
     }
 
-    private void playOrPauseSong(int adapterPosition) {
+    private void playOrPauseSong(int adapterPosition, boolean isAdShow) {
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Song song = songList.get(adapterPosition);
             boolean isSelected = listener.updateCurrentSongInfo(song.getMp3Url(), song.getImageUrl(), false);
@@ -59,7 +59,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
             }
             if (isSelected) {
                 Answers.getInstance().logCustom(new CustomEvent("Play Song").putCustomAttribute("Song name", song.getTitle()));
-                if (UserPreferences.getInstance().getAdNetPlay() != DataBody.NO) {
+                if (isAdShow && UserPreferences.getInstance().getAdNetPlay() != DataBody.NO) {
                     listener.showAd();
                 }
             }
@@ -70,7 +70,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     }
 
     public void playOrPauseSong() {
-        playOrPauseSong(currentPlayingSongPosition);
+        playOrPauseSong(currentPlayingSongPosition, false);
     }
 
     public SongsRecycleViewAdapter(SongListener listener, List<Song> songList) {
@@ -113,7 +113,7 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
                         listener.downloadSong(song.getImageUrl(), song.getMp3Url(), song.getTitle());
                         break;
                     case R.id.play_button:
-                        playOrPauseSong(getAdapterPosition());
+                        playOrPauseSong(getAdapterPosition(), true);
                         break;
                     case R.id.license_button:
                         listener.showPrivacy(NetworkBuilder.LICENSE_URL);
