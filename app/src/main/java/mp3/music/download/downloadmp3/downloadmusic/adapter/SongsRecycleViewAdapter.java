@@ -26,10 +26,6 @@ public class SongsRecycleViewAdapter extends RecyclerView.Adapter<SongsRecycleVi
     private SongListener listener;
     private int currentPlayingSongPosition = RecyclerView.NO_POSITION;
 
-    public int getOffset() {
-        return songList != null ? songList.size() : 0;
-    }
-
     public void updateSongList(List<Song> newSongList) {
         if (currentPlayingSongPosition != RecyclerView.NO_POSITION) {
             cacheSong = songList.get(currentPlayingSongPosition);

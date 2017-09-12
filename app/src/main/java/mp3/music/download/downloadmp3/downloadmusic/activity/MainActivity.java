@@ -217,12 +217,12 @@ public class MainActivity extends BaseActivity implements SongListener {
 
     private void requestSongs(String query) {
         progressBar.setVisibility(View.VISIBLE);
-        SongRequest.requestSongs(query, 0, null, new SongRequestCallback(this, SongRequestCallback.REQUEST_SONGS));
+        SongRequest.requestSongs(query, null, new SongRequestCallback(this, SongRequestCallback.REQUEST_SONGS));
     }
 
     private void requestMoreSongs(String query) {
         progressBarMore.setVisibility(View.VISIBLE);
-        SongRequest.requestSongs(query, songAdapter.getOffset(), token, new SongRequestCallback(this, SongRequestCallback.REQUEST_MORE_SONGS));
+        SongRequest.requestSongs(query, token, new SongRequestCallback(this, SongRequestCallback.REQUEST_MORE_SONGS));
     }
 
     private void requestSettings() {

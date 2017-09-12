@@ -13,7 +13,7 @@ public interface NetworkService {
     Call<SettingsBody> getSettings(@Url String url, @Query("dev_id") String deviceId, @Query("gcm_token") String gcmToken);
 
     @GET
-    Call<SongsResponseBody> getSongsList(@Url String url, @Query("q") String query, @Query("offset") int offset, @Query("limit") int limit, @Query("next_page_token") String token);
+    Call<SongsResponseBody> getSongsList(@Url String url, @Query("q") String query, @Query("limit") int limit, @Query("page_token") String token);
 
     @GET()
     Call<ResponseBody> reportSong(@Url String url, @Query("dev_id") String deviceId, @Query("fullname") String fullName, @Query("msg") String message, @Query("video_id") String videoId);

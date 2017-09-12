@@ -22,13 +22,13 @@ public class SongRequest {
         void onError(Throwable throwable);
     }
 
-    public static void requestSongs(String query, int offset, String token, final SongCallback songCallback) {
+    public static void requestSongs(String query, String token, final SongCallback songCallback) {
         String url = UserPreferences.getInstance().getMusicUrl();
         Call<SongsResponseBody> call;
         if (query != null && !query.equals("")) {
-            call = NetworkBuilder.getApiService().getSongsList(url, query, offset, LIMIT, token);
+            call = NetworkBuilder.getApiService().getSongsList(url, query, LIMIT, token);
         } else {
-            call = NetworkBuilder.getApiService().getSongsList(url, null, offset, LIMIT, token);
+            call = NetworkBuilder.getApiService().getSongsList(url, null, LIMIT, token);
         }
         call.enqueue(new Callback<SongsResponseBody>() {
             @Override
