@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.Song;
+import mp3.music.download.downloadmp3.downloadmusic.model.networking.SongsDataBody;
 import mp3.music.download.downloadmp3.downloadmusic.model.networking.SongsResponseBody;
 import mp3.music.download.downloadmp3.downloadmusic.networking.NetworkBuilder;
 import mp3.music.download.downloadmp3.downloadmusic.util.preferences.UserPreferences;
@@ -35,9 +36,14 @@ public class SongRequest {
                 if (response.isSuccessful()) {
                     SongsResponseBody body = response.body();
                     if (body != null) {
-                        List<Song> list = body.getSongsList();
-                        if (list != null) {
-                            songCallback.onSuccess(list, body.getNextPageToken());
+                        SongsDataBody songsDataBody = body.getData();
+                        if (songsDataBody != null) {
+                            List<Song> list = songsDataBody.getSongsList();
+                            if (list != null) {
+                                songCallback.onSuccess(list, songsDataBody.getNextPageToken());
+                            } else {
+                                songCallback.onError(new NullPointerException());
+                            }
                         } else {
                             songCallback.onError(new NullPointerException());
                         }

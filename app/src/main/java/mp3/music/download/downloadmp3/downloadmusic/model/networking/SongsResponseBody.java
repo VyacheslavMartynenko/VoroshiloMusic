@@ -2,33 +2,31 @@ package mp3.music.download.downloadmp3.downloadmusic.model.networking;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class SongsResponseBody {
-    @SerializedName("videos")
-    private List<Song> songsList;
+    @SerializedName("result")
+    private String result;
 
-    @SerializedName("next_page_token")
-    private String nextPageToken;
+    @SerializedName("data")
+    private SongsDataBody data;
 
-    public SongsResponseBody(List<Song> songsList, String nextPageToken) {
-        this.songsList = songsList;
-        this.nextPageToken = nextPageToken;
+    public SongsResponseBody(String result, SongsDataBody data) {
+        this.result = result;
+        this.data = data;
     }
 
-    public List<Song> getSongsList() {
-        return songsList;
+    public String getResult() {
+        return result;
     }
 
-    public void setSongsList(List<Song> songsList) {
-        this.songsList = songsList;
+    public void setResult(String result) {
+        this.result = result;
     }
 
-    public String getNextPageToken() {
-        return nextPageToken;
+    public SongsDataBody getData() {
+        return data;
     }
 
-    public void setNextPageToken(String nextPageToken) {
-        this.nextPageToken = nextPageToken;
+    public void setData(SongsDataBody data) {
+        this.data = data;
     }
 }
