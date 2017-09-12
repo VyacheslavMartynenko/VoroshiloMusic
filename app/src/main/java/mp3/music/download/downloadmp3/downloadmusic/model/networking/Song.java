@@ -12,7 +12,7 @@ public class Song {
     @SerializedName("mp3Url")
     private String mp3Url;
 
-    @SerializedName("videoId")
+    @SerializedName("video_id")
     private String videoId;
 
     private boolean isSelected;

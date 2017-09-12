@@ -73,7 +73,6 @@ public class PolicyDialogFragment extends BaseDialogFragment {
                             Toast.makeText(MusicApplication.getInstance().getApplicationContext(),
                                     R.string.report_complete_message, Toast.LENGTH_SHORT).show();
                             Answers.getInstance().logCustom(new CustomEvent("Report send").putCustomAttribute("Song name", songName));
-
                         }
                     });
                 }
